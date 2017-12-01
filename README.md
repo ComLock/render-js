@@ -1,10 +1,10 @@
-# enonic-xp-lib-render-es2015
+# render-js
 
 # Vision / goal
 
 I would like to create a render library that can be used both server/client -side. Which means it must be javascript.
 
-It will be written using es2015 which makes for much nicer code for instance template strings.
+It will be written using es2015 which makes for much nicer code with for instance template strings.
 
 See [doc/server-side.es6](doc/server-side.es6) for an example of how I want a render to look like.
 
@@ -40,3 +40,9 @@ See [doc/server-side.es6](doc/server-side.es6) for an example of how I want a re
 ### el('string', {key: 'value'})
 
     <el key="value">string</el>
+
+# TODO
+
+* Implement basic functionality. KISS!
+* Implement indentation?
+* Implement minifying?

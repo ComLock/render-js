@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/prefer-default-export */
@@ -5,7 +6,7 @@
 import {
   render,
   doctype, html, head,
-  title,
+  title as _title,
   body,
   address, article, aside,
   blockquote,
@@ -22,28 +23,32 @@ import {
   table, tfoot,
   ul,
   video
-} from 'enonic-xp-lib-render-es2015.es6';
+} from 'render-js';
 
 
 export function get(request) {
+  const title = 'Title';
   const model = {
-    title: 'Title'
+    p: 'Text',
+    class: 'className',
+    dataProperty: 'value',
+    title
   };
   return {
     body: render([
-      doctype('html'),
+      doctype(),
       html([
         head([
-          title(model.title)
+          _title(title)
         ]), // head
         body([
-          h1(title),
+          h1(model.title),
           main(
             {
-              class: 'className',
-              'data-property': 'value'
+              class: model.class,
+              'data-property': model.dataProperty
             },
-            p('Text')
+            p(model.p)
           )
         ]) // body
       ]) // html
