@@ -71,6 +71,12 @@ function toStr(value) {
 }
 
 
+function sortAndRemoveDups(arr) {
+  return arr.sort() // must happen before removing duplicates
+    .filter((item, pos, ary) => !pos || item !== ary[pos - 1]); // removing duplicates
+}
+
+
 exports.el = (tag, attributes = null, content = null) => {
   if (isArrayOrString(attributes)) {
     const tmp = content;
@@ -82,10 +88,29 @@ exports.el = (tag, attributes = null, content = null) => {
   }
   if (attributes) {
     DEBUG && console.log(`attributes:${toStr(attributes)}`);
-    attributes = Object.keys(attributes).sort()
-      .map(a => attributes[a] ? `${a}="${attributes[a]}"` : a)
+    attributes = Object.keys(attributes).sort().map(a => {
+      if (isSet(attributes[a])) {
+        if (isString(attributes[a])) {
+          if (a === 'class') {
+            return `${a}="${sortAndRemoveDups(attributes[a].split(' ')).join(' ')}"`;
+          }
+          return attributes[a].length ? `${a}="${attributes[a]}"` : `${a}`;
+        }
+        if (Array.isArray(attributes[a])) {
+          if (a === 'class') {
+            return `${a}="${sortAndRemoveDups(attributes[a].join(' ').split(' ')).join(' ')}"`; // join and split to handle array item with space seperated classes.
+          }
+          return `${a}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
+        }
+        DEBUG && console.log(`Not string or array. attributes[${toStr(a)}]:${toStr(attributes[a])}`);
+        return `${a}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
+      }
+      return null;
+    }).filter(n => n) // Remove null elements
       .join(' ');
-    attributes = ` ${attributes}`;
+    if (attributes.length) {
+      attributes = ` ${attributes}`;
+    }
   } else {
     attributes = '';
   }
@@ -126,3 +151,24 @@ ELEMENTS.forEach(k => {
 
 
 export default exports;
+
+
+/* NOTE-1
+ Both the XML and Html4 standard allows single
+ quotes to be used around attribute values:
+
+  * Extensible Markup Language (XML) 1.0 (Fifth Edition)
+    https://www.w3.org/TR/REC-xml/#NT-AttValue
+
+  * HTML 4.01 Specification
+    https://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.2
+
+ While JSON requires double quotes to be used:
+
+  * The JavaScript Object Notation (JSON) Data Interchange Format
+    https://tools.ietf.org/html/rfc7159#section-7
+
+ So when storing a json in a html attribute, it looks much to surround the value
+ with single quotes rather than to escape all double quotes in the JSON.
+
+*/

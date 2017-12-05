@@ -32,11 +32,27 @@ describe('render', () => {
         doctype(),
         html({
           key: 'value',
-          justKey: null
+          alpha: 'first',
+          true: true,
+          emptyArr: [],
+          arr: ['one', 'two'],
+          class: ['second first'],
+          emptyObj: {},
+          obj: { key: 'value' },
+          1: 1,
+          float: 3.14,
+          minusOne: -1,
+          infinity: Infinity,
+          false: false,
+          null: null,
+          'undefined': undefined, // eslint-disable-line quote-props
+          0: 0,
+          nan: NaN,
+          emptyString: ''
         })
       ]),
       `<!DOCTYPE html>
-<html justKey key="value"/>`
+<html 0='0' 1='1' alpha="first" arr='["one","two"]' class="first second" emptyArr='[]' emptyObj='{}' emptyString false='false' float='3.14' infinity='null' key="value" minusOne='-1' nan='null' obj='{"key":"value"}' true='true'/>`
     );
   });
 
@@ -46,14 +62,13 @@ describe('render', () => {
         doctype(),
         html(
           {
-            key: 'value',
-            justKey: null
+            key: 'value'
           },
           'Text'
         )
       ]),
       `<!DOCTYPE html>
-<html justKey key="value">Text</html>`
+<html key="value">Text</html>`
     );
   });
 
@@ -64,13 +79,12 @@ describe('render', () => {
         R.html(
           'Text',
           {
-            key: 'value',
-            justKey: null
+            key: 'value'
           }
         ) // html
       ]),
       `<!DOCTYPE html>
-<html justKey key="value">Text</html>`
+<html key="value">Text</html>`
     );
   });
 
@@ -86,12 +100,11 @@ describe('render', () => {
       el(
         'myElement',
         {
-          key: 'value',
-          justKey: null
+          key: 'value'
         },
         'Text'
       ),
-      '<myElement justKey key="value">Text</myElement>'
+      '<myElement key="value">Text</myElement>'
     );
   });
 }); // describe
