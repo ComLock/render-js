@@ -4,6 +4,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-param-reassign */
 const DEBUG = false;
+const NEWLINE = '\n';
 const OBSOLETE_ELEMENTS = [
   'acronym', 'applet', 'basefont', 'big', 'blink', 'center', 'command', 'dir',
   'element', 'font', 'image', 'listing', 'marquee', 'multicol', 'nextid',
@@ -119,7 +120,7 @@ exports.el = (tag, attributes = null, content = null) => {
   }
   DEBUG && console.log(`attributes:${toStr(attributes)}`);
   if (content) {
-    content = [].concat(content).join('\n');
+    content = [].concat(content).join(NEWLINE);
   } else {
     content = '';
   }
@@ -129,7 +130,7 @@ exports.el = (tag, attributes = null, content = null) => {
 }; // el
 
 
-exports.render = array => [].concat(array).join('\n');
+exports.render = array => [].concat(array).join(NEWLINE);
 
 
 /*
