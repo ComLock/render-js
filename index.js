@@ -48,7 +48,10 @@ const ELEMENTS = [
   OBSOLETE_ELEMENTS,
   EXPERIMENTAL_ELEMENTS
 );
-
+const VOID_ELEMENTS = [ // Self-closing elements
+  'area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'input', 'keygen',
+  'link', 'menuitem', 'meta', 'param', 'source', 'track', 'wbr'
+];
 
 function isSet(value) {
   if (typeof value === 'boolean') { return true; } // If value is true/false it is set
@@ -117,9 +120,11 @@ exports.el = (tag, attributes = null, content = null) => {
   DEBUG && console.log(`attributes:${toStr(attributes)}`);
   if (content) {
     content = [].concat(content).join('\n');
+  } else {
+    content = '';
   }
   DEBUG && console.log(`content:${toStr(content)}`);
-  const isSelfClosing = !(isSet(content) && content.length);
+  const isSelfClosing = VOID_ELEMENTS.includes(tag); // || !(isSet(content) && content.length);
   return isSelfClosing ? `<${tag}${attributes}/>` : `<${tag}${attributes}>${content}</${tag}>`;
 }; // el
 

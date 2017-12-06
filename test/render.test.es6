@@ -1,17 +1,29 @@
 /* global describe it */
 import { strictEqual, throws } from 'assert';
-import R, { render, doctype, html, el } from '../index';
+import R, { render, doctype, html, br, el } from '../index';
 
 
 describe('render', () => {
+  it('doctype', () => {
+    strictEqual(
+      doctype(),
+      '<!DOCTYPE html>'
+    );
+  });
+
   it('tag', () => {
     strictEqual(
+      html(),
+      '<html></html>'
+    );
+  });
+
+  it('void elements', () => {
+    strictEqual(
       render([
-        doctype(),
-        html()
+        br('get lost')
       ]),
-      `<!DOCTYPE html>
-<html/>`
+      '<br/>'
     );
   });
 
@@ -28,31 +40,27 @@ describe('render', () => {
 
   it('attributes sorted', () => {
     strictEqual(
-      render([
-        doctype(),
-        html({
-          key: 'value',
-          alpha: 'first',
-          true: true,
-          emptyArr: [],
-          arr: ['one', 'two'],
-          class: ['second first'],
-          emptyObj: {},
-          obj: { key: 'value' },
-          1: 1,
-          float: 3.14,
-          minusOne: -1,
-          infinity: Infinity,
-          false: false,
-          null: null,
-          'undefined': undefined, // eslint-disable-line quote-props
-          0: 0,
-          nan: NaN,
-          emptyString: ''
-        })
-      ]),
-      `<!DOCTYPE html>
-<html 0='0' 1='1' alpha="first" arr='["one","two"]' class="first second" emptyArr='[]' emptyObj='{}' emptyString false='false' float='3.14' infinity='null' key="value" minusOne='-1' nan='null' obj='{"key":"value"}' true='true'/>`
+      html({
+        key: 'value',
+        alpha: 'first',
+        true: true,
+        emptyArr: [],
+        arr: ['one', 'two'],
+        class: ['second first'],
+        emptyObj: {},
+        obj: { key: 'value' },
+        1: 1,
+        float: 3.14,
+        minusOne: -1,
+        infinity: Infinity,
+        false: false,
+        null: null,
+        'undefined': undefined, // eslint-disable-line quote-props
+        0: 0,
+        nan: NaN,
+        emptyString: ''
+      }),
+      `<html 0='0' 1='1' alpha="first" arr='["one","two"]' class="first second" emptyArr='[]' emptyObj='{}' emptyString false='false' float='3.14' infinity='null' key="value" minusOne='-1' nan='null' obj='{"key":"value"}' true='true'></html>` // eslint-disable-line quotes
     );
   });
 
