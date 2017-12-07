@@ -19,7 +19,7 @@ const DEPRECATED_ELEMENTS = [
 const EXPERIMENTAL_ELEMENTS = [
   'dialog', 'hgroup', 'menu', 'menuitem'
 ];
-const ELEMENTS = [
+export const ELEMENTS = [
   'a', 'abbr', 'address', 'area', 'article', 'aside', 'audio',
   'b', 'base', 'bdi', 'bdo', 'blockquote', 'body', 'br', 'button',
   'canvas', 'caption', 'cite', 'code', 'col', 'colgroup',
@@ -65,7 +65,7 @@ function isString(value) {
 }
 
 
-function isArrayOrString(value) {
+export function isArrayOrString(value) {
   return Array.isArray(value) || isString(value);
 }
 
