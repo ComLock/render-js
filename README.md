@@ -4,6 +4,38 @@ Render-js is library for generating html from js.
 
 ## Examples
 
+### How to include in Enonic XP app (does not apply to Node.js)
+```groovy
+dependencies {
+  include 'com.enonic.lib:render-js:0.0.4'
+}
+```
+
+### How to use it in Javascript 1.6 (Enonic XP 6.12.2)
+
+```js
+var R = require('/lib/render-js/index.js');
+
+
+exports.get = function(request) {
+  return {
+    body: R.render([
+      R.doctype(),
+      R.html([
+        R.head(R.title('Page Title')),
+        R.body([
+          R.main([
+            R.h1('Hello World!')
+          ]) // main
+        ]) // body
+      ]) // html
+    ]) // render
+  }; // return
+} // exports.get
+```
+
+### How to use it in ECMAscript 2015 (Node.js, Enonic XP 7)
+
 ```js
 import R, { render, doctype, html, head, title, body, main, h1, form } from 'render-js';
 import { checkbox } from 'render-js/input';
