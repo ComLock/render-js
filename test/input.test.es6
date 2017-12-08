@@ -1,34 +1,12 @@
 /* global describe it */
-import {
-  ok,
-  strictEqual// ,
-  // throws
-} from 'assert';
+import { ok, strictEqual } from 'assert';
 import { ELEMENTS } from '../index';
-import I, {
-  button as inputButton,
-  checkbox,
-  color,
-  datetimeLocal,
-  email,
-  file,
-  hidden,
-  image as inputImage,
-  INPUT_TYPES_WITHOUT_KNOWN_CONFLICTS,
-  month,
-  number,
-  password,
-  radio,
-  range,
-  reset,
-  search,
-  submit,
-  tel,
-  text,
-  time as inputTime,
-  url,
-  week
+import I, { button as inputButton, checkbox, color, datetimeLocal, email, file,
+  hidden, image as inputImage, INPUT_TYPES_WITHOUT_KNOWN_CONFLICTS, month,
+  number, password, radio, range, reset, search, submit, tel, text,
+  time as inputTime, url, week
 } from '../input';
+
 
 describe('input', () => {
   it('check namespace conflicts', () => {
