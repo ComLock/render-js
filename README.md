@@ -7,7 +7,7 @@ Render-js is library for generating html from js.
 ### How to include in Enonic XP app (does not apply to Node.js)
 ```groovy
 dependencies {
-  include 'com.enonic.lib:render-js:0.0.4'
+  include 'com.enonic.lib:render-js:1.0.0'
 }
 ```
 
@@ -101,9 +101,14 @@ See [doc/server-side.es6](doc/server-side.es6) for an example of how I want a re
 
 | Lib version | XP version |
 | ----------- | ---------- |
-| 0.0.4       | 6.12.2     |
+| 1.0.0       | 6.12.2     |
+| 0.x.x       | 6.12.2     |
 
 ## Changelog
+
+### 1.0.0
+
+* Javascript 1.6 Example
 
 ### 0.0.4
 
