@@ -1,0 +1,68 @@
+plugins {
+  id 'java'
+  id 'com.moowork.node' version '1.2.0'
+}
+
+
+repositories {
+    mavenLocal()
+    jcenter()
+    //xp.enonicRepo()
+    maven {
+        url 'http://repo.enonic.net/artifactory/public'
+    }
+}
+
+
+node {
+    version '8.9.2'
+    download true
+}
+
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            exclude '*'
+        }
+    }
+}
+
+
+task copy(type: Copy) {
+    from './'
+    into 'build/resources/main/lib/render-js/'
+    include('index.js', 'input.js')
+    rename { String fileName ->
+        fileName.replace('.js', '.es6')
+    }
+}
+assemble.dependsOn copy
+assemble.mustRunAfter copy
+
+
+task test(type:Exec, overwrite: true) {
+    executable 'npm'
+    args 'run', 'test'
+}
+build.dependsOn test
+build.mustRunAfter test
+
+
+task webpack(type:NodeTask) {
+    script = file('node_modules/.bin/webpack')
+    args = [
+        '--config', 'webpack.config.babel.js'
+    ]
+}
+webpack.dependsOn npmInstall
+assemble.dependsOn webpack
+assemble.mustRunAfter webpack
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.4'
+}
