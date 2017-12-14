@@ -10,7 +10,7 @@ import {
   objectToCssDeclarations,
   sortAndRemoveDups,
   toStr
-} from './src/util.es';
+} from './util.es';
 
 
 const DEBUG = false;

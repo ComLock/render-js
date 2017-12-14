@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-expressions */
 import { el } from './index';
-import { camelize, isArrayOrString } from './src/util.es';
+import { camelize, isArrayOrString } from './util.es';
 
 
 const INPUT_TYPES_OBSOLETE = ['datetime'];

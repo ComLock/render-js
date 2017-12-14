@@ -4,7 +4,8 @@ const path = require('path');
 const WEBPACK_CONFIG = {
   entry: {
     index: path.resolve(__dirname, 'index.js'),
-    input: path.resolve(__dirname, 'input.js')
+    input: path.resolve(__dirname, 'input.js'),
+    util: path.resolve(__dirname, 'util.es')
   },
   devtool: false, // Don't waste time generating sourceMaps
   module: {

@@ -17,7 +17,7 @@ repositories {
 
 
 node {
-    version '8.9.2'
+    version '8.9.3'
     download true
 }
 
@@ -37,9 +37,9 @@ sourceSets {
 task copy(type: Copy) {
     from './'
     into 'build/resources/main/lib/render-js/'
-    include('index.js', 'input.js')
+    include('index.js', 'input.js', 'util.es')
     rename { String fileName ->
-        fileName.replace('.js', '.es6')
+        fileName.replace('.js', '.es')
     }
 }
 assemble.dependsOn copy
