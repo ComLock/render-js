@@ -101,10 +101,14 @@ See [doc/server-side.es6](doc/server-side.es6) for an example of how I want a re
 
 | Lib version | XP version |
 | ----------- | ---------- |
-| 1.0.0       | 6.12.2     |
+| 1.x.x       | 6.12.2     |
 | 0.x.x       | 6.12.2     |
 
 ## Changelog
+
+### 1.1.0
+
+* Style attribute from object. Keep property order. Dasherize property keys.
 
 ### 1.0.0
 
