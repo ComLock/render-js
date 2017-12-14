@@ -9,7 +9,7 @@ const WEBPACK_CONFIG = {
   devtool: false, // Don't waste time generating sourceMaps
   module: {
     rules: [{
-      test: /\.(es6|js)$/,
+      test: /\.(es6?|js)$/,
       use: [{
         loader: 'babel-loader',
         options: {
