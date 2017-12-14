@@ -106,6 +106,10 @@ See [doc/server-side.es6](doc/server-side.es6) for an example of how I want a re
 
 ## Changelog
 
+### 1.2.0
+
+* Dasherize attribute names.
+
 ### 1.1.0
 
 * Style attribute from object. Keep property order. Dasherize property keys.

@@ -1,4 +1,6 @@
 /* global describe it */
+/* eslint-disable quotes */
+/* eslint-disable quote-props */
 import { strictEqual, throws } from 'assert';
 import R, { render, doctype, html, br, div, el } from '../index';
 
@@ -55,12 +57,12 @@ describe('render', () => {
         infinity: Infinity,
         false: false,
         null: null,
-        'undefined': undefined, // eslint-disable-line quote-props
+        'undefined': undefined,
         0: 0,
         nan: NaN,
         emptyString: ''
       }),
-      `<html 0='0' 1='1' alpha="first" arr='["one","two"]' class="first second" emptyArr='[]' emptyObj='{}' emptyString false='false' float='3.14' infinity='null' key="value" minusOne='-1' nan='null' obj='{"key":"value"}' true='true'></html>` // eslint-disable-line quotes
+      `<html 0='0' 1='1' alpha="first" arr='["one","two"]' class="first second" empty-arr='[]' empty-obj='{}' empty-string false='false' float='3.14' infinity='null' key="value" minus-one='-1' nan='null' obj='{"key":"value"}' true='true'></html>`
     );
   });
 
@@ -93,6 +95,35 @@ describe('render', () => {
       ]),
       `<!DOCTYPE html>
 <html key="value">Text</html>`
+    );
+  });
+
+  /* https://www.w3.org/TR/html5/syntax.html#elements-attributes
+     Attribute names, may be written with any mix of lower- and uppercase
+     letters that are an ASCII case-insensitive match for the attribute’s name.
+  */
+  it('dasherize attribute names', () => {
+    strictEqual(
+      div({
+        dataString: 'value',
+        dataEmptyString: '',
+        dataZero: 0,
+        dataOne: 1,
+        dataMinusOne: -1,
+        dataFloat: 3.14,
+        dataNegativeFloat: -3.14,
+        dataEmptyArray: [],
+        dataArray: ['value'],
+        dataBooleanTrue: true,
+        dataBooleanFalse: false,
+        dataEmptryObj: {},
+        dataObj: { key: 'value' },
+        dataNull: null, // disappears
+        dataUndefined: undefined, // disappears
+        dataInfinity: Infinity,
+        dataNaN: NaN
+      }),
+      `<div data-array='["value"]' data-boolean-false='false' data-boolean-true='true' data-emptry-obj='{}' data-empty-array='[]' data-empty-string data-float='3.14' data-infinity='null' data-minus-one='-1' data-na-n='null' data-negative-float='-3.14' data-obj='{"key":"value"}' data-one='1' data-string="value" data-zero='0'></div>`
     );
   });
 

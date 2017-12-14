@@ -4,6 +4,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-param-reassign */
 import {
+  dasherize,
   isArrayOrString,
   isSet,
   isString,
@@ -80,21 +81,21 @@ exports.el = (tag, attributes = null, content = null) => {
       if (isSet(attributes[a])) {
         if (isString(attributes[a])) {
           if (a === 'class') {
-            return `${a}="${sortAndRemoveDups(attributes[a].split(' ')).join(' ')}"`;
+            return `class="${sortAndRemoveDups(attributes[a].split(' ')).join(' ')}"`;
           }
-          return attributes[a].length ? `${a}="${attributes[a]}"` : `${a}`;
+          return attributes[a].length ? `${dasherize(a)}="${attributes[a]}"` : `${dasherize(a)}`;
         }
         if (Array.isArray(attributes[a])) {
           if (a === 'class') {
-            return `${a}="${sortAndRemoveDups(attributes[a].join(' ').split(' ')).join(' ')}"`; // join and split to handle array item with space seperated classes.
+            return `class="${sortAndRemoveDups(attributes[a].join(' ').split(' ')).join(' ')}"`; // join and split to handle array item with space seperated classes.
           }
-          return `${a}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
+          return `${dasherize(a)}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
         }
         if (a === 'style') {
           return `style="${objectToCssDeclarations(attributes[a])}"`;
         }
         DEBUG && console.log(`Not string or array. attributes[${toStr(a)}]:${toStr(attributes[a])}`);
-        return `${a}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
+        return `${dasherize(a)}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
       }
       return null;
     }).filter(n => n) // Remove null elements
