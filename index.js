@@ -3,6 +3,16 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-param-reassign */
+import {
+  isArrayOrString,
+  isSet,
+  isString,
+  objectToCssDeclarations,
+  sortAndRemoveDups,
+  toStr
+} from './src/util.es';
+
+
 const DEBUG = false;
 const NEWLINE = '\n';
 const OBSOLETE_ELEMENTS = [
@@ -54,32 +64,6 @@ const VOID_ELEMENTS = [ // Self-closing elements
   'link', 'menuitem', 'meta', 'param', 'source', 'track', 'wbr'
 ];
 
-function isSet(value) {
-  if (typeof value === 'boolean') { return true; } // If value is true/false it is set
-  return value !== null && typeof value !== 'undefined';
-}
-
-
-function isString(value) {
-  return typeof value === 'string' || value instanceof String;
-}
-
-
-export function isArrayOrString(value) {
-  return Array.isArray(value) || isString(value);
-}
-
-
-function toStr(value) {
-  return JSON.stringify(value, null, 4);
-}
-
-
-function sortAndRemoveDups(arr) {
-  return arr.sort() // must happen before removing duplicates
-    .filter((item, pos, ary) => !pos || item !== ary[pos - 1]); // removing duplicates
-}
-
 
 exports.el = (tag, attributes = null, content = null) => {
   if (isArrayOrString(attributes)) {
@@ -105,6 +89,9 @@ exports.el = (tag, attributes = null, content = null) => {
             return `${a}="${sortAndRemoveDups(attributes[a].join(' ').split(' ')).join(' ')}"`; // join and split to handle array item with space seperated classes.
           }
           return `${a}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
+        }
+        if (a === 'style') {
+          return `style="${objectToCssDeclarations(attributes[a])}"`;
         }
         DEBUG && console.log(`Not string or array. attributes[${toStr(a)}]:${toStr(attributes[a])}`);
         return `${a}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file

@@ -1,6 +1,6 @@
 /* global describe it */
 import { strictEqual, throws } from 'assert';
-import R, { render, doctype, html, br, el } from '../index';
+import R, { render, doctype, html, br, div, el } from '../index';
 
 
 describe('render', () => {
@@ -95,6 +95,34 @@ describe('render', () => {
 <html key="value">Text</html>`
     );
   });
+
+  /*
+    https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns
+      none
+      https://developer.mozilla.org/en-US/docs/Web/CSS/length
+        Relative length units: cap ch em ex ic lh rem rlh vh vw vi vb vmin vmax
+        Absolute length units: px mm q cm in pt pc mozmm
+      percentage
+      https://developer.mozilla.org/en-US/docs/Web/CSS/flex_value
+      max-content
+      min-content
+      minmax(min, max)
+      auto
+      fit-content( [ <length> | <percentage> ] )
+      repeat( [ <positive-integer> | auto-fill | auto-fit ] , <track-list> )
+  */
+  it('style attribute object, keep property order, dasherize property name', () => { // TODO same key multiple times Map() ?
+    strictEqual(
+      div({
+        style: {
+          'grid-template-rows': 'auto',
+          gridTemplateColumns: 'auto 16px 1rem 25% 1fr'
+        }
+      }),
+      '<div style="grid-template-rows: auto;grid-template-columns: auto 16px 1rem 25% 1fr"></div>'
+    );
+  });
+
 
   it('throws when two args and neither is Object', () => {
     throws(

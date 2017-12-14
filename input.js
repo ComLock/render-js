@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-expressions */
-import { el, isArrayOrString } from './index';
+import { el } from './index';
+import { camelize, isArrayOrString } from './src/util.es';
+
 
 const INPUT_TYPES_OBSOLETE = ['datetime'];
 const INPUT_TYPES = [ // See NOTE 1
@@ -12,16 +14,6 @@ const INPUT_TYPES = [ // See NOTE 1
 const KNOWN_CONFLICTS = ['button', 'image', 'time']; // See NOTE 2
 exports.INPUT_TYPES_WITHOUT_KNOWN_CONFLICTS = INPUT_TYPES
   .filter(a => !KNOWN_CONFLICTS.includes(a));
-
-
-function camelize(str) {
-  return str.replace(
-    /(?:^\w|[A-Z]|\b\w)/g,
-    (letter, index) => index === 0 // eslint-disable-line no-confusing-arrow
-      ? letter.toLowerCase()
-      : letter.toUpperCase()
-  ).replace(/(\s|-)+/g, '');
-}
 
 
 INPUT_TYPES.forEach(t => {
