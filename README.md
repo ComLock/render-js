@@ -88,6 +88,14 @@ It will be written using es2015 which makes for much nicer code with for instanc
 
 See [doc/server-side.es6](doc/server-side.es6) for an example of how I want a render to look like.
 
+### New IDEA: Non Cascading Scaleable Styling
+
+Autogenerate "css" from element "styling" and pageContribute it.
+Which means every element/component function must return both the html string
+and an (unique?) array of generated "css". The array must propagate upwards,
+so it automatically becomes part of bodyBegin. In terms of extendability,
+returning an object with named properties should be the way to go.
+
 ## Definition
 
 * All element methods take between, zero and two params.
