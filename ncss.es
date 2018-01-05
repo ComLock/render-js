@@ -7,7 +7,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
-/* eslint-disable key-spacing */
+
 
 import { el as htmlEl } from './index';
 import { dasherize, isString, toStr } from './util.es';
@@ -18,49 +18,6 @@ import { dasherize, isString, toStr } from './util.es';
 const DEBUG = true;
 const TRACE = false;
 
-const CSS_PROP_ABBR = { // Abbreviation
-  w: 'width',
-  'w-ma': 'max-width',
-  'w-mi': 'mix-width'
-};
-
-const TACHYONS = {
-  display: {
-    abbr: 'd',
-    values: {
-      b:     'block',
-      d:     'initial',
-      f:     'flex',
-      // g:    'grid',
-      i:     'inherit',
-      in:    'inline',
-      inb:   'inline-block',
-      inf:   'inline-flex',
-      int:   'inline-table',
-      li:    'list-item',
-      n:     'none',
-      ri:    'run-in',
-      t:     'table',
-      tc:    'table-cell',
-      tca:   'table-caption',
-      tfg:   'table-footer-group',
-      thg:   'table-header-group',
-      tr:    'table-row',
-      trg:   'table-row-group',
-      tcol:  'table-column',
-      tcolg: 'table-column-group'
-    }
-  },
-  maxWidth: {
-    abbr: 'w-ma'
-  },
-  minWidth: {
-    abbr: 'w-mi'
-  },
-  width: {
-    abbr: 'w'
-  }
-};
 
 /*
 function _media(name, rules) {
@@ -69,19 +26,19 @@ function _media(name, rules) {
 */
 
 // Since both spec and content may be of type Object we need some way to know which is which...
-class Content {
-  constructor({ html = '', tachyons = {} } = {}) {
+class Node {
+  constructor({ html = '', css = {} } = {}) {
     this.html = html;
-    this.tachyons = tachyons;
+    this.css = css;
   }
-} // class Content
-exports.Content = Content;
+} // class Node
+exports.Node = Node;
 
 /*
 const o = {};
-const c = new Content({ html: '', tachyons: [] });
-console.log(`o instanceof Content:${toStr(o instanceof Content)}`); // false
-console.log(`c instanceof Content:${toStr(c instanceof Content)}`); // true
+const c = new Node({ html: '', css: [] });
+console.log(`o instanceof Node:${toStr(o instanceof Node)}`); // false
+console.log(`c instanceof Node:${toStr(c instanceof Node)}`); // true
 */
 
 
@@ -122,24 +79,24 @@ function classAppendAndCssFromMedia(media) {
 exports.el = (tag, spec = null, content = null) => {
   let classes = [];
   TRACE && console.log(`tag:${toStr(tag)} spec:${toStr(spec)} content:${toStr(content)}`);
-  TRACE && console.log(`spec instanceof Content:${spec instanceof Content}`);
-  if (isString(spec) || spec instanceof Content) {
+  TRACE && console.log(`spec instanceof Node:${spec instanceof Node}`);
+  if (isString(spec) || spec instanceof Node) {
     content = spec;
     spec = {};
   }
   DEBUG && console.log(`tag:${toStr(tag)} spec:${toStr(spec)} content:${toStr(content)}`);
-  let tachyons = content instanceof Content ? content.tachyons : []; // Assuming Content always has a tachyons property.
+  let css = content instanceof Node ? content.css : []; // Assuming Node always has a css property.
   if (spec && spec._media) {
     const { classAppend, css } = classAppendAndCssFromMedia(spec._media);
     classes = [].concat(classes, classAppend);
-    tachyons = tachyons.concat(css);
-    DEBUG && console.log(`tachyons:${toStr(tachyons)}`);
+    css = css.concat(css);
+    DEBUG && console.log(`css:${toStr(css)}`);
     spec._media = null; // Don't pass to htmlEl as attribute. NOTE this means cannot have attribute named _media
   }
-  // const string = content instanceof Content ? content.html : content;
-  return new Content({
-    html: htmlEl(tag, spec, content instanceof Content ? content.html : content), // Allow content to be Content or string
-    tachyons
+  // const string = content instanceof Node ? content.html : content;
+  return new Node({
+    html: htmlEl(tag, spec, content instanceof Node ? content.html : content), // Allow content to be Node or string
+    css
   });
 };
 

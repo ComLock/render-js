@@ -1,27 +1,43 @@
 /* global describe it */
 /* eslint-disable function-paren-newline */
+/* eslint-disable no-unused-vars */
+
+
 import { deepStrictEqual } from 'assert';
-import { el, Content } from '../ncss.es';
+import { el, Node } from '../ncss.es';
+
+
+const MEDIA_RULES = {
+  xxs: '(min-width: 320px)', // Mobile S
+  xs: '(min-width: 480px)',
+  s: '(min-width: 768px)', // Tablet
+  sp: '(min-width: 800px)', // 992
+  m: '(min-width: 1024px)', // Laptop
+  l: '(min-width: 1200px)',
+  xl: '(min-width: 1440px)',
+  xxl: '(min-width: 2560px)' // 4K
+};
+
 
 describe('ncss', () => {
   it('element without spec or content', () => {
-    deepStrictEqual(el('span'), new Content({
+    deepStrictEqual(el('span'), new Node({
       html: '<span></span>',
-      tachyons: []
+      css: []
     }));
   });
 
   it('element with only second argument of type String', () => {
-    deepStrictEqual(el('h1', 'String'), new Content({
+    deepStrictEqual(el('h1', 'String'), new Node({
       html: '<h1>String</h1>',
-      tachyons: []
+      css: []
     }));
   });
 
-  it('element with only second argument of type Content', () => {
-    deepStrictEqual(el('div', el('p', 'String')), new Content({
+  it('element with only second argument of type Node', () => {
+    deepStrictEqual(el('div', el('p', 'String')), new Node({
       html: '<div><p>String</p></div>',
-      tachyons: []
+      css: []
     }));
   });
 
@@ -33,9 +49,9 @@ describe('ncss', () => {
             display: 'none'
           }
         }
-      ), new Content({
+      ), new Node({
         html: '<div style="display: none"></div>',
-        tachyons: []
+        css: []
       })
     );
   });
@@ -48,14 +64,14 @@ describe('ncss', () => {
             display: 'none'
           }
         }, 'String'
-      ), new Content({
+      ), new Node({
         html: '<h1 style="display: none">String</h1>',
-        tachyons: []
+        css: []
       })
     );
   });
 
-  it('element with spec and third argument of type Content', () => {
+  it('element with spec and third argument of type Node', () => {
     deepStrictEqual(
       el(
         'div', {
@@ -63,9 +79,9 @@ describe('ncss', () => {
             display: 'none'
           }
         }, el('p', 'String')
-      ), new Content({
+      ), new Node({
         html: '<div style="display: none"><p>String</p></div>',
-        tachyons: []
+        css: []
       })
     );
   });
@@ -75,14 +91,14 @@ describe('ncss', () => {
       el(
         'div', {
           _media: {
-            minWidth480: {
+            only_screen_and_minWidth480_and_maxWidth1023_comma_not_speech: {
               display: 'none'
             }
           }
         }
-      ), new Content({
-        html: '<div class="w-mi-480-d-n"></div>',
-        tachyons: ['@media (min-width: 480px) { .w-mi-480-d-n { display: none !important; } }']
+      ), new Node({
+        html: '<div class="d-n-os-w-mi-480-w-ma-1023-ns"></div>',
+        css: ['@media only screen and (min-width: 480px) and (max-width: 1023px) { .d-n-os-w-mi-480-w-ma-1023-ns { display: none !important; } }']
       })
     );
   });
