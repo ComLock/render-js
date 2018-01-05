@@ -11,13 +11,14 @@
 
 
 import { el as htmlEl, ELEMENTS } from './index';
-import { dasherize, isString, sortAndRemoveDups, toStr } from './util.es';
+import { dasherize, isInt, isString, sortAndRemoveDups, toStr } from './util.es';
 import { CSS_MEDIA_WORD_TO_ABBR, CSS_PROP_TO_ABBR, CSS_PROP_VALUES_TO_ABBR } from './src/css.es';
 
 // export { html, head } from './index';
 
 
-const DEBUG = true;
+const WARN = true;
+const DEBUG = false;
 const TRACE = false;
 
 
@@ -65,11 +66,23 @@ function classAppendAndCssFromMedia(media) {
     }); // map mediaQueryAbbr
     Object.keys(media[mediaRuleKey]).forEach(prop => {
       const value = media[mediaRuleKey][prop];
-      const dashProp = dasherize(prop);
-      TRACE && console.log(`dashProp:${toStr(dashProp)}`);
-      const className = `${CSS_PROP_TO_ABBR[dashProp]}-${CSS_PROP_VALUES_TO_ABBR[prop][value]}${postfix}`;
-      classAppend.push(className);
-      css.push(`@media ${mediaQueryList.join(', ')} { .${className} { ${dashProp}: ${value} !important; } }`);
+      if (value) {
+        const dashProp = dasherize(prop); TRACE && console.log(`dashProp:${toStr(dashProp)}`);
+        const propAbbr = CSS_PROP_TO_ABBR[dashProp] || dashProp;
+        if (!CSS_PROP_TO_ABBR[dashProp]) {
+          WARN && console.warn(`WARN: Couldn't find abbreviation for property:${prop} falling back to dasherized property:${dashProp}`);
+        }
+        const dashValue = dasherize(value);
+        const valueAbbr = (CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][value]) || dashValue;
+        if (!(CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][value])) {
+          WARN && console.warn(`WARN: Couldn't find abbreviation for property:${prop} value:${value} falling back to dasherized value:${dashValue}`);
+        }
+        const className = `${propAbbr}-${valueAbbr}${postfix}`;
+        classAppend.push(className);
+        css.push(`@media ${mediaQueryList.join(', ')} { .${className} { ${dashProp}: ${value}${isInt(value) ? 'px' : ''} !important; } }`);
+      } else {
+        WARN && console.warn(`WARN: Ignoring property:${prop} due to no value`);
+      }
     });
   }); // forEach mediaRuleKey
   return {

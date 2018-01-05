@@ -8,18 +8,6 @@ import { render, doctype, html, head, title, style } from '../index';
 import { el, Node, body, div, p, main, h1 } from '../ncss.es';
 
 
-const MEDIA_RULES = {
-  xxs: '(min-width: 320px)', // Mobile S
-  xs: '(min-width: 480px)',
-  s: '(min-width: 768px)', // Tablet
-  sp: '(min-width: 800px)', // 992
-  m: '(min-width: 1024px)', // Laptop
-  l: '(min-width: 1200px)',
-  xl: '(min-width: 1440px)',
-  xxl: '(min-width: 2560px)' // 4K
-};
-
-
 describe('ncss', () => {
   it('element without spec or content', () => {
     deepStrictEqual(el('span'), new Node({
@@ -177,6 +165,33 @@ describe('ncss', () => {
 <style type="text/css">@media (min-width: 1024px) { .d-inb-w-mi-1024 { display: inline-block !important; } }
 @media (min-width: 480px) { .d-b-w-mi-480 { display: block !important; } }</style></head>
 <body><main><h1 class="d-b-w-mi-480 d-inb-w-mi-1024" style="color: black">Main heading</h1></main></body></html>`
+    ); // deepStrictEqual
+  }); // it
+
+  it('handles unknown css properties, int value assumed to be px', () => {
+    const classA = 'pixel-100-w-mi-480';
+    const classB = 'un-known-va-lue-w-mi-480';
+    deepStrictEqual(
+      div({
+        /* style: {
+          unKnown: 100
+        }, */
+        _media: {
+          minWidth480: {
+            null: null,
+            undef: undefined,
+            unKnown: 'va lue',
+            pixel: 100
+          }
+        }
+      })
+      , new Node({
+        css: [
+          `@media (min-width: 480px) { .${classA} { pixel: 100px !important; } }`,
+          `@media (min-width: 480px) { .${classB} { un-known: va lue !important; } }`
+        ],
+        html: `<div class="${classA} ${classB}"></div>`
+      })
     ); // deepStrictEqual
   }); // it
 }); // describe ncss
