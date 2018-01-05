@@ -4,7 +4,8 @@
 
 
 import { deepStrictEqual } from 'assert';
-import { el, Node } from '../ncss.es';
+import { render, doctype, html, head, title, style } from '../index';
+import { el, Node, body, div, p, main, h1 } from '../ncss.es';
 
 
 const MEDIA_RULES = {
@@ -103,4 +104,79 @@ describe('ncss', () => {
       })
     );
   });
+
+  it('nested elements with spec.style and spec._media', () => {
+    const classA = 'd-b-w-mi-480';
+    const classB = 'd-inb-w-mi-1024';
+    deepStrictEqual(
+      div({
+        style: {
+          display: 'none'
+        },
+        _media: {
+          minWidth480: {
+            display: 'block'
+          },
+          minWidth1024: {
+            display: 'inline-block'
+          }
+        } // _media
+      }, p({
+        style: {
+          color: 'black'
+        },
+        _media: {
+          minWidth480: {
+            display: 'block'
+          },
+          minWidth1024: {
+            display: 'inline-block'
+          }
+        }
+      }, 'String') // p
+      ), // div
+      new Node({
+        html: `<div class="${classA} ${classB}" style="display: none"><p class="${classA} ${classB}" style="color: black">String</p></div>`,
+        css: [ // NOTE Order changes due to sortAndRemoveDups
+          `@media (min-width: 1024px) { .${classB} { display: inline-block !important; } }`,
+          `@media (min-width: 480px) { .${classA} { display: block !important; } }`
+        ]
+      })
+    ); // deepStrictEqual
+  }); // it
+
+  it('full page with page contributions', () => {
+    const node = body(
+      main(
+        h1({
+          style: {
+            color: 'black'
+          },
+          _media: {
+            minWidth480: {
+              display: 'block'
+            },
+            minWidth1024: {
+              display: 'inline-block'
+            }
+          }
+        }, 'Main heading')
+      )
+    );
+    deepStrictEqual(
+      render(
+        html([
+          head([
+            title('Title'),
+            style({ type: 'text/css' }, node.css.join('\n')) // pageContributions.headEnd
+          ]),
+          node.html
+        ])
+      ), // render
+      `<html><head><title>Title</title>
+<style type="text/css">@media (min-width: 1024px) { .d-inb-w-mi-1024 { display: inline-block !important; } }
+@media (min-width: 480px) { .d-b-w-mi-480 { display: block !important; } }</style></head>
+<body><main><h1 class="d-b-w-mi-480 d-inb-w-mi-1024" style="color: black">Main heading</h1></main></body></html>`
+    ); // deepStrictEqual
+  }); // it
 }); // describe ncss

@@ -10,8 +10,8 @@
 /* eslint-disable spaced-comment */
 
 
-import { el as htmlEl } from './index';
-import { dasherize, isString, toStr } from './util.es';
+import { el as htmlEl, ELEMENTS } from './index';
+import { dasherize, isString, sortAndRemoveDups, toStr } from './util.es';
 import { CSS_MEDIA_WORD_TO_ABBR, CSS_PROP_TO_ABBR, CSS_PROP_VALUES_TO_ABBR } from './src/css.es';
 
 // export { html, head } from './index';
@@ -91,7 +91,7 @@ exports.el = (tag, spec = null, content = null) => {
   if (spec && spec._media) {
     const o = classAppendAndCssFromMedia(spec._media);
     spec.class = [].concat(spec.class, o.classAppend).filter(n => n); // Remove null elements;
-    css = css.concat(o.css);
+    css = sortAndRemoveDups(css.concat(o.css));
     TRACE && console.log(`css:${toStr(css)}`);
     spec._media = null; // Don't pass to htmlEl as attribute. NOTE this means cannot have attribute named _media
   }
@@ -101,6 +101,11 @@ exports.el = (tag, spec = null, content = null) => {
     css
   });
 };
+
+
+ELEMENTS.forEach(k => {
+  exports[k] = (...args) => exports.el(k, ...args);
+});
 
 
 export default exports;
