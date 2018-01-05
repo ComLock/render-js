@@ -95,7 +95,7 @@ describe('ncss', () => {
 
   it('nested elements with spec.style and spec._media', () => {
     const classA = 'd-b-w-mi-480';
-    const classB = 'd-inb-w-mi-1024';
+    const classB = 'd-ib-w-mi-1024';
     deepStrictEqual(
       div({
         style: {
@@ -162,9 +162,9 @@ describe('ncss', () => {
         ])
       ), // render
       `<html><head><title>Title</title>
-<style type="text/css">@media (min-width: 1024px) { .d-inb-w-mi-1024 { display: inline-block !important; } }
+<style type="text/css">@media (min-width: 1024px) { .d-ib-w-mi-1024 { display: inline-block !important; } }
 @media (min-width: 480px) { .d-b-w-mi-480 { display: block !important; } }</style></head>
-<body><main><h1 class="d-b-w-mi-480 d-inb-w-mi-1024" style="color: black">Main heading</h1></main></body></html>`
+<body><main><h1 class="d-b-w-mi-480 d-ib-w-mi-1024" style="color: black">Main heading</h1></main></body></html>`
     ); // deepStrictEqual
   }); // it
 

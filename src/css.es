@@ -403,34 +403,79 @@ const CSS_COLOR_VALUES_ABBR = { // https://developer.mozilla.org/en-US/docs/Web/
   yg: 'yellowgreen', // #9acd32
   // CSS Color Module Level 4
   rp: 'rebeccapurple'
-};
+}; // const CSS_COLOR_VALUES_ABBR
+
+const CSS_BORDER_STYLE_VALUES_ABBR = {
+  // Global values https://developer.mozilla.org/en-US/docs/Web/CSS/all
+  ini: 'initial',
+  ih:  'inherit',
+  u:   'unset',
+  rv:  'revert',
+  // Border-style https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#Values
+  d:  'dotted',
+  da: 'dashed',
+  du: 'double',
+  g:  'groove',
+  h:  'hidden',
+  i:  'inset',
+  o:  'outset',
+  n:  'none',
+  r:  'ridge',
+  s:  'solid'
+}; // CSS_BORDER_STYLE_VALUES_ABBR
+
+
+const CSS_DISPLAY_VALUES_ABBR = {
+  // Global
+  ih:  'inherit',
+  ini: 'initial',
+  u:   'unset',
+  rv:  'revert',
+  // Display https://developer.mozilla.org/en-US/docs/Web/CSS/display#Values
+  b:    'block',
+  f:    'flex',
+  fl:    'flow',
+  fr:   'flow-root',
+  g:    'grid',
+  i:    'inline',
+  ib:   'inline-block',
+  if:   'inline-flex',
+  it:   'inline-table',
+  li:    'list-item',
+  n:     'none',
+  r:     'ruby',
+  rb:    'ruby-base',
+  rt:    'ruby-text',
+  rbc:   'ruby-base-container',
+  rtc:   'ruby-text-container',
+  ri:    'run-in',
+  sg:    'sub-grid',
+  t:     'table',
+  tc:    'table-cell',
+  tca:   'table-caption',
+  tfg:   'table-footer-group',
+  thg:   'table-header-group',
+  tr:    'table-row',
+  trg:   'table-row-group',
+  tcol:  'table-column',
+  tcolg: 'table-column-group'
+}; // CSS_DISPLAY_VALUES_ABBR
 
 
 export const CSS_PROP_VALUES_ABBR = {
-  color: CSS_COLOR_VALUES_ABBR,
-  display: {
-    b:     'block',
-    d:     'initial',
-    f:     'flex',
-    // g:    'grid',
-    i:     'inherit',
-    in:    'inline',
-    inb:   'inline-block',
-    inf:   'inline-flex',
-    int:   'inline-table',
-    li:    'list-item',
-    n:     'none',
-    ri:    'run-in',
-    t:     'table',
-    tc:    'table-cell',
-    tca:   'table-caption',
-    tfg:   'table-footer-group',
-    thg:   'table-header-group',
-    tr:    'table-row',
-    trg:   'table-row-group',
-    tcol:  'table-column',
-    tcolg: 'table-column-group'
-  } // display
+  'background-color':    CSS_COLOR_VALUES_ABBR,
+  'border-bottom-color': CSS_COLOR_VALUES_ABBR,
+  'border-bottom-style': CSS_BORDER_STYLE_VALUES_ABBR,
+  'border-color':        CSS_COLOR_VALUES_ABBR,
+  'border-left-color':   CSS_COLOR_VALUES_ABBR,
+  'border-left-style':   CSS_BORDER_STYLE_VALUES_ABBR,
+  'border-right-color':  CSS_COLOR_VALUES_ABBR,
+  'border-right-style':  CSS_BORDER_STYLE_VALUES_ABBR,
+  'border-style':        CSS_BORDER_STYLE_VALUES_ABBR,
+  'border-top-color':    CSS_COLOR_VALUES_ABBR,
+  'border-top-style':    CSS_BORDER_STYLE_VALUES_ABBR,
+  color:                 CSS_COLOR_VALUES_ABBR,
+  display:               CSS_DISPLAY_VALUES_ABBR
 };
 export const CSS_PROP_VALUES_TO_ABBR = dict(Object.keys(CSS_PROP_VALUES_ABBR).map(prop => [
   prop,
