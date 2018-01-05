@@ -168,9 +168,12 @@ describe('ncss', () => {
     ); // deepStrictEqual
   }); // it
 
-  it('handles unknown css properties, int value assumed to be px', () => {
-    const classA = 'pixel-100-w-mi-480';
-    const classB = 'un-known-va-lue-w-mi-480';
+  it('handles unknown css properties, int value assumed to be px, color', () => {
+    const pre = '@media (min-width: 480px) { .';
+    const classA = 'c-b-w-mi-480';
+    const classB = 'd-invalid-w-mi-480';
+    const classC = 'pixel-100-w-mi-480';
+    const classD = 'un-known-va-lue-w-mi-480';
     deepStrictEqual(
       div({
         /* style: {
@@ -178,19 +181,23 @@ describe('ncss', () => {
         }, */
         _media: {
           minWidth480: {
+            display: 'invalid',
             null: null,
             undef: undefined,
             unKnown: 'va lue',
-            pixel: 100
+            pixel: 100,
+            color: 'black'
           }
         }
       })
       , new Node({
         css: [
-          `@media (min-width: 480px) { .${classA} { pixel: 100px !important; } }`,
-          `@media (min-width: 480px) { .${classB} { un-known: va lue !important; } }`
+          `${pre}${classA} { color: black !important; } }`,
+          `${pre}${classB} { display: invalid !important; } }`,
+          `${pre}${classC} { pixel: 100px !important; } }`,
+          `${pre}${classD} { un-known: va lue !important; } }`
         ],
-        html: `<div class="${classA} ${classB}"></div>`
+        html: `<div class="${classA} ${classB} ${classC} ${classD}"></div>`
       })
     ); // deepStrictEqual
   }); // it
