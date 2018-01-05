@@ -16,6 +16,9 @@ export function dasherize(str) {
 } // function dasherize
 
 
+export const dict = arr => Object.assign(...arr.map(([k, v]) => ({ [k]: v })));
+
+
 export function isSet(value) {
   if (typeof value === 'boolean') { return true; } // If value is true/false it is set
   return value !== null && typeof value !== 'undefined';

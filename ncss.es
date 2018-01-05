@@ -7,10 +7,12 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
+/* eslint-disable spaced-comment */
 
 
 import { el as htmlEl } from './index';
 import { dasherize, isString, toStr } from './util.es';
+import { CSS_MEDIA_WORD_TO_ABBR, CSS_PROP_TO_ABBR, CSS_PROP_VALUES_TO_ABBR } from './src/css.es';
 
 // export { html, head } from './index';
 
@@ -43,54 +45,54 @@ console.log(`c instanceof Node:${toStr(c instanceof Node)}`); // true
 
 
 function classAppendAndCssFromMedia(media) {
-  DEBUG && console.log(`media:${toStr(media)}`);
+  TRACE && console.log(`media:${toStr(media)}`);
   const classAppend = [];
   const css = [];
-  Object.keys(media).forEach(mediaRuleKey => {
-    const queries = [];
-    const prefix = dasherize(mediaRuleKey);
-    mediaRuleKey.split('_').forEach(mP => {
-      DEBUG && console.log(`mP:${toStr(mP)}`);
-      const match = /^(maxWidth|minWidth)(.*)$/.exec(mP);
-      queries.push(`(${dasherize(match[1])}: ${match[2]})`);
-    });
+  Object.keys(media).forEach(mediaRuleKey => { // only_screen_and_minWidth480_and_maxWidth1023_comma_not_speech
+    let postfix = '';
+    const mediaQueryList = mediaRuleKey.split('_comma_').map(mediaQueryAbbr => {
+      return mediaQueryAbbr.split('_').map(mediaWord => {
+        TRACE && console.log(`mediaWord:${toStr(mediaWord)}`);
+        if (CSS_MEDIA_WORD_TO_ABBR[mediaWord]) {
+          postfix = `${postfix}-${CSS_MEDIA_WORD_TO_ABBR[mediaWord]}`;
+          return mediaWord;
+        }
+        const match = /^(maxWidth|minWidth)(.*)$/.exec(mediaWord);
+        TRACE && console.log(`match:${toStr(match)}`);
+        postfix = `${postfix}-${CSS_MEDIA_WORD_TO_ABBR[dasherize(match[1])]}-${match[2]}`;
+        return `(${dasherize(match[1])}: ${match[2]}px)`;
+      }).join(' '); // map mediaWord
+    }); // map mediaQueryAbbr
     Object.keys(media[mediaRuleKey]).forEach(prop => {
+      const value = media[mediaRuleKey][prop];
       const dashProp = dasherize(prop);
-      //classAppend.push(`${prefix}-${dashProp}-`);
-      // `${dashProp}: ${media[mediaRuleKey][property]}`
+      TRACE && console.log(`dashProp:${toStr(dashProp)}`);
+      const className = `${CSS_PROP_TO_ABBR[dashProp]}-${CSS_PROP_VALUES_TO_ABBR[prop][value]}${postfix}`;
+      classAppend.push(className);
+      css.push(`@media ${mediaQueryList.join(', ')} { .${className} { ${dashProp}: ${value} !important; } }`);
     });
-    css.push(`@media ${queries.join(' AND ')} {}`);
   }); // forEach mediaRuleKey
-  /*
-    const parts = m.split('_').map(p => {
-      const match = /^(max|min)Width(.*)$/.exec(p);
-      classes.push(`${match[1] === max ? 'w-ma': 'w-mi'}-${match[2]}`);
-    });
-    // return `@media (${m.split('_').map(e => dasherize(e)).join(') and (')})`;
-  }) // map
-  */
   return {
-    classAppend: 'jalla',
-    css: []
+    classAppend,
+    css
   };
-}
+} // function classAppendAndCssFromMedia
 
 
 exports.el = (tag, spec = null, content = null) => {
-  let classes = [];
   TRACE && console.log(`tag:${toStr(tag)} spec:${toStr(spec)} content:${toStr(content)}`);
   TRACE && console.log(`spec instanceof Node:${spec instanceof Node}`);
   if (isString(spec) || spec instanceof Node) {
     content = spec;
     spec = {};
   }
-  DEBUG && console.log(`tag:${toStr(tag)} spec:${toStr(spec)} content:${toStr(content)}`);
+  TRACE && console.log(`tag:${toStr(tag)} spec:${toStr(spec)} content:${toStr(content)}`);
   let css = content instanceof Node ? content.css : []; // Assuming Node always has a css property.
   if (spec && spec._media) {
-    const { classAppend, css } = classAppendAndCssFromMedia(spec._media);
-    classes = [].concat(classes, classAppend);
-    css = css.concat(css);
-    DEBUG && console.log(`css:${toStr(css)}`);
+    const o = classAppendAndCssFromMedia(spec._media);
+    spec.class = [].concat(spec.class, o.classAppend).filter(n => n); // Remove null elements;
+    css = css.concat(o.css);
+    TRACE && console.log(`css:${toStr(css)}`);
     spec._media = null; // Don't pass to htmlEl as attribute. NOTE this means cannot have attribute named _media
   }
   // const string = content instanceof Node ? content.html : content;

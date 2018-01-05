@@ -1,6 +1,13 @@
 /* eslint-disable key-spacing */
+/* eslint-disable no-console */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable object-property-newline */
 
+
+import { dict, toStr } from '../util.es';
+
+
+const DEBUG = false;
 
 export const CSS_MEDIA_ABBR = { // Abbreviation
   // Trying to use first letter in each word.
@@ -35,8 +42,12 @@ export const CSS_MEDIA_ABBR = { // Abbreviation
   sc:  'scripting', // (first two letters) screen, speech, scripting, scan
   sp:  'speech', // (first two letters) screen, speech, scripting, scan
   u:   'update',
-  w:   'width', 'w-ma': 'max-width', 'w-mi': 'mix-width'
+  w:   'width', 'w-ma': 'max-width', 'w-mi': 'min-width'
 }; // CSS_MEDIA_ABBR
+
+export const CSS_MEDIA_WORD_TO_ABBR = dict(Object.keys(CSS_MEDIA_ABBR).map(a =>
+  [CSS_MEDIA_ABBR[a], a]));
+DEBUG && console.log(`CSS_MEDIA_WORD_TO_ABBR:${toStr(CSS_MEDIA_WORD_TO_ABBR)}`);
 
 
 export const CSS_MEDIA_LOGICAL_OPERATORS = [ // https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Logical_operators
@@ -219,48 +230,43 @@ export const CSS_PROP_ABBR = { // Abbreviation
   'wo-w': 'word-wrap',
   w:      'width',
   'w-ma': 'max-width',
-  'w-mi': 'mix-width',
+  'w-mi': 'min-width',
   x:      'x',
   y:      'y',
   z:      'zoom',
   zi:     'z-index'
-};
+}; // CSS_PROP_ABBR
+export const CSS_PROP_TO_ABBR = dict(Object.keys(CSS_PROP_ABBR).map(a =>
+  [CSS_PROP_ABBR[a], a]));
 
 
-export const TACHYONS = {
+export const CSS_PROP_VALUES_ABBR = {
   display: {
-    abbr: 'd',
-    values: {
-      b:     'block',
-      d:     'initial',
-      f:     'flex',
-      // g:    'grid',
-      i:     'inherit',
-      in:    'inline',
-      inb:   'inline-block',
-      inf:   'inline-flex',
-      int:   'inline-table',
-      li:    'list-item',
-      n:     'none',
-      ri:    'run-in',
-      t:     'table',
-      tc:    'table-cell',
-      tca:   'table-caption',
-      tfg:   'table-footer-group',
-      thg:   'table-header-group',
-      tr:    'table-row',
-      trg:   'table-row-group',
-      tcol:  'table-column',
-      tcolg: 'table-column-group'
-    }
-  },
-  maxWidth: {
-    abbr: 'w-ma'
-  },
-  minWidth: {
-    abbr: 'w-mi'
-  },
-  width: {
-    abbr: 'w'
-  }
+    b:     'block',
+    d:     'initial',
+    f:     'flex',
+    // g:    'grid',
+    i:     'inherit',
+    in:    'inline',
+    inb:   'inline-block',
+    inf:   'inline-flex',
+    int:   'inline-table',
+    li:    'list-item',
+    n:     'none',
+    ri:    'run-in',
+    t:     'table',
+    tc:    'table-cell',
+    tca:   'table-caption',
+    tfg:   'table-footer-group',
+    thg:   'table-header-group',
+    tr:    'table-row',
+    trg:   'table-row-group',
+    tcol:  'table-column',
+    tcolg: 'table-column-group'
+  } // display
 };
+export const CSS_PROP_VALUES_TO_ABBR = dict(Object.keys(CSS_PROP_VALUES_ABBR).map(prop => [
+  prop,
+  dict(Object.keys(CSS_PROP_VALUES_ABBR[prop]).map(a => [CSS_PROP_VALUES_ABBR[prop][a], a]))
+]));
+DEBUG && console.log(`CSS_PROP_VALUES_TO_ABBR:${toStr(CSS_PROP_VALUES_TO_ABBR)}`);

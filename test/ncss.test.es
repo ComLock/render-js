@@ -87,6 +87,7 @@ describe('ncss', () => {
   });
 
   it('element with spec._media', () => {
+    const className = 'd-n-o-s-a-w-mi-480-a-w-ma-1023-n-sp';
     deepStrictEqual(
       el(
         'div', {
@@ -97,8 +98,8 @@ describe('ncss', () => {
           }
         }
       ), new Node({
-        html: '<div class="d-n-os-w-mi-480-w-ma-1023-ns"></div>',
-        css: ['@media only screen and (min-width: 480px) and (max-width: 1023px) { .d-n-os-w-mi-480-w-ma-1023-ns { display: none !important; } }']
+        html: `<div class="${className}"></div>`,
+        css: [`@media only screen and (min-width: 480px) and (max-width: 1023px), not speech { .${className} { display: none !important; } }`]
       })
     );
   });
