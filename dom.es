@@ -8,9 +8,9 @@
 
 
 import { ELEMENTS, att2Str, isVoid } from './src/html.es';
+import { doctype } from './index';
 import { classAppendAndCssFromMedia } from './ncss.es';
 import { isString, sortAndRemoveDups, toStr } from './util.es';
-
 
 const WARN = true;
 const DEBUG = false;
@@ -117,3 +117,9 @@ exports.Dom = Dom;
 ELEMENTS.forEach(k => {
   exports[k] = (...args) => new Node(k, ...args);
 });
+
+
+exports.doctype = (...args) => new Dom(doctype(...args));
+
+
+export default exports;

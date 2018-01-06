@@ -62,7 +62,8 @@ describe('dom', () => {
   });
 
   it('render', () => {
-    const dom = new Dom(
+    const dom = new Dom([
+      doctype(),
       html([
         head([
           title('Title')
@@ -79,10 +80,10 @@ describe('dom', () => {
           ]) // main
         ]) // body
       ]) // html
-    ); // Dom
+    ]); // Dom
     deepStrictEqual(
       dom.render(),
-      `<html><head><title>Title</title></head><body><main><h1>Heading</h1><div><p><span>Text</span><span></span></p></div></main></body></html>`
+      `<!DOCTYPE html><html><head><title>Title</title></head><body><main><h1>Heading</h1><div><p><span>Text</span><span></span></p></div></main></body></html>`
     ); // deepStrictEqual
   }); // it
 }); // describe
