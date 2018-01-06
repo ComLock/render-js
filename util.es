@@ -2,8 +2,11 @@
 /* eslint-disable no-unused-expressions */
 
 
-const DEBUG = false;
-const TRACE = false;
+// const DEBUG = false;
+// const TRACE = false;
+
+
+export const UNICODE_LETTERS = 'ÆÐƎƏƐƔĲŊŒẞÞǷȜæðǝəɛɣĳŋœĸſßþƿȝĄƁÇĐƊĘĦĮƘŁØƠŞȘŢȚŦŲƯY̨Ƴąɓçđɗęħįƙłøơşșţțŧųưy̨ƴÁÀÂÄǍĂĀÃÅǺĄÆǼǢƁĆĊĈČÇĎḌĐƊÐÉÈĖÊËĚĔĒĘẸƎƏƐĠĜǦĞĢƔáàâäǎăāãåǻąæǽǣɓćċĉčçďḍđɗðéèėêëěĕēęẹǝəɛġĝǧğģɣĤḤĦIÍÌİÎÏǏĬĪĨĮỊĲĴĶƘĹĻŁĽĿʼNŃN̈ŇÑŅŊÓÒÔÖǑŎŌÕŐỌØǾƠŒĥḥħıíìiîïǐĭīĩįịĳĵķƙĸĺļłľŀŉńn̈ňñņŋóòôöǒŏōõőọøǿơœŔŘŖŚŜŠŞȘṢẞŤŢṬŦÞÚÙÛÜǓŬŪŨŰŮŲỤƯẂẀŴẄǷÝỲŶŸȲỸƳŹŻŽẒŕřŗſśŝšşșṣßťţṭŧþúùûüǔŭūũűůųụưẃẁŵẅƿýỳŷÿȳỹƴźżžẓ';
 
 
 export function toStr(value) {
@@ -12,26 +15,28 @@ export function toStr(value) {
 
 
 export function camelize(str) {
-  TRACE && console.log(`camelize(${toStr(str)})`);
-  const camelizedStr = str.replace(
+  // TRACE && console.log(`camelize(${toStr(str)})`);
+  // const camelizedStr =
+  return str.replace(
     /(?:^\w|[A-Z]|\b\w)/g,
     (letter, index) => index === 0 // eslint-disable-line no-confusing-arrow
       ? letter.toLowerCase()
       : letter.toUpperCase()
   ).replace(/(\s|-)+/g, '');
-  DEBUG && console.log(`camelize(${toStr(str)}) --> ${camelizedStr}`);
-  return camelizedStr;
+  // DEBUG && console.log(`camelize(${toStr(str)}) --> ${camelizedStr}`);
+  // return camelizedStr;
 } // function camelize
 
 
 export function dasherize(str) {
-  TRACE && console.log(`dasherize(${toStr(str)})`);
-  const dasherizedStr = `${str}` // handle non-strings
+  // TRACE && console.log(`dasherize(${toStr(str)})`);
+  // const dasherizedStr =
+  return `${str}` // handle non-strings
     .replace(/([A-Z])/g, '-$1')
     .replace(/[-_\s]+/g, '-')
     .toLowerCase();
-  DEBUG && console.log(`dasherize(${toStr(str)}) --> ${dasherizedStr}`);
-  return dasherizedStr;
+  // DEBUG && console.log(`dasherize(${toStr(str)}) --> ${dasherizedStr}`);
+  // return dasherizedStr;
 } // function dasherize
 
 
@@ -43,9 +48,16 @@ export function isBool(value) {
 }
 
 
+/* eslint-disable no-restricted-globals */
 export function isInt(value) {
-  return typeof value === 'number' && isFinite(value) && Math.floor(value) === value; // eslint-disable-line no-restricted-globals
+  // TRACE && console.log(`isInt(${toStr(value)})`);
+  // const bool =
+  return typeof value === 'number' && isFinite(value) && Math.floor(value) === value;
+  // const bool = !isNaN(value) && parseInt(Number(value)) == value && !isNaN(parseInt(value, 10));
+  // DEBUG && console.log(`isInt(${toStr(value)}) --> ${bool}`);
+  // return bool;
 }
+/* eslint-enable no-restricted-globals */
 
 
 export function isSet(value) {

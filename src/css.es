@@ -1,14 +1,39 @@
+/* eslint-disable function-paren-newline */
 /* eslint-disable key-spacing */
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 /* eslint-disable no-multi-spaces */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable object-property-newline */
 
 
-import { dict, toStr } from '../util.es';
+import {
+  dict// ,
+  // toStr
+} from '../util.es';
 
 
-const DEBUG = false;
+// const DEBUG = false;
+
+/* http://stackoverflow.com/questions/448981/which-characters-are-valid-in-css-class-names-selectors
+ Basically, a name must begin with an underscore (_), a hyphen (-), or a letter(a–z),
+  followed by any number of hyphens, underscores, letters, or numbers.
+ There is a catch: if the first character is a hyphen,
+  the second character must2 be a letter or underscore,
+  and the name must be at least 2 characters long.
+ -?[_a-zA-Z]+[_a-zA-Z0-9-]*
+ https://discuss.enonic.com/t/sanitize-username-in-auth-createuser/996/3
+*/
+export function toClassName(value) {
+  return `${value}`                  // Handle non-strings
+    .replace(/[\n\r\t]+/gm, '')      // Remove some whitespace
+    .replace(/([A-Z])/g, '-$1')      // Insert - before large letters
+    .replace(/[^a-zA-Z0-9]+/g, '-') // Replace multiple illegal chars with -
+    .replace(/^-/, '')              // Trim - from start of text
+    .replace(/-$/, '')              // Trim - from end of text
+    .toLowerCase();
+} // export function toClassName
+
 
 export const CSS_MEDIA_ABBR = { // Abbreviation
   // Trying to use first letter in each word.
@@ -48,7 +73,7 @@ export const CSS_MEDIA_ABBR = { // Abbreviation
 
 export const CSS_MEDIA_WORD_TO_ABBR = dict(Object.keys(CSS_MEDIA_ABBR).map(a =>
   [CSS_MEDIA_ABBR[a], a]));
-DEBUG && console.log(`CSS_MEDIA_WORD_TO_ABBR:${toStr(CSS_MEDIA_WORD_TO_ABBR)}`);
+// DEBUG && console.log(`CSS_MEDIA_WORD_TO_ABBR:${toStr(CSS_MEDIA_WORD_TO_ABBR)}`);
 
 
 export const CSS_MEDIA_LOGICAL_OPERATORS = [ // https://developer.mozilla.org/en-US/docs/Web/CSS/@media#Logical_operators
@@ -481,4 +506,4 @@ export const CSS_PROP_VALUES_TO_ABBR = dict(Object.keys(CSS_PROP_VALUES_ABBR).ma
   prop,
   dict(Object.keys(CSS_PROP_VALUES_ABBR[prop]).map(a => [CSS_PROP_VALUES_ABBR[prop][a], a]))
 ]));
-DEBUG && console.log(`CSS_PROP_VALUES_TO_ABBR:${toStr(CSS_PROP_VALUES_TO_ABBR)}`);
+// DEBUG && console.log(`CSS_PROP_VALUES_TO_ABBR:${toStr(CSS_PROP_VALUES_TO_ABBR)}`);

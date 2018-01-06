@@ -6,6 +6,7 @@
 import { deepStrictEqual } from 'assert';
 import { render, doctype, html, head, title, style } from '../index';
 import { el, Node, body, div, p, main, h1 } from '../ncss.es';
+import { UNICODE_LETTERS } from '../util.es';
 
 
 describe('ncss', () => {
@@ -168,12 +169,16 @@ describe('ncss', () => {
     ); // deepStrictEqual
   }); // it
 
-  it('handles unknown css properties, int value assumed to be px, color', () => {
+  it('handles unknown css properties, int value assumed to be px, color, conver illegal chars', () => {
     const pre = '@media (min-width: 480px) { .';
     const classA = 'c-b-w-mi-480';
     const classB = 'd-invalid-w-mi-480';
-    const classC = 'pixel-100-w-mi-480';
-    const classD = 'un-known-va-lue-w-mi-480';
+    const classC = 'exclamation-exclamation-w-mi-480';
+    const classD = 'int-100px-w-mi-480';
+    const classE = 'percent-100-w-mi-480';
+    const classF = 'un-known-va-lue-w-mi-480';
+    const classG = 'underscore-underscore-w-mi-480';
+    const classH = 'unicode-letters-y-y-i-n-n-i-n-w-mi-480';
     deepStrictEqual(
       div({
         /* style: {
@@ -185,8 +190,12 @@ describe('ncss', () => {
             null: null,
             undef: undefined,
             unKnown: 'va lue',
-            pixel: 100,
-            color: 'black'
+            int: 100,
+            color: 'black',
+            percent: '100%',
+            exclamation: '!exclamation',
+            underscore: '_underscore_',
+            unicodeLetters: UNICODE_LETTERS
           }
         }
       })
@@ -194,10 +203,14 @@ describe('ncss', () => {
         css: [
           `${pre}${classA} { color: black !important; } }`,
           `${pre}${classB} { display: invalid !important; } }`,
-          `${pre}${classC} { pixel: 100px !important; } }`,
-          `${pre}${classD} { un-known: va lue !important; } }`
+          `${pre}${classC} { exclamation: !exclamation !important; } }`,
+          `${pre}${classD} { int: 100px !important; } }`,
+          `${pre}${classE} { percent: 100% !important; } }`,
+          `${pre}${classF} { un-known: va lue !important; } }`,
+          `${pre}${classG} { underscore: _underscore_ !important; } }`,
+          `${pre}${classH} { unicode-letters: ${UNICODE_LETTERS} !important; } }`
         ],
-        html: `<div class="${classA} ${classB} ${classC} ${classD}"></div>`
+        html: `<div class="${classA} ${classB} ${classC} ${classD} ${classE} ${classF} ${classG} ${classH}"></div>`
       })
     ); // deepStrictEqual
   }); // it

@@ -1,4 +1,5 @@
 /* eslint-disable import/prefer-default-export */
+/* eslint-disable max-len */
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
@@ -9,12 +10,12 @@ import {
   isSet,
   isString,
   objectToCssDeclarations,
-  sortAndRemoveDups,
-  toStr
+  sortAndRemoveDups// ,
+  // toStr
 } from './util.es';
 
 
-const DEBUG = false;
+// const DEBUG = false;
 const NEWLINE = '\n';
 const OBSOLETE_ELEMENTS = [
   'acronym', 'applet', 'basefont', 'big', 'blink', 'center', 'command', 'dir',
@@ -76,7 +77,7 @@ exports.el = (tag, attributes = null, content = null) => {
     throw new Error('When called with two arguments the first one must be an object!');
   }
   if (attributes) {
-    DEBUG && console.log(`attributes:${toStr(attributes)}`);
+    // DEBUG && console.log(`attributes:${toStr(attributes)}`);
     attributes = Object.keys(attributes).sort().map(a => {
       if (isSet(attributes[a])) {
         if (isString(attributes[a])) {
@@ -94,7 +95,7 @@ exports.el = (tag, attributes = null, content = null) => {
         if (a === 'style') {
           return `style="${objectToCssDeclarations(attributes[a])}"`;
         }
-        DEBUG && console.log(`Not string or array. attributes[${toStr(a)}]:${toStr(attributes[a])}`);
+        // DEBUG && console.log(`Not string or array. attributes[${toStr(a)}]:${toStr(attributes[a])}`);
         return `${dasherize(a)}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
       }
       return null;
@@ -106,13 +107,13 @@ exports.el = (tag, attributes = null, content = null) => {
   } else {
     attributes = '';
   }
-  DEBUG && console.log(`attributes:${toStr(attributes)}`);
+  // DEBUG && console.log(`attributes:${toStr(attributes)}`);
   if (content) {
     content = [].concat(content).join(NEWLINE);
   } else {
     content = '';
   }
-  DEBUG && console.log(`content:${toStr(content)}`);
+  // DEBUG && console.log(`content:${toStr(content)}`);
   const isSelfClosing = VOID_ELEMENTS.includes(tag); // || !(isSet(content) && content.length);
   return isSelfClosing ? `<${tag}${attributes}/>` : `<${tag}${attributes}>${content}</${tag}>`;
 }; // el
