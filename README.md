@@ -114,6 +114,10 @@ returning an object with named properties should be the way to go.
 
 ## Changelog
 
+### 1.3.0
+
+* Non Cascading Scaleable Styling
+
 ### 1.2.0
 
 * Dasherize attribute names.
