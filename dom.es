@@ -2,12 +2,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-expressions */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-useless-constructor */
 /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
 
 
 import { ELEMENTS, att2Str, isVoid } from './src/html.es';
-import { isString, toStr } from './util.es';
+import { classAppendAndCssFromMedia } from './ncss.es';
+import { isString, sortAndRemoveDups, toStr } from './util.es';
 
 
 const WARN = true;
@@ -18,14 +20,16 @@ const TRACE = false;
 const SYMBOL_TAG = '_t';
 // const SYMBOL_ATTRIBUTES = '_a';
 const SYMBOL_CHILDREN = '_c';
+const SYMBOL_CSS = '_css';
+const SYMBOL_HTML = '_h';
 const SYMBOL_SPEC = '_s';
 // const SYMBOL_PARENT = '_p';
 
 
 class Node {
-  static get children() { // Read-only accessor
+  /* static get children() { // Read-only accessor
     return this[SYMBOL_CHILDREN];
-  }
+  } */
 
   constructor(tag, spec, content) {
     TRACE && console.log(`new Node(${toStr(tag)}, ${toStr(spec)}, ${toStr(content)})`);
@@ -40,21 +44,44 @@ class Node {
     TRACE && console.log(`tag:${toStr(this[SYMBOL_TAG])}, spec:${toStr(this[SYMBOL_SPEC])}, children:${toStr(this[SYMBOL_CHILDREN])}`);
   } // constructor
 
-  render() {
+  build() {
     const tag = this[SYMBOL_TAG]; DEBUG && console.log(`tag:${toStr(tag)}`);
-    DEBUG && console.log(`spec:${toStr(this[SYMBOL_SPEC])}`);
-    const attributes = att2Str({ ...(this[SYMBOL_SPEC] || {}), _media: null }); DEBUG && console.log(`attributes:${toStr(attributes)}`);
-    if (isVoid(tag)) { return `<${tag}${attributes}/>`; }
-    const children = this[SYMBOL_CHILDREN]; DEBUG && console.log(`children:${toStr(children)}`);
-    if (!children) { return `<${tag}${attributes}></${tag}>`; }
-    if (isString(children)) { return `<${tag}${attributes}>${children}</${tag}>`; }
-    if (children instanceof Node) { return `<${tag}${attributes}>${children.render()}</${tag}>`; }
-    if (Array.isArray(children)) {
-      return `<${tag}${attributes}>${children.map(child => child.render()).join('')}</${tag}>`;
+    const spec = this[SYMBOL_SPEC] || {}; DEBUG && console.log(`spec:${toStr(spec)}`);
+    if (spec._media) {
+      const o = classAppendAndCssFromMedia(spec._media);
+      spec.class = [].concat(spec.class, o.classAppend).filter(n => n); // Remove null elements;
+      this[SYMBOL_CSS] = sortAndRemoveDups((this[SYMBOL_CSS] || []).concat(o.css));
     }
-    WARN && console.warn(`children not String, Node or Array of Nodes!`);
-    return '';
-  } // render
+    const attributes = att2Str({ ...spec, _media: null }); DEBUG && console.log(`attributes:${toStr(attributes)}`);
+    if (isVoid(tag)) { this[SYMBOL_HTML] = `<${tag}${attributes}/>`; return this; }
+    const children = this[SYMBOL_CHILDREN]; DEBUG && console.log(`children:${toStr(children)}`);
+    if (!children) { this[SYMBOL_HTML] = `<${tag}${attributes}></${tag}>`; return this; }
+    if (isString(children)) { this[SYMBOL_HTML] = `<${tag}${attributes}>${children}</${tag}>`; return this; }
+    if (children instanceof Node) {
+      children.build();
+      this[SYMBOL_HTML] = `<${tag}${attributes}>${children[SYMBOL_HTML]}</${tag}>`;
+      this[SYMBOL_CSS] = sortAndRemoveDups((this[SYMBOL_CSS] || []).concat(children[SYMBOL_CSS]));
+      return this;
+    }
+    if (Array.isArray(children)) {
+      children.forEach(child => child.build());
+      this[SYMBOL_HTML] = `<${tag}${attributes}>${children.map(child => child[SYMBOL_HTML]).join('')}</${tag}>`;
+      this[SYMBOL_CSS] = sortAndRemoveDups((this[SYMBOL_CSS] || [])
+        .concat(children.map(child => child[SYMBOL_CSS])));
+      return this;
+    }
+    WARN && console.warn(`NODE: children not String, Node or Array of Nodes!`);
+    this[SYMBOL_HTML] = '';
+    return this;
+  } // build
+
+  getCss() {
+    return this.build()[SYMBOL_CSS];
+  }
+
+  render() {
+    return this.build()[SYMBOL_HTML];
+  }
 } // class Node
 exports.Node = Node;
 
@@ -65,17 +92,24 @@ class Dom extends Node {
     super('', spec, content);
   }
 
-  render() {
+  build() {
     const children = this[SYMBOL_CHILDREN]; TRACE && console.log(`children:${toStr(children)}`);
-    if (!children) { return ''; }
-    if (isString(children)) { return children; }
-    if (children instanceof Node) { return children.render(); }
-    if (Array.isArray(children)) {
-      return children.map(child => child.render()).join('');
+    if (!children) { this[SYMBOL_HTML] = ''; return this; }
+    if (isString(children)) { this[SYMBOL_HTML] = children; return this; }
+    if (children instanceof Node) {
+      this[SYMBOL_HTML] = children.build()[SYMBOL_HTML];
+      this[SYMBOL_CSS] = children[SYMBOL_CSS] ? sortAndRemoveDups(children[SYMBOL_CSS]) : [];
+      return this;
     }
-    WARN && console.warn(`children not String, Node or Array of Nodes!`);
-    return '';
-  } // render
+    if (Array.isArray(children)) {
+      this[SYMBOL_HTML] = children.map(child => child.build()[SYMBOL_HTML]).join('');
+      this[SYMBOL_CSS] = sortAndRemoveDups(children.map(child => child[SYMBOL_CSS] || []));
+      return this;
+    }
+    WARN && console.warn(`DOM: children not String, Node or Array of Nodes!`);
+    this[SYMBOL_HTML] = '';
+    return this;
+  } // build
 } // class Dom
 exports.Dom = Dom;
 

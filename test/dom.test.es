@@ -39,6 +39,28 @@ describe('dom', () => {
     deepStrictEqual(custom({ key: 'value' }, 'Text').render(), '<custom key="value">Text</custom>');
   });
 
+  it('_media', () => {
+    const content = 'Only visible from screen width 480';
+    const className = 'd-b-w-mi-480';
+    const dom = body({
+      style: {
+        display: 'none'
+      },
+      _media: {
+        minWidth480: {
+          display: 'block'
+        }
+      }
+    }, content);
+    deepStrictEqual(
+      dom.getCss(), [`@media (min-width: 480px) { .${className} { display: block !important; } }`]
+    );
+    deepStrictEqual(
+      dom.render(),
+      `<body class="${className}" style="display: none">${content}</body>`
+    ); // deepStrictEqual
+  });
+
   it('render', () => {
     const dom = new Dom(
       html([

@@ -90,6 +90,7 @@ function classAppendAndCssFromMedia(media) {
     css
   };
 } // function classAppendAndCssFromMedia
+exports.classAppendAndCssFromMedia = classAppendAndCssFromMedia;
 
 
 exports.el = (tag, spec = null, content = null) => {
