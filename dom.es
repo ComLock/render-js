@@ -51,6 +51,8 @@ class Node {
       const o = classAppendAndCssFromMedia(spec._media);
       spec.class = [].concat(spec.class, o.classAppend).filter(n => n); // Remove null elements;
       this[SYMBOL_CSS] = sortAndRemoveDups((this[SYMBOL_CSS] || []).concat(o.css));
+    } else {
+      this[SYMBOL_CSS] = [];
     }
     const attributes = att2Str({ ...spec, _media: null }); DEBUG && console.log(`attributes:${toStr(attributes)}`);
     if (isVoid(tag)) { this[SYMBOL_HTML] = `<${tag}${attributes}/>`; return this; }
@@ -66,8 +68,8 @@ class Node {
     if (Array.isArray(children)) {
       children.forEach(child => child.build());
       this[SYMBOL_HTML] = `<${tag}${attributes}>${children.map(child => child[SYMBOL_HTML]).join('')}</${tag}>`;
-      this[SYMBOL_CSS] = sortAndRemoveDups((this[SYMBOL_CSS] || [])
-        .concat(children.map(child => child[SYMBOL_CSS])));
+      this[SYMBOL_CSS] = sortAndRemoveDups([]
+        .concat(this[SYMBOL_CSS], ...children.map(child => child[SYMBOL_CSS])));
       return this;
     }
     WARN && console.warn(`NODE: children not String, Node or Array of Nodes!`);

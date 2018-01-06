@@ -1,4 +1,5 @@
 /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
+/* eslint-disable no-console */
 /* eslint-disable function-paren-newline */
 /* eslint-disable no-unused-vars */
 /* global describe it */
@@ -7,9 +8,10 @@
 import { deepStrictEqual } from 'assert';
 import {
   Dom, Node,
-  doctype, html, head, title,
+  doctype, html, head, title, style,
   body, main, h1, div, p, span
 } from '../dom.es';
+import { toStr } from '../util.es';
 
 
 describe('dom', () => {
@@ -62,28 +64,40 @@ describe('dom', () => {
   });
 
   it('render', () => {
+    const className = 'd-b-w-mi-480';
+    const b = body([
+      main([
+        h1('Heading'),
+        div(
+          p([
+            span({
+              style: {
+                display: 'none'
+              },
+              _media: {
+                minWidth480: {
+                  display: 'block'
+                }
+              }
+            }, 'Text'),
+            span() // Test empty element
+          ]) // p
+        ) // div
+      ]) // main
+    ]); // body
     const dom = new Dom([
       doctype(),
       html([
         head([
-          title('Title')
+          title('Title'),
+          style({ type: 'text/css' }, b.getCss().join('\n'))
         ]),
-        body([
-          main([
-            h1('Heading'),
-            div(
-              p([
-                span('Text'),
-                span() // Test empty element
-              ]) // p
-            ) // div
-          ]) // main
-        ]) // body
+        b
       ]) // html
     ]); // Dom
     deepStrictEqual(
       dom.render(),
-      `<!DOCTYPE html><html><head><title>Title</title></head><body><main><h1>Heading</h1><div><p><span>Text</span><span></span></p></div></main></body></html>`
+      `<!DOCTYPE html><html><head><title>Title</title><style type="text/css">@media (min-width: 480px) { .d-b-w-mi-480 { display: block !important; } }</style></head><body><main><h1>Heading</h1><div><p><span class="${className}" style="display: none">Text</span><span></span></p></div></main></body></html>`
     ); // deepStrictEqual
   }); // it
 }); // describe
