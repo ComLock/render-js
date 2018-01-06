@@ -9,7 +9,8 @@ This library can be imported and used in at least 3 ways: dom, ncss and index
 ### Dom (ECMAscript 2015)
 
 ```js
-import { Dom, doctype, html, head, title, style, body, main, h1, div, p, span } from 'render-js';
+import { Dom, doctype, html, head, title, style,
+  body, main, h1, div, p, span } from 'render-js';
 const bodyElement = body([
   main([
     h1('Heading'),
