@@ -3,10 +3,12 @@ const path = require('path');
 
 const WEBPACK_CONFIG = {
   entry: {
+    dom: path.resolve(__dirname, 'dom.es'),
     index: path.resolve(__dirname, 'index.js'),
     input: path.resolve(__dirname, 'input.js'),
     ncss: path.resolve(__dirname, 'ncss.es'),
     'src/css': path.resolve(__dirname, 'src/css.es'),
+    'src/html': path.resolve(__dirname, 'src/html.es'),
     util: path.resolve(__dirname, 'util.es')
   },
   devtool: false, // Don't waste time generating sourceMaps
