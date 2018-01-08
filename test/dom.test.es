@@ -4,8 +4,8 @@
 /* eslint-disable no-unused-vars */
 /* global describe it */
 
-
 import { deepStrictEqual } from 'assert';
+import { removeWhiteSpace } from './util.es';
 import {
   Dom, Node,
   doctype, html, head, title, style,
@@ -43,7 +43,8 @@ describe('dom', () => {
 
   it('_media', () => {
     const content = 'Only visible from screen width 480';
-    const className = 'd-b-w-mi-480';
+    const classA = 'd-n';
+    const classB = 'd-b-w-mi-480';
     const dom = body({
       style: {
         display: 'none'
@@ -55,16 +56,20 @@ describe('dom', () => {
       }
     }, content);
     deepStrictEqual(
-      dom.getCss(), [`@media (min-width: 480px) { .${className} { display: block !important; } }`]
+      dom.getCss(), [
+        `.${classA}{display:none}`,
+        `@media (min-width: 480px){.${classB}{display:block}}`
+      ]
     );
     deepStrictEqual(
       dom.render(),
-      `<body class="${className}" style="display: none">${content}</body>`
+      `<body class="${classB} ${classA}">${content}</body>`
     ); // deepStrictEqual
   });
 
   it('render', () => {
-    const className = 'd-b-w-mi-480';
+    const classA = 'd-n';
+    const classB = 'd-b-w-mi-480';
     const b = body([
       main([
         h1('Heading'),
@@ -90,14 +95,34 @@ describe('dom', () => {
       html([
         head([
           title('Title'),
-          style({ type: 'text/css' }, b.getCss().join('\n'))
+          style({ type: 'text/css' }, b.getCss().join(''))
         ]),
         b
       ]) // html
     ]); // Dom
     deepStrictEqual(
       dom.render(),
-      `<!DOCTYPE html><html><head><title>Title</title><style type="text/css">@media (min-width: 480px) { .d-b-w-mi-480 { display: block !important; } }</style></head><body><main><h1>Heading</h1><div><p><span class="${className}" style="display: none">Text</span><span></span></p></div></main></body></html>`
+      removeWhiteSpace(`
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <style type="text/css">
+      .${classA}{display:none}
+      @media (min-width: 480px){.${classB}{display:block}}
+    </style></head>
+  <body>
+    <main>
+      <h1>Heading</h1>
+      <div>
+        <p>
+          <span class="${classB} ${classA}">Text</span>
+          <span></span>
+        </p>
+      </div>
+    </main>
+  </body>
+</html>`)
     ); // deepStrictEqual
   }); // it
 }); // describe

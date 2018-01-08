@@ -32,6 +32,7 @@ describe('ncss', () => {
   });
 
   it('element with only second argument of type Object', () => {
+    const className = 'd-n';
     deepStrictEqual(
       el(
         'div', {
@@ -40,13 +41,14 @@ describe('ncss', () => {
           }
         }
       ), new Node({
-        html: '<div style="display: none"></div>',
-        css: []
+        html: `<div class="${className}"></div>`,
+        css: [`.${className}{display:none}`]
       })
     );
   });
 
   it('element with spec and third argument of type String', () => {
+    const className = 'd-n';
     deepStrictEqual(
       el(
         'h1', {
@@ -55,13 +57,14 @@ describe('ncss', () => {
           }
         }, 'String'
       ), new Node({
-        html: '<h1 style="display: none">String</h1>',
-        css: []
+        html: `<h1 class="${className}">String</h1>`,
+        css: [`.${className}{display:none}`]
       })
     );
   });
 
   it('element with spec and third argument of type Node', () => {
+    const className = 'd-n';
     deepStrictEqual(
       el(
         'div', {
@@ -70,8 +73,8 @@ describe('ncss', () => {
           }
         }, el('p', 'String')
       ), new Node({
-        html: '<div style="display: none"><p>String</p></div>',
-        css: []
+        html: `<div class="${className}"><p>String</p></div>`,
+        css: [`.${className}{display:none}`]
       })
     );
   });
@@ -89,14 +92,16 @@ describe('ncss', () => {
         }
       ), new Node({
         html: `<div class="${className}"></div>`,
-        css: [`@media only screen and (min-width: 480px) and (max-width: 1023px), not speech { .${className} { display: none !important; } }`]
+        css: [`@media only screen and (min-width: 480px) and (max-width: 1023px), not speech{.${className}{display:none}}`]
       })
     );
   });
 
   it('nested elements with spec.style and spec._media', () => {
-    const classA = 'd-b-w-mi-480';
-    const classB = 'd-ib-w-mi-1024';
+    const classA = 'c-b';
+    const classB = 'd-n';
+    const classC = 'd-b-w-mi-480';
+    const classD = 'd-ib-w-mi-1024';
     deepStrictEqual(
       div({
         style: {
@@ -125,10 +130,12 @@ describe('ncss', () => {
       }, 'String') // p
       ), // div
       new Node({
-        html: `<div class="${classA} ${classB}" style="display: none"><p class="${classA} ${classB}" style="color: black">String</p></div>`,
+        html: `<div class="${classC} ${classD} ${classB}"><p class="${classA} ${classC} ${classD}">String</p></div>`,
         css: [ // NOTE Order changes due to sortAndRemoveDups
-          `@media (min-width: 1024px) { .${classB} { display: inline-block !important; } }`,
-          `@media (min-width: 480px) { .${classA} { display: block !important; } }`
+          `.${classA}{color:black}`,
+          `.${classB}{display:none}`,
+          `@media (min-width: 1024px){.${classD}{display:inline-block}}`,
+          `@media (min-width: 480px){.${classC}{display:block}}`
         ]
       })
     ); // deepStrictEqual
@@ -163,27 +170,29 @@ describe('ncss', () => {
         ])
       ), // render
       `<html><head><title>Title</title>
-<style type="text/css">@media (min-width: 1024px) { .d-ib-w-mi-1024 { display: inline-block !important; } }
-@media (min-width: 480px) { .d-b-w-mi-480 { display: block !important; } }</style></head>
-<body><main><h1 class="d-b-w-mi-480 d-ib-w-mi-1024" style="color: black">Main heading</h1></main></body></html>`
+<style type="text/css">.c-b{color:black}
+@media (min-width: 1024px){.d-ib-w-mi-1024{display:inline-block}}
+@media (min-width: 480px){.d-b-w-mi-480{display:block}}</style></head>
+<body><main><h1 class="c-b d-b-w-mi-480 d-ib-w-mi-1024">Main heading</h1></main></body></html>`
     ); // deepStrictEqual
   }); // it
 
   it('handles unknown css properties, int value assumed to be px, color, conver illegal chars', () => {
-    const pre = '@media (min-width: 480px) { .';
-    const classA = 'c-b-w-mi-480';
-    const classB = 'd-invalid-w-mi-480';
-    const classC = 'exclamation-exclamation-w-mi-480';
-    const classD = 'int-100px-w-mi-480';
-    const classE = 'percent-100-w-mi-480';
-    const classF = 'un-known-va-lue-w-mi-480';
-    const classG = 'underscore-underscore-w-mi-480';
-    const classH = 'unicode-letters-y-y-i-n-n-i-n-w-mi-480';
+    const pre = '@media (min-width: 480px){.';
+    const classA = 'un-known-100px';
+    const classB = 'c-b-w-mi-480';
+    const classC = 'd-invalid-w-mi-480';
+    const classD = 'exclamation-exclamation-w-mi-480';
+    const classE = 'int-100px-w-mi-480';
+    const classF = 'percent-100-w-mi-480';
+    const classG = 'un-known-va-lue-w-mi-480';
+    const classH = 'underscore-underscore-w-mi-480';
+    const classI = 'unicode-letters-y-y-i-n-n-i-n-w-mi-480';
     deepStrictEqual(
       div({
-        /* style: {
+        style: {
           unKnown: 100
-        }, */
+        },
         _media: {
           minWidth480: {
             display: 'invalid',
@@ -201,16 +210,17 @@ describe('ncss', () => {
       })
       , new Node({
         css: [
-          `${pre}${classA} { color: black !important; } }`,
-          `${pre}${classB} { display: invalid !important; } }`,
-          `${pre}${classC} { exclamation: !exclamation !important; } }`,
-          `${pre}${classD} { int: 100px !important; } }`,
-          `${pre}${classE} { percent: 100% !important; } }`,
-          `${pre}${classF} { un-known: va lue !important; } }`,
-          `${pre}${classG} { underscore: _underscore_ !important; } }`,
-          `${pre}${classH} { unicode-letters: ${UNICODE_LETTERS} !important; } }`
+          `.${classA}{un-known:100px}`,
+          `${pre}${classB}{color:black}}`,
+          `${pre}${classC}{display:invalid}}`,
+          `${pre}${classD}{exclamation:!exclamation}}`,
+          `${pre}${classE}{int:100px}}`,
+          `${pre}${classF}{percent:100%}}`,
+          `${pre}${classG}{un-known:va lue}}`,
+          `${pre}${classH}{underscore:_underscore_}}`,
+          `${pre}${classI}{unicode-letters:${UNICODE_LETTERS}}}`
         ],
-        html: `<div class="${classA} ${classB} ${classC} ${classD} ${classE} ${classF} ${classG} ${classH}"></div>`
+        html: `<div class="${classB} ${classC} ${classD} ${classE} ${classF} ${classA} ${classG} ${classH} ${classI}"></div>`
       })
     ); // deepStrictEqual
   }); // it

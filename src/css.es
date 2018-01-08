@@ -8,8 +8,10 @@
 
 
 import {
-  dict// ,
-  // toStr
+  dasherize,
+  dict,
+  isInt,
+  toStr
 } from '../util.es';
 
 
@@ -507,3 +509,78 @@ export const CSS_PROP_VALUES_TO_ABBR = dict(Object.keys(CSS_PROP_VALUES_ABBR).ma
   dict(Object.keys(CSS_PROP_VALUES_ABBR[prop]).map(a => [CSS_PROP_VALUES_ABBR[prop][a], a]))
 ]));
 // DEBUG && console.log(`CSS_PROP_VALUES_TO_ABBR:${toStr(CSS_PROP_VALUES_TO_ABBR)}`);
+
+
+export function classAppendAndCssFromStyle(
+  style,
+  {
+    classAppend = [],
+    css = [],
+    prefix = '',
+    postfix = ''
+  } = {}
+) {
+  /* TRACE && console.log(`classAppendAndCssFromStyle(${toStr(style)}, ${toStr({
+    classAppend, css, prefix, postfix
+  })})`); */
+  Object.keys(style).forEach(prop => {
+    let value = style[prop];
+    if (value) {
+      const dashProp = dasherize(prop); // TRACE && console.log(`dashProp:${toStr(dashProp)}`);
+      const propAbbr = CSS_PROP_TO_ABBR[dashProp] || toClassName(prop);
+      /* if (WARN && !CSS_PROP_TO_ABBR[dashProp]) {
+        console.warn(`WARN: Couldn't find abbreviation for property:${prop} falling back to toClassName on property:${propAbbr}`);
+      } */
+      if (isInt(value)) { value = `${value}px`; } // TRACE && console.log(`value:${toStr(value)}`);
+      const valueAbbr = (CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][value]) || toClassName(value);
+      /* if (WARN && !(CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][value])) {
+        console.warn(`WARN: Couldn't find abbreviation for property:${prop} value:${value} falling back to toClassName on value:${valueAbbr}`);
+      } */
+      const className = `${prefix}${propAbbr}-${valueAbbr}${postfix}`;
+      classAppend.push(className);
+      // css.push(`@media ${mediaQueryList.join(', ')} { .${className} { ${dashProp}: ${value} !important; } }`);
+      css.push(`.${className}{${dashProp}:${value}}`);
+    } /* else {
+      WARN && console.warn(`WARN: Ignoring property:${prop} due to no value`);
+    } */
+  }); // forEach prop
+  return {
+    classAppend,
+    css
+  };
+} // export function classAppendAndCssFromStyle
+
+
+export function classAppendAndCssFromMedia(media) {
+  // TRACE && console.log(`media:${toStr(media)}`);
+  const classAppend = [];
+  const css = [];
+  Object.keys(media).forEach(mediaRuleKey => { // only_screen_and_minWidth480_and_maxWidth1023_comma_not_speech
+    let postfix = '';
+    const mediaQueryList = mediaRuleKey.split('_comma_').map(mediaQueryAbbr =>
+      mediaQueryAbbr.split('_').map(mediaWord => {
+        // TRACE && console.log(`mediaWord:${toStr(mediaWord)}`);
+        if (CSS_MEDIA_WORD_TO_ABBR[mediaWord]) {
+          postfix = `${postfix}-${CSS_MEDIA_WORD_TO_ABBR[mediaWord]}`;
+          return mediaWord;
+        }
+        const match = /^(maxWidth|minWidth)(.*)$/.exec(mediaWord);
+        if (match) {
+          // TRACE && console.log(`match:${toStr(match)}`);
+          postfix = `${postfix}-${CSS_MEDIA_WORD_TO_ABBR[dasherize(match[1])]}-${match[2]}`;
+          return `(${dasherize(match[1])}: ${match[2]}px)`;
+        }
+        throw new Error(`No match in mediaWord:${toStr(mediaWord)} mediaQueryAbbr:${toStr(mediaQueryAbbr)} mediaQueryList:${toStr(mediaQueryList)} mediaRuleKey:${toStr(mediaRuleKey)} media:${toStr(media)}`);
+        /* console.warn(`No match in mediaWord:${mediaWord}`);
+        return ''; */
+      }).join(' ') // map mediaWord
+    ); // map mediaQueryAbbr
+    const s = classAppendAndCssFromStyle(media[mediaRuleKey], { postfix });
+    classAppend.push(...s.classAppend);
+    s.css.forEach(scss => css.push(`@media ${mediaQueryList.join(', ')}{${scss}}`));
+  }); // forEach mediaRuleKey
+  return {
+    classAppend,
+    css
+  };
+} // export function classAppendAndCssFromMedia
