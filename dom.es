@@ -45,17 +45,19 @@ class Node {
     TRACE && console.log(`tag:${toStr(this[SYMBOL_TAG])}, spec:${toStr(this[SYMBOL_SPEC])}, children:${toStr(this[SYMBOL_CHILDREN])}`);
   } // constructor
 
-  build() {
+  build({
+    autoprefixer = true
+  } = {}) {
     const tag = this[SYMBOL_TAG]; DEBUG && console.log(`tag:${toStr(tag)}`);
     const spec = this[SYMBOL_SPEC] || {}; DEBUG && console.log(`spec:${toStr(spec)}`);
     if (spec.style) {
-      const s = classAppendAndCssFromStyle(spec.style);
+      const s = classAppendAndCssFromStyle(spec.style, { autoprefixer });
       spec.class = [].concat(spec.class, s.classAppend).filter(n => n); // Remove null elements;
       this[SYMBOL_CSS] = sortAndRemoveDups(this[SYMBOL_CSS].concat(s.css));
       spec.style = null;
     }
     if (spec._media) {
-      const o = classAppendAndCssFromMedia(spec._media);
+      const o = classAppendAndCssFromMedia(spec._media, { autoprefixer });
       spec.class = [].concat(spec.class, o.classAppend).filter(n => n); // Remove null elements;
       this[SYMBOL_CSS] = sortAndRemoveDups(this[SYMBOL_CSS].concat(o.css));
     }

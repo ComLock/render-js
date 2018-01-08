@@ -1,18 +1,23 @@
 /* eslint-disable function-paren-newline */
 /* eslint-disable key-spacing */
 /* eslint-disable max-len */
+/* eslint-disable no-confusing-arrow */
 /* eslint-disable no-console */
 /* eslint-disable no-multi-spaces */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable object-property-newline */
 
-
+import _autoprefixer from 'autoprefixer';
+import { sync as postCssSync } from 'postcss-js';
 import {
   dasherize,
   dict,
   isInt,
   toStr
 } from '../util.es';
+
+
+const prefixer = postCssSync([_autoprefixer]);
 
 
 // const DEBUG = false;
@@ -514,6 +519,7 @@ export const CSS_PROP_VALUES_TO_ABBR = dict(Object.keys(CSS_PROP_VALUES_ABBR).ma
 export function classAppendAndCssFromStyle(
   style,
   {
+    autoprefixer = true,
     classAppend = [],
     css = [],
     prefix = '',
@@ -523,23 +529,34 @@ export function classAppendAndCssFromStyle(
   /* TRACE && console.log(`classAppendAndCssFromStyle(${toStr(style)}, ${toStr({
     classAppend, css, prefix, postfix
   })})`); */
+  const maybePrefixedStyle = autoprefixer ? prefixer(style) : style; // TRACE && console.log(`maybePrefixedStyle:${toStr(maybePrefixedStyle)}`);
   Object.keys(style).forEach(prop => {
-    let value = style[prop];
+    let value = maybePrefixedStyle[prop];
     if (value) {
       const dashProp = dasherize(prop); // TRACE && console.log(`dashProp:${toStr(dashProp)}`);
       const propAbbr = CSS_PROP_TO_ABBR[dashProp] || toClassName(prop);
       /* if (WARN && !CSS_PROP_TO_ABBR[dashProp]) {
         console.warn(`WARN: Couldn't find abbreviation for property:${prop} falling back to toClassName on property:${propAbbr}`);
       } */
-      if (isInt(value)) { value = `${value}px`; } // TRACE && console.log(`value:${toStr(value)}`);
-      const valueAbbr = (CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][value]) || toClassName(value);
+      let lastValue = value;
+      if (isInt(value)) {
+        value = `${value}px`; // TRACE && console.log(`value:${toStr(value)}`);
+      } else if (Array.isArray(value)) {
+        value = value.map(v => isInt(v) ? `${v}px` : v);
+        lastValue = value[value.length - 1];
+      }
+      const valueAbbr = (CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][lastValue]) || toClassName(lastValue);
       /* if (WARN && !(CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][value])) {
         console.warn(`WARN: Couldn't find abbreviation for property:${prop} value:${value} falling back to toClassName on value:${valueAbbr}`);
       } */
       const className = `${prefix}${propAbbr}-${valueAbbr}${postfix}`;
       classAppend.push(className);
-      // css.push(`@media ${mediaQueryList.join(', ')} { .${className} { ${dashProp}: ${value} !important; } }`);
-      css.push(`.${className}{${dashProp}:${value}}`);
+      if (Array.isArray(value)) {
+        const props = value.map(v => `${dashProp}:${v}`).join(';');
+        css.push(`.${className}{${props}}`);
+      } else {
+        css.push(`.${className}{${dashProp}:${value}}`);
+      }
     } /* else {
       WARN && console.warn(`WARN: Ignoring property:${prop} due to no value`);
     } */
@@ -551,7 +568,12 @@ export function classAppendAndCssFromStyle(
 } // export function classAppendAndCssFromStyle
 
 
-export function classAppendAndCssFromMedia(media) {
+export function classAppendAndCssFromMedia(
+  media,
+  {
+    autoprefixer = true
+  } = {}
+) {
   // TRACE && console.log(`media:${toStr(media)}`);
   const classAppend = [];
   const css = [];
@@ -575,7 +597,7 @@ export function classAppendAndCssFromMedia(media) {
         return ''; */
       }).join(' ') // map mediaWord
     ); // map mediaQueryAbbr
-    const s = classAppendAndCssFromStyle(media[mediaRuleKey], { postfix });
+    const s = classAppendAndCssFromStyle(media[mediaRuleKey], { autoprefixer, postfix });
     classAppend.push(...s.classAppend);
     s.css.forEach(scss => css.push(`@media ${mediaQueryList.join(', ')}{${scss}}`));
   }); // forEach mediaRuleKey

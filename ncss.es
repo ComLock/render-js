@@ -39,7 +39,14 @@ class Node {
 exports.Node = Node;
 
 
-exports.el = (tag, spec = null, content = null) => {
+exports.el = (
+  tag,
+  spec = null,
+  content = null,
+  {
+    autoprefixer = true
+  } = {}
+) => {
   // TRACE && console.log(`tag:${toStr(tag)} spec:${toStr(spec)} content:${toStr(content)}`);
   // TRACE && console.log(`spec instanceof Node:${spec instanceof Node}`);
   if (isString(spec) || spec instanceof Node) {
@@ -50,13 +57,13 @@ exports.el = (tag, spec = null, content = null) => {
   let css = content instanceof Node ? content.css : []; // Assuming Node always has a css property.
   if (spec) {
     if (spec.style) {
-      const s = classAppendAndCssFromStyle(spec.style);
+      const s = classAppendAndCssFromStyle(spec.style, { autoprefixer });
       spec.class = [].concat(spec.class, s.classAppend).filter(n => n); // Remove null elements;
       css = sortAndRemoveDups(css.concat(s.css));
       spec.style = null; // Generate away the style attribute, so we can avoid !important
     }
     if (spec._media) {
-      const o = classAppendAndCssFromMedia(spec._media);
+      const o = classAppendAndCssFromMedia(spec._media, { autoprefixer });
       spec.class = [].concat(spec.class, o.classAppend).filter(n => n); // Remove null elements;
       css = sortAndRemoveDups(css.concat(o.css));
       // TRACE && console.log(`css:${toStr(css)}`);
