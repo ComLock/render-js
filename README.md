@@ -53,11 +53,8 @@ Which will give you this html (without whitespace and indentation):
 <head>
   <title>Title</title>
   <style type="text/css">
-    @media (min-width: 480px) {
-      .d-b-w-mi-480 {
-        display: block !important;
-      }
-    }
+    .d-n{display: none}
+    @media (min-width: 480px) {.d-b-w-mi-480{display: block}}
   </style>
 </head>
 <body>
@@ -65,10 +62,7 @@ Which will give you this html (without whitespace and indentation):
     <h1>Heading</h1>
     <div>
       <p>
-        <span
-          class="d-b-w-mi-480"
-          style="display: none"
-        >Only visible from tablet up</span>
+        <span class="d-b-w-mi-480 d-n">Only visible from tablet up</span>
       </p>
     </div>
   </main>
@@ -186,6 +180,11 @@ In terms of extendability, returning an object with named properties should be t
 | 0.x.x       | 6.12.2     |
 
 ## Changelog
+
+### 1.5.0
+
+* Generate CSS from style too, so !important can be avoided.
+* Some Dom fixes
 
 ### 1.4.0
 
