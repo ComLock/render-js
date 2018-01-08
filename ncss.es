@@ -59,9 +59,14 @@ function classAppendAndCssFromMedia(media) {
           return mediaWord;
         }
         const match = /^(maxWidth|minWidth)(.*)$/.exec(mediaWord);
-        // TRACE && console.log(`match:${toStr(match)}`);
-        postfix = `${postfix}-${CSS_MEDIA_WORD_TO_ABBR[dasherize(match[1])]}-${match[2]}`;
-        return `(${dasherize(match[1])}: ${match[2]}px)`;
+        if (match) {
+          // TRACE && console.log(`match:${toStr(match)}`);
+          postfix = `${postfix}-${CSS_MEDIA_WORD_TO_ABBR[dasherize(match[1])]}-${match[2]}`;
+          return `(${dasherize(match[1])}: ${match[2]}px)`;
+        }
+        throw new Error(`No match in mediaWord:${toStr(mediaWord)} mediaQueryAbbr:${toStr(mediaQueryAbbr)} mediaQueryList:${toStr(mediaQueryList)} mediaRuleKey:${toStr(mediaRuleKey)} media:${toStr(media)}`);
+        /*console.warn(`No match in mediaWord:${mediaWord}`);
+        return '';*/
       }).join(' '); // map mediaWord
     }); // map mediaQueryAbbr
     Object.keys(media[mediaRuleKey]).forEach(prop => {

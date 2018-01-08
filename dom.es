@@ -39,7 +39,7 @@ class Node {
       content = spec;
       spec = {};
     }
-    this[SYMBOL_CHILDREN] = content;
+    this[SYMBOL_CHILDREN] = Array.isArray(content) ? content.filter(n => n) : content;
     this[SYMBOL_SPEC] = spec;
     TRACE && console.log(`tag:${toStr(this[SYMBOL_TAG])}, spec:${toStr(this[SYMBOL_SPEC])}, children:${toStr(this[SYMBOL_CHILDREN])}`);
   } // constructor
@@ -66,7 +66,13 @@ class Node {
       return this;
     }
     if (Array.isArray(children)) {
-      children.forEach(child => child.build());
+      children.forEach(child => {
+        try {
+          child.build();
+        } catch (e) {
+          throw new Error(`child doesn't have a build method message:${e.message} child:${toStr(child)} children:${toStr(children)}`);
+        }
+      });
       this[SYMBOL_HTML] = `<${tag}${attributes}>${children.map(child => child[SYMBOL_HTML]).join('')}</${tag}>`;
       this[SYMBOL_CSS] = sortAndRemoveDups([]
         .concat(this[SYMBOL_CSS], ...children.map(child => child[SYMBOL_CSS])));
