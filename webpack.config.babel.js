@@ -24,6 +24,7 @@ const WEBPACK_CONFIG = {
           minified: false,
           plugins: [
             'array-includes',
+            'optimize-starts-with',
             'transform-object-assign',
             'transform-object-rest-spread'
           ],
