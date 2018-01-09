@@ -8,8 +8,8 @@
 
 /* eslint-enable no-console */
 
-//import _autoprefixer from 'autoprefixer';
-//import { sync as postCssSync } from 'postcss-js';
+// import _autoprefixer from 'autoprefixer';
+// import { sync as postCssSync } from 'postcss-js';
 import {
   dasherize,
   dict,
@@ -18,10 +18,12 @@ import {
 } from '../util.es';
 
 
-//const prefixer = postCssSync([_autoprefixer]);
+// const prefixer = postCssSync([_autoprefixer]);
 
 
-// const DEBUG = false;
+// const WARN = true;
+// const DEBUG = true;
+// const TRACE = false;
 
 /* http://stackoverflow.com/questions/448981/which-characters-are-valid-in-css-class-names-selectors
  Basically, a name must begin with an underscore (_), a hyphen (-), or a letter(a–z),
@@ -143,12 +145,12 @@ export const CSS_PSEUDO_CLASSES_ABBR = { // https://www.w3schools.com/cssref/css
   lc:  'last-child',
   lot: 'last-of-type',
   l:   'link',
-  //lang
-  //not
-  //nth-child
-  //nth-last-child
-  //nth-last-of-type
-  //nth-of-type
+  // lang
+  // not
+  // nth-child
+  // nth-last-child
+  // nth-last-of-type
+  // nth-of-type
   oot: 'only-of-type',
   oc:  'only-child',
   o:   'optional',
@@ -160,20 +162,22 @@ export const CSS_PSEUDO_CLASSES_ABBR = { // https://www.w3schools.com/cssref/css
   t:   'target',
   va:  'valid',
   vi:  'visited'
-}; // export const CSS_PSEUDO_SELECTORS_ABBR
-export const CSS_PSEUDO_SELECTORS_TO_ABBR = dict(Object.keys(CSS_PSEUDO_SELECTORS_ABBR).map(a =>
-  [CSS_PSEUDO_SELECTORS_ABBR[a], a]));
-
+}; // export const CSS_PSEUDO_CLASSES_ABBR
+export const CSS_PSEUDO_CLASSES_TO_ABBR = dict(Object.keys(CSS_PSEUDO_CLASSES_ABBR).map(a =>
+  [CSS_PSEUDO_CLASSES_ABBR[a], a]));
 
 export const CSS_PSEUDO_ELEMENTS_ABBR = {
-  af: 'after'
-  b:  'before'
-  fl: 'first-letter'
-  fl: 'first-line'
-  s:  'selection'
+  af:  'after',
+  b:   'before',
+  fl:  'first-letter',
+  fli: 'first-line',
+  s:   'selection'
 }; // export const CSS_PSEUDO_ELEMENTS_ABBR
 export const CSS_PSEUDO_ELEMENTS_TO_ABBR = dict(Object.keys(CSS_PSEUDO_ELEMENTS_ABBR).map(a =>
   [CSS_PSEUDO_ELEMENTS_ABBR[a], a]));
+
+export const CSS_PSEUDO_SELECTORS_TO_ABBR = Object.assign({},
+  CSS_PSEUDO_CLASSES_TO_ABBR, CSS_PSEUDO_ELEMENTS_TO_ABBR);
 
 
 // http://stackoverflow.com/questions/448981/which-characters-are-valid-in-css-class-names-selectors -?[_a-zA-Z]+[_a-zA-Z0-9-]*
@@ -508,20 +512,20 @@ const CSS_BORDER_STYLE_VALUES_ABBR = {
 
 const CSS_DISPLAY_VALUES_ABBR = {
   // Global
-  ih:  'inherit',
-  ini: 'initial',
-  u:   'unset',
-  rv:  'revert',
+  ih:    'inherit',
+  ini:   'initial',
+  u:     'unset',
+  rv:    'revert',
   // Display https://developer.mozilla.org/en-US/docs/Web/CSS/display#Values
-  b:    'block',
-  f:    'flex',
+  b:     'block',
+  f:     'flex',
   fl:    'flow',
-  fr:   'flow-root',
-  g:    'grid',
-  i:    'inline',
-  ib:   'inline-block',
-  if:   'inline-flex',
-  it:   'inline-table',
+  fr:    'flow-root',
+  g:     'grid',
+  i:     'inline',
+  ib:    'inline-block',
+  if:    'inline-flex',
+  it:    'inline-table',
   li:    'list-item',
   n:     'none',
   r:     'ruby',
@@ -551,9 +555,9 @@ export const CSS_FLOAT_VALUES_ABBR = {
   // Float
   is: 'inline-start',
   ie: 'inline-end',
-  l: 'left',
-  n: 'none',
-  r: 'right'
+  l:  'left',
+  n:  'none',
+  r:  'right'
 }; // export const CSS_FLOAT_VALUES_ABBR
 
 export const CSS_PROP_VALUES_ABBR = {
@@ -582,48 +586,61 @@ export const CSS_PROP_VALUES_TO_ABBR = dict(Object.keys(CSS_PROP_VALUES_ABBR).ma
 export function classAppendAndCssFromStyle(
   style,
   {
-    autoprefixer = true,
+    // autoprefixer = true,
     classAppend = [],
     css = [],
     prefix = '',
-    postfix = ''
+    postfix = '',
+    pseudoPostfix = ''
   } = {}
 ) {
   /* TRACE && console.log(`classAppendAndCssFromStyle(${toStr(style)}, ${toStr({
     classAppend, css, prefix, postfix
   })})`); */
-  //const maybePrefixedStyle = autoprefixer ? prefixer(style) : style; // TRACE && console.log(`maybePrefixedStyle:${toStr(maybePrefixedStyle)}`);
+  // const maybePrefixedStyle = autoprefixer ? prefixer(style) : style; // TRACE && console.log(`maybePrefixedStyle:${toStr(maybePrefixedStyle)}`);
   const maybePrefixedStyle = style;
   Object.keys(style).forEach(prop => {
+    // DEBUG && console.log(`DEBUG prop:${prop}`);
     let value = maybePrefixedStyle[prop];
     if (value) {
-      if(prop.startsWith('&')) {
-
-      }
-      const dashProp = dasherize(prop); // TRACE && console.log(`dashProp:${toStr(dashProp)}`);
-      const propAbbr = CSS_PROP_TO_ABBR[dashProp] || toClassName(prop);
-      /* if (WARN && !CSS_PROP_TO_ABBR[dashProp]) {
-        console.warn(`WARN: Couldn't find abbreviation for property:${prop} falling back to toClassName on property:${propAbbr}`);
-      } */
-      let lastValue = value;
-      if (isInt(value)) {
-        value = `${value}px`; // TRACE && console.log(`value:${toStr(value)}`);
-      } else if (Array.isArray(value)) {
-        value = value.map(v => isInt(v) ? `${v}px` : v);
-        lastValue = value[value.length - 1];
-      }
-      const valueAbbr = (CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][lastValue]) || toClassName(lastValue);
-      /* if (WARN && !(CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][value])) {
-        console.warn(`WARN: Couldn't find abbreviation for property:${prop} value:${value} falling back to toClassName on value:${valueAbbr}`);
-      } */
-      const className = `${prefix}${propAbbr}-${valueAbbr}${postfix}`;
-      classAppend.push(className);
-      if (Array.isArray(value)) {
-        const props = value.map(v => `${dashProp}:${v}`).join(';');
-        css.push(`.${className}{${props}}`);
-      } else {
-        css.push(`.${className}{${dashProp}:${value}}`);
-      }
+      if (prop.startsWith('&:')) {
+        // DEBUG && console.log(`DEBUG &: prop:${prop}`);
+        const pseudoClassPrefix = prop.substring(2).split(/:+/).map(p => {
+          // TRACE && console.log(`TRACE &: p:${p}`);
+          const abbr = CSS_PSEUDO_SELECTORS_TO_ABBR[p];
+          if (abbr) { return `${abbr}-`; }
+          // WARN && console.log(`WARN Could not find match for pseudo:${p}`);
+          return '';
+        }).join('');
+        classAppendAndCssFromStyle(style[prop], { // "recurse"
+          classAppend, css, prefix: `${prefix}${pseudoClassPrefix}-`, postfix, pseudoPostfix: prop.substring(1)
+        }); // Seems like both classAppend and css gets passed by reference and modified in recursion.
+      } else { // not pseudo
+        const dashProp = dasherize(prop); // TRACE && console.log(`dashProp:${toStr(dashProp)}`);
+        const propAbbr = CSS_PROP_TO_ABBR[dashProp] || toClassName(prop);
+        /* if (WARN && !CSS_PROP_TO_ABBR[dashProp]) {
+          console.warn(`WARN: Couldn't find abbreviation for property:${prop} falling back to toClassName on property:${propAbbr}`);
+        } */
+        let lastValue = value;
+        if (isInt(value)) {
+          value = `${value}px`; // TRACE && console.log(`value:${toStr(value)}`);
+        } else if (Array.isArray(value)) {
+          value = value.map(v => isInt(v) ? `${v}px` : v);
+          lastValue = value[value.length - 1];
+        }
+        const valueAbbr = (CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][lastValue]) || toClassName(lastValue);
+        /* if (WARN && !(CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][value])) {
+          console.warn(`WARN: Couldn't find abbreviation for property:${prop} value:${value} falling back to toClassName on value:${valueAbbr}`);
+        } */
+        const className = `${prefix}${propAbbr}-${valueAbbr}${postfix}`;
+        classAppend.push(className);
+        if (Array.isArray(value)) {
+          const props = value.map(v => `${dashProp}:${v}`).join(';');
+          css.push(`.${className}{${props}}`);
+        } else {
+          css.push(`.${className}${pseudoPostfix}{${dashProp}:${value}}`);
+        }
+      } // not pseudo
     } /* else {
       WARN && console.warn(`WARN: Ignoring property:${prop} due to no value`);
     } */

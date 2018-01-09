@@ -179,11 +179,11 @@ describe('ncss', () => {
 
   it('handles unknown css properties, int value assumed to be px, color, conver illegal chars', () => {
     const pre = '@media (min-width: 480px){.';
-    const classA = 'un-known-100px';
+    const classA = 'un-known-100';
     const classB = 'c-b-w-mi-480';
     const classC = 'd-invalid-w-mi-480';
     const classD = 'exclamation-exclamation-w-mi-480';
-    const classE = 'int-100px-w-mi-480';
+    const classE = 'int-100-w-mi-480';
     const classF = 'percent-100-w-mi-480';
     const classG = 'un-known-va-lue-w-mi-480';
     const classH = 'underscore-underscore-w-mi-480';
