@@ -1,8 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-confusing-arrow */
-/* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-param-reassign */
+
+/* eslint-enable no-console */
+
+
 import {
   isArrayOrString// ,
   // toStr

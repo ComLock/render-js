@@ -1,6 +1,9 @@
-/* eslint-disable no-console */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-expressions */
+
+/* eslint-enable no-console */
+
+
 import { el } from './index';
 import { camelize, isArrayOrString } from './util.es';
 

@@ -2,13 +2,14 @@
 /* eslint-disable key-spacing */
 /* eslint-disable max-len */
 /* eslint-disable no-confusing-arrow */
-/* eslint-disable no-console */
 /* eslint-disable no-multi-spaces */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable object-property-newline */
 
-import _autoprefixer from 'autoprefixer';
-import { sync as postCssSync } from 'postcss-js';
+/* eslint-enable no-console */
+
+//import _autoprefixer from 'autoprefixer';
+//import { sync as postCssSync } from 'postcss-js';
 import {
   dasherize,
   dict,
@@ -17,7 +18,7 @@ import {
 } from '../util.es';
 
 
-const prefixer = postCssSync([_autoprefixer]);
+//const prefixer = postCssSync([_autoprefixer]);
 
 
 // const DEBUG = false;
@@ -125,6 +126,54 @@ export const CSS_MEDIA_FEATURES = [ // https://developer.mozilla.org/en-US/docs/
   'device-height',
   'device-aspect-ratio'
 ]; // CSS_MEDIA_FEATURES
+
+
+export const CSS_PSEUDO_CLASSES_ABBR = { // https://www.w3schools.com/cssref/css_selectors.asp
+  ac:   'active',
+  c:   'checked',
+  d:   'disabled',
+  em:  'empty',
+  en:  'enabled',
+  fc:  'first-child',
+  fot: 'first-of-type',
+  h:   'hover',
+  f:   'focus',
+  ir:  'in-range',
+  i:   'invalid',
+  lc:  'last-child',
+  lot: 'last-of-type',
+  l:   'link',
+  //lang
+  //not
+  //nth-child
+  //nth-last-child
+  //nth-last-of-type
+  //nth-of-type
+  oot: 'only-of-type',
+  oc:  'only-child',
+  o:   'optional',
+  oor: 'out-of-range',
+  ro:  'read-only',
+  rw:  'read-write',
+  re:  'required',
+  r:   'root',
+  t:   'target',
+  va:  'valid',
+  vi:  'visited'
+}; // export const CSS_PSEUDO_SELECTORS_ABBR
+export const CSS_PSEUDO_SELECTORS_TO_ABBR = dict(Object.keys(CSS_PSEUDO_SELECTORS_ABBR).map(a =>
+  [CSS_PSEUDO_SELECTORS_ABBR[a], a]));
+
+
+export const CSS_PSEUDO_ELEMENTS_ABBR = {
+  af: 'after'
+  b:  'before'
+  fl: 'first-letter'
+  fl: 'first-line'
+  s:  'selection'
+}; // export const CSS_PSEUDO_ELEMENTS_ABBR
+export const CSS_PSEUDO_ELEMENTS_TO_ABBR = dict(Object.keys(CSS_PSEUDO_ELEMENTS_ABBR).map(a =>
+  [CSS_PSEUDO_ELEMENTS_ABBR[a], a]));
 
 
 // http://stackoverflow.com/questions/448981/which-characters-are-valid-in-css-class-names-selectors -?[_a-zA-Z]+[_a-zA-Z0-9-]*
@@ -493,6 +542,19 @@ const CSS_DISPLAY_VALUES_ABBR = {
   tcolg: 'table-column-group'
 }; // CSS_DISPLAY_VALUES_ABBR
 
+export const CSS_FLOAT_VALUES_ABBR = {
+  // Global
+  ih:  'inherit',
+  ini: 'initial',
+  u:   'unset',
+  rv:  'revert',
+  // Float
+  is: 'inline-start',
+  ie: 'inline-end',
+  l: 'left',
+  n: 'none',
+  r: 'right'
+}; // export const CSS_FLOAT_VALUES_ABBR
 
 export const CSS_PROP_VALUES_ABBR = {
   'background-color':    CSS_COLOR_VALUES_ABBR,
@@ -507,7 +569,8 @@ export const CSS_PROP_VALUES_ABBR = {
   'border-top-color':    CSS_COLOR_VALUES_ABBR,
   'border-top-style':    CSS_BORDER_STYLE_VALUES_ABBR,
   color:                 CSS_COLOR_VALUES_ABBR,
-  display:               CSS_DISPLAY_VALUES_ABBR
+  display:               CSS_DISPLAY_VALUES_ABBR,
+  float:                 CSS_FLOAT_VALUES_ABBR
 };
 export const CSS_PROP_VALUES_TO_ABBR = dict(Object.keys(CSS_PROP_VALUES_ABBR).map(prop => [
   prop,
@@ -529,10 +592,14 @@ export function classAppendAndCssFromStyle(
   /* TRACE && console.log(`classAppendAndCssFromStyle(${toStr(style)}, ${toStr({
     classAppend, css, prefix, postfix
   })})`); */
-  const maybePrefixedStyle = autoprefixer ? prefixer(style) : style; // TRACE && console.log(`maybePrefixedStyle:${toStr(maybePrefixedStyle)}`);
+  //const maybePrefixedStyle = autoprefixer ? prefixer(style) : style; // TRACE && console.log(`maybePrefixedStyle:${toStr(maybePrefixedStyle)}`);
+  const maybePrefixedStyle = style;
   Object.keys(style).forEach(prop => {
     let value = maybePrefixedStyle[prop];
     if (value) {
+      if(prop.startsWith('&')) {
+
+      }
       const dashProp = dasherize(prop); // TRACE && console.log(`dashProp:${toStr(dashProp)}`);
       const propAbbr = CSS_PROP_TO_ABBR[dashProp] || toClassName(prop);
       /* if (WARN && !CSS_PROP_TO_ABBR[dashProp]) {

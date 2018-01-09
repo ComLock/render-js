@@ -1,7 +1,6 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable function-paren-newline */
 /* eslint-disable max-len */
-/* eslint-disable no-console */
 /* eslint-disable no-new-object */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
@@ -9,6 +8,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable spaced-comment */
 
+/* eslint-enable no-console */
 
 import { el as htmlEl, ELEMENTS } from './index';
 import { dasherize, isInt, isString, sortAndRemoveDups, toStr } from './util.es';
