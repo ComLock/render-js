@@ -66,7 +66,7 @@ class Node {
     const children = [].concat(this[SYMBOL_CHILDREN], ...array.map(item => {
       if (item instanceof Node) {
         const childTag = item[SYMBOL_TAG];
-        //console.log(`childTag:${toStr(childTag)} this[childTag]:${toStr(this[childTag])}`);
+        //console.log(`tag:${toStr(this[SYMBOL_TAG])} childTag:${toStr(childTag)} this[childTag]:${toStr(this[childTag])}`);
         if (this[childTag]) {
           if (Array.isArray(this[childTag])) {
             this[childTag].push(item);

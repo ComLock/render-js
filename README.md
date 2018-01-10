@@ -11,45 +11,58 @@ This library can be imported and used in at least 3 ways: dom, ncss and index
 ```js
 import { Dom, doctype, html, head, title, style,
   body, main, h1, div, p, span } from 'render-js';
-const bodyElement = body([
-  main([
-    h1('Heading'),
-    div({
-      style: {
-        display: 'flex'
-      }
-    },
-      p(
-        span({
-          style: {
-            display: 'none',
-            '&:hover': {
-              color: 'red'
-            }
-          },
-          _media: {
-            minWidth480: {
-              display: 'block'
-            }
-          }
-        }, 'Only visible from tablet up')
-      ) // p
-    ) // div
-  ]) // main
-]); // body
 
-const dom = new Dom([
+const view = new Dom([ // Things that are always the same
   doctype(),
   html([
     head([
-      title('Title'),
-      style({ type: 'text/css' }, bodyElement.getCss().join('\n'))
+      title(),
+      style({ type: 'text/css' })
     ]), // head
-    bodyElement
+    body([
+      main([
+        h1(),
+        div({
+          style: {
+            display: 'flex'
+          }
+        },
+          p(
+            span({
+              style: {
+                display: 'none',
+                '&:hover': {
+                  color: 'red'
+                }
+              },
+              _media: {
+                minWidth480: {
+                  display: 'block'
+                }
+              }
+            })
+          ) // p
+        ) // div
+      ]) // main
+    ]) // body
   ]) // html
-]); // Dom
+]); // view
 
-const html = dom.render();
+const model = { // Things that change
+  title: 'Title',
+  heading: 'Heading',
+  text: 'Only visible from tablet up'
+}; // model
+
+// Controller
+view.html.head.title.add(model.title);
+view.html.body.main.h1.add(model.heading);
+view.html.body.main.div.p.span.add(model.text);
+
+// This will trigger build on body only:
+view.html.head.style.add(view.html.body.getCss().join('')); // pageContributions
+
+const html = view.render(); // Will trigger build on entire DOM.
 ```
 
 Which will give you this html (without whitespace and indentation):
@@ -192,6 +205,11 @@ In terms of extendability, returning an object with named properties should be t
 | 0.x.x       | 6.12.2     |
 
 ## Changelog
+
+### 1.8.0
+
+* Path -- Makes it possible to access and manipulate the DOM.
+* Node.add() -- Makes it possible to manipulate the DOM.
 
 ### 1.7.0
 

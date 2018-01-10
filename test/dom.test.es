@@ -158,4 +158,71 @@ describe('dom', () => {
 </html>`)
     ); // deepStrictEqual
   }); // it
+
+  it('VMC view model controller', () => {
+    const view = new Dom([ // Things that are always the same
+      doctype(),
+      html([
+        head([
+          title(),
+          style({ type: 'text/css' })
+        ]), // head
+        body([
+          main([
+            h1(),
+            div([
+              p(
+                span({
+                  style: {
+                    display: 'none'
+                  },
+                  _media: {
+                    minWidth480: {
+                      display: 'block'
+                    }
+                  }
+                }) // span
+              ) // p
+            ]) // div
+          ]) // main
+        ]) // body
+      ]) // html
+    ]); // view
+
+    const model = { // Things that change
+      title: 'Title',
+      heading: 'Heading',
+      text: 'Text'
+    }; // model
+
+    // Controller
+    view.html.head.title.add(model.title);
+    view.html.body.main.h1.add(model.heading);
+    view.html.body.main.div.p.span.add(model.text);
+    view.html.head.style.add(view.html.body.getCss().join('')); // This will trigger build on body
+
+    // Test
+    const classA = 'd-n';
+    const classB = 'd-b-w-mi-480';
+    deepStrictEqual(view.render(), removeWhiteSpace(`
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Title</title>
+  <style type="text/css">
+    .${classA}{display:none}
+    @media (min-width: 480px){.${classB}{display:block}}
+  </style></head>
+<body>
+  <main>
+    <h1>Heading</h1>
+    <div>
+      <p>
+        <span class="${classB} ${classA}">Text</span>
+      </p>
+    </div>
+  </main>
+</body>
+</html>`));
+  }); // it view
 }); // describe
