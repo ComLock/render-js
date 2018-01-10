@@ -3,6 +3,9 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-useless-constructor */
+/* eslint-disable spaced-comment */
+
+/* eslint max-len: ["error", { "code": 150, "comments": 200 }] */
 /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
 
 /* eslint-enable no-console */
@@ -32,9 +35,9 @@ class Node {
   } */
 
   constructor(tag, spec, content) {
-    //TRACE && console.log(`new Node(${toStr(tag)}, ${toStr(spec)}, ${toStr(content)})`);
+    // TRACE && console.log(`new Node(${toStr(tag)}, ${toStr(spec)}, ${toStr(content)})`);
     this[SYMBOL_TAG] = tag;
-    //TRACE && console.log(`${tag} spec is ${(isString(spec) && 'string') || (spec instanceof Node && 'Node') || (Array.isArray(spec) && 'Array') || 'Unknown type'}`);
+    // TRACE && console.log(`${tag} spec is ${(isString(spec) && 'string') || (spec instanceof Node && 'Node') || (Array.isArray(spec) && 'Array') || 'Unknown type'}`);
     if (isString(spec) || spec instanceof Node || Array.isArray(spec)) {
       content = spec;
       spec = {};
@@ -42,14 +45,25 @@ class Node {
     this[SYMBOL_CHILDREN] = Array.isArray(content) ? content.filter(n => n) : content;
     this[SYMBOL_SPEC] = spec;
     this[SYMBOL_CSS] = [];
-    //TRACE && console.log(`tag:${toStr(this[SYMBOL_TAG])}, spec:${toStr(this[SYMBOL_SPEC])}, children:${toStr(this[SYMBOL_CHILDREN])}`);
+    // TRACE && console.log(`tag:${toStr(this[SYMBOL_TAG])}, spec:${toStr(this[SYMBOL_SPEC])}, children:${toStr(this[SYMBOL_CHILDREN])}`);
   } // constructor
+
+  add(child) {
+    //console.log(`add(${toStr(child)}) children:${toStr(this[SYMBOL_CHILDREN])}`);
+    if (!this[SYMBOL_CHILDREN]) {
+      this[SYMBOL_CHILDREN] = child;
+    } else {
+      [].concat(this[SYMBOL_CHILDREN], ...child);
+    }
+    //console.log(`add children:${toStr(this[SYMBOL_CHILDREN])}`);
+    return this;
+  }
 
   build({
     autoprefixer = true
   } = {}) {
-    const tag = this[SYMBOL_TAG]; //DEBUG && console.log(`tag:${toStr(tag)}`);
-    const spec = this[SYMBOL_SPEC] || {}; //DEBUG && console.log(`spec:${toStr(spec)}`);
+    const tag = this[SYMBOL_TAG]; // DEBUG && console.log(`tag:${toStr(tag)}`);
+    const spec = this[SYMBOL_SPEC] || {}; // DEBUG && console.log(`spec:${toStr(spec)}`);
     if (spec.style) {
       const s = classAppendAndCssFromStyle(spec.style, { autoprefixer });
       spec.class = [].concat(spec.class, s.classAppend).filter(n => n); // Remove null elements;
@@ -69,22 +83,24 @@ class Node {
     if (children instanceof Node) {
       children.build();
       this[SYMBOL_HTML] = `<${tag}${attributes}>${children[SYMBOL_HTML]}</${tag}>`;
-      this[SYMBOL_CSS] = sortAndRemoveDups((this[SYMBOL_CSS] || []).concat(children[SYMBOL_CSS]));
+      this[SYMBOL_CSS] = sortAndRemoveDups(this[SYMBOL_CSS].concat(children[SYMBOL_CSS]));
       return this;
     }
     if (Array.isArray(children)) {
+      let innerHtml = '';
       children.forEach(child => {
-        try {
-          child.build();
-        } catch (e) {
-          throw new Error(`child doesn't have a build method message:${e.message} child:${toStr(child)} children:${toStr(children)}`);
+        if (child instanceof Node) {
+          innerHtml += child.build()[SYMBOL_HTML];
+          this[SYMBOL_CSS] = this[SYMBOL_CSS].concat(child[SYMBOL_CSS]);
+          //try {} catch (e) {throw new Error(`child doesn't have a build method message:${e.message} child:${toStr(child)} children:${toStr(children)}`);}
+        } else if (isString(child)) {
+          innerHtml += child;
         }
-      });
-      this[SYMBOL_HTML] = `<${tag}${attributes}>${children.map(child => child[SYMBOL_HTML]).join('')}</${tag}>`;
-      this[SYMBOL_CSS] = sortAndRemoveDups([]
-        .concat(this[SYMBOL_CSS], ...children.map(child => child[SYMBOL_CSS])));
+      }); // forEach(child
+      this[SYMBOL_HTML] = `<${tag}${attributes}>${innerHtml}</${tag}>`;
+      this[SYMBOL_CSS] = sortAndRemoveDups(this[SYMBOL_CSS]);
       return this;
-    }
+    } // childen isArray
     //WARN && console.warn(`NODE: children not String, Node or Array of Nodes!`);
     this[SYMBOL_HTML] = '';
     return this;
@@ -117,8 +133,18 @@ class Dom extends Node {
       return this;
     }
     if (Array.isArray(children)) {
-      this[SYMBOL_HTML] = children.map(child => child.build()[SYMBOL_HTML]).join('');
-      this[SYMBOL_CSS] = sortAndRemoveDups(children.map(child => child[SYMBOL_CSS] || []));
+      let innerHtml = '';
+      children.forEach(child => {
+        if (child instanceof Node) {
+          innerHtml += child.build()[SYMBOL_HTML];
+          this[SYMBOL_CSS] = this[SYMBOL_CSS].concat(child[SYMBOL_CSS]);
+          //try {} catch (e) {throw new Error(`child doesn't have a build method message:${e.message} child:${toStr(child)} children:${toStr(children)}`);}
+        } else if (isString(child)) {
+          innerHtml += child;
+        }
+      }); // forEach(child
+      this[SYMBOL_HTML] = innerHtml;
+      this[SYMBOL_CSS] = sortAndRemoveDups(this[SYMBOL_CSS]);
       return this;
     }
     //WARN && console.warn(`DOM: children not String, Node or Array of Nodes!`);

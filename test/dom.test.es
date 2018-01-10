@@ -67,6 +67,24 @@ describe('dom', () => {
     ); // deepStrictEqual
   });
 
+
+  it('add', () => {
+    deepStrictEqual(new Dom().add().render(), '');
+    deepStrictEqual(new Dom().add('a').render(), 'a');
+    deepStrictEqual(new Dom().add(doctype()).render(), '<!DOCTYPE html>');
+    deepStrictEqual(new Dom().add(['a', doctype(), 'b']).render(), 'a<!DOCTYPE html>b');
+    deepStrictEqual(new Dom().add([
+      doctype(),
+      html(body())
+    ]).render(), removeWhiteSpace(`
+<!DOCTYPE html>
+<html>
+  <body>
+  </body>
+</html>`));
+  });
+
+
   it('render', () => {
     const classA = 'd-n';
     const classB = 'd-b-w-mi-480';
