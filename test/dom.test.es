@@ -4,7 +4,7 @@
 /* eslint-disable no-unused-vars */
 /* global describe it */
 
-import { deepStrictEqual } from 'assert';
+import { deepStrictEqual, notDeepStrictEqual } from 'assert';
 import { removeWhiteSpace } from './util.es';
 import {
   Dom, Node,
@@ -82,6 +82,21 @@ describe('dom', () => {
   <body>
   </body>
 </html>`));
+  });
+
+
+  it('path', () => {
+    const d0 = div('0');
+    const d1 = div('1');
+    const s = span();
+    const b = body([d0, d1, s]);
+    const dom = new Dom(b);
+    deepStrictEqual(dom.body, b);
+    deepStrictEqual(dom.body.div[0], d0);
+    notDeepStrictEqual(dom.body.div[0], d1);
+    deepStrictEqual(dom.body.div[1], d1);
+    notDeepStrictEqual(dom.body.div[1], d0);
+    deepStrictEqual(dom.body.span, s);
   });
 
 

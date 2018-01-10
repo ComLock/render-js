@@ -13,21 +13,30 @@
 import { ELEMENTS, att2Str, isVoid } from './src/html.es';
 import { doctype } from './index';
 import { classAppendAndCssFromMedia, classAppendAndCssFromStyle } from './src/css.es';
-import { isString, sortAndRemoveDups, toStr } from './util.es';
+import { isSet, isString, sortAndRemoveDups, toStr } from './util.es';
 
 const WARN = true;
 //const DEBUG = false;
 //const TRACE = false;
 
+/*
+  XML elements must follow these naming rules:
+  Element names are case-sensitive
+  Element names must start with a letter or underscore
+  Element names cannot start with the letters xml (or XML, or Xml, etc)
+  Element names can contain letters, digits, hyphens, underscores, and periods
+  Element names cannot contain spaces
+*/
 
-const SYMBOL_TAG = '_t';
+const SYMBOL_TAG = '-t';
 // const SYMBOL_ATTRIBUTES = '_a';
-const SYMBOL_CHILDREN = '_c';
-const SYMBOL_CSS = '_css';
-const SYMBOL_HTML = '_h';
-const SYMBOL_SPEC = '_s';
+const SYMBOL_CHILDREN = '-c';
+const SYMBOL_CSS = '-cs';
+const SYMBOL_HTML = '-h';
+const SYMBOL_SPEC = '-s';
 // const SYMBOL_PARENT = '_p';
 
+const METHODS = ['constructor', 'add', 'build', 'getCss', 'render'];
 
 class Node {
   /* static get children() { // Read-only accessor
@@ -35,6 +44,7 @@ class Node {
   } */
 
   constructor(tag, spec, content) {
+    if (METHODS.includes(tag)) { throw new Error(`Illegal tag:${tag} matches method name!`); }
     // TRACE && console.log(`new Node(${toStr(tag)}, ${toStr(spec)}, ${toStr(content)})`);
     this[SYMBOL_TAG] = tag;
     // TRACE && console.log(`${tag} spec is ${(isString(spec) && 'string') || (spec instanceof Node && 'Node') || (Array.isArray(spec) && 'Array') || 'Unknown type'}`);
@@ -42,22 +52,43 @@ class Node {
       content = spec;
       spec = {};
     }
-    this[SYMBOL_CHILDREN] = Array.isArray(content) ? content.filter(n => n) : content;
     this[SYMBOL_SPEC] = spec;
     this[SYMBOL_CSS] = [];
+    this.add(content);
     // TRACE && console.log(`tag:${toStr(this[SYMBOL_TAG])}, spec:${toStr(this[SYMBOL_SPEC])}, children:${toStr(this[SYMBOL_CHILDREN])}`);
   } // constructor
 
-  add(child) {
-    //console.log(`add(${toStr(child)}) children:${toStr(this[SYMBOL_CHILDREN])}`);
-    if (!this[SYMBOL_CHILDREN]) {
-      this[SYMBOL_CHILDREN] = child;
-    } else {
-      [].concat(this[SYMBOL_CHILDREN], ...child);
-    }
+
+  add(content) {
+    if (!isSet(content)) { return this; }
+    //console.log(`add(${toStr(content)}) children:${toStr(this[SYMBOL_CHILDREN])}`);
+    const array = Array.isArray(content) ? content : [content];
+    const children = [].concat(this[SYMBOL_CHILDREN], ...array.map(item => {
+      if (item instanceof Node) {
+        const childTag = item[SYMBOL_TAG];
+        //console.log(`childTag:${toStr(childTag)} this[childTag]:${toStr(this[childTag])}`);
+        if (this[childTag]) {
+          if (Array.isArray(this[childTag])) {
+            this[childTag].push(item);
+          } else {
+            this[childTag] = [this[childTag], item];
+          }
+        } else {
+          this[childTag] = item;
+        }
+        return item;
+      }
+      if (isString(item)) {
+        return item;
+      }
+      throw new Error(`Unhandeled type when adding child:${toStr(item)}`);
+    })) // forEach
+      .filter(n => n); // remove null
+    this[SYMBOL_CHILDREN] = children.length < 2 ? children[0] : children;
     //console.log(`add children:${toStr(this[SYMBOL_CHILDREN])}`);
     return this;
-  }
+  } // add
+
 
   build({
     autoprefixer = true
