@@ -206,6 +206,10 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+### 1.9.0
+
+* Parent and root
+
 ### 1.8.0
 
 * Path -- Makes it possible to access and manipulate the DOM.

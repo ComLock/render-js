@@ -37,6 +37,8 @@ const SYMBOL_SPEC = '-s';
 // const SYMBOL_PARENT = '_p';
 
 const METHODS = ['constructor', 'add', 'build', 'getCss', 'render'];
+const UNIQUE_ELEMENTS = ['html', 'head', 'body'];
+
 
 class Node {
   /* static get children() { // Read-only accessor
@@ -59,14 +61,48 @@ class Node {
   } // constructor
 
 
+  setDown(key, value) {
+    this[key] = value;
+    const array = Array.isArray(this[SYMBOL_CHILDREN]) ? this[SYMBOL_CHILDREN] : [this[SYMBOL_CHILDREN]];
+    array.forEach(item => {
+      if (item instanceof Node) {
+        item.setDown(key, value);
+      }
+    });
+    return this;
+  }
+
+
+  setUp(key, value) {
+    this[key] = value;
+    if (this.parent) {
+      this.parent.setUp(key, value);
+    }
+    return this;
+  }
+
+
+  /*set(key, value) { // TODO Need dirty flagging
+    this.setUp(key, value);
+    this.setDown(key, value);
+    return this;
+  }*/
+
+
   add(content) {
     if (!isSet(content)) { return this; }
     //console.log(`add(${toStr(content)}) children:${toStr(this[SYMBOL_CHILDREN])}`);
     const array = Array.isArray(content) ? content : [content];
     const children = [].concat(this[SYMBOL_CHILDREN], ...array.map(item => {
       if (item instanceof Node) {
+        item.parent = this;
+        item.setDown('root', this.root || this);
         const childTag = item[SYMBOL_TAG];
-        //console.log(`tag:${toStr(this[SYMBOL_TAG])} childTag:${toStr(childTag)} this[childTag]:${toStr(this[childTag])}`);
+        /* console.log(`tag:${toStr(this[SYMBOL_TAG])} childTag:${toStr(childTag)} this[childTag]:${toStr(this[childTag])}`);
+        if (UNIQUE_ELEMENTS.includes(childTag)) {
+          console.log(`UNIQUE_ELEMENTS.includes(${childTag})`);
+          //item.set(childTag, item);
+        } */
         if (this[childTag]) {
           if (Array.isArray(this[childTag])) {
             this[childTag].push(item);

@@ -97,7 +97,88 @@ describe('dom', () => {
     deepStrictEqual(dom.body.div[1], d1);
     notDeepStrictEqual(dom.body.div[1], d0);
     deepStrictEqual(dom.body.span, s);
-  });
+  }); // path
+
+
+  it('parent and root', () => {
+    const b = body();
+    deepStrictEqual(b.parent, undefined);
+    deepStrictEqual(b.root, undefined);
+
+    const h = html(b);
+    deepStrictEqual(h.parent, undefined);
+    deepStrictEqual(h.root, undefined);
+    deepStrictEqual(b.parent, h);
+    deepStrictEqual(h.body.parent, h);
+    deepStrictEqual(b.root, h);
+    deepStrictEqual(h.body.root, h);
+
+    const d = new Dom(h); // At this point root must be set for h and also for b;
+    deepStrictEqual(d.parent, undefined);
+    deepStrictEqual(d.root, undefined);
+    deepStrictEqual(h.parent, d);
+    deepStrictEqual(d.html.parent, d);
+    deepStrictEqual(b.parent, h);
+    deepStrictEqual(h.body.parent, h);
+    deepStrictEqual(d.html.body.parent, h);
+    deepStrictEqual(h.root, d);
+    deepStrictEqual(d.html.root, d);
+    deepStrictEqual(b.root, d);
+    deepStrictEqual(h.body.root, d);
+    deepStrictEqual(d.html.body.root, d);
+
+    const dom = new Dom();
+    deepStrictEqual(dom.parent, undefined);
+    deepStrictEqual(dom.root, undefined);
+
+    dom.add(html());
+    deepStrictEqual(dom.parent, undefined);
+    deepStrictEqual(dom.root, undefined);
+    deepStrictEqual(dom.html.parent, dom);
+    deepStrictEqual(dom.html.root, dom);
+
+    dom.html.add(body());
+    deepStrictEqual(dom.parent, undefined);
+    deepStrictEqual(dom.root, undefined);
+    deepStrictEqual(dom.html.parent, dom);
+    deepStrictEqual(dom.html.root, dom);
+    deepStrictEqual(dom.html.body.parent, dom.html);
+    deepStrictEqual(dom.html.body.root, dom);
+
+    const tree = new Dom().add(html().add(body()));
+    deepStrictEqual(tree.parent, undefined);
+    deepStrictEqual(tree.root, undefined);
+    deepStrictEqual(tree.html.parent, tree);
+    deepStrictEqual(tree.html.root, tree);
+    deepStrictEqual(tree.html.body.parent, tree.html);
+    deepStrictEqual(tree.html.body.root, tree);
+
+    const view = new Dom(html(body()));
+    deepStrictEqual(view.parent, undefined);
+    deepStrictEqual(view.root, undefined);
+    deepStrictEqual(view.html.parent, view);
+    deepStrictEqual(view.html.root, view);
+    deepStrictEqual(view.html.body.parent, view.html);
+    deepStrictEqual(view.html.body.root, view);
+  }); // parent and root
+
+
+  /* it('html, head and body', () => {
+    const h = html();
+    deepStrictEqual(h.html, h);
+    deepStrictEqual(h.head, undefined);
+    deepStrictEqual(h.body, undefined);
+
+    const e = head();
+    deepStrictEqual(e.html, undefined);
+    deepStrictEqual(e.head, e);
+    deepStrictEqual(e.body, undefined);
+
+    const b = body();
+    deepStrictEqual(b.html, undefined);
+    deepStrictEqual(b.head, undefined);
+    deepStrictEqual(b.body, b);
+  }); */
 
 
   it('render', () => {
