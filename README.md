@@ -55,12 +55,12 @@ const model = { // Things that change
 }; // model
 
 // Controller
-view.html.head.title.add(model.title);
-view.html.body.main.h1.add(model.heading);
-view.html.body.main.div.p.span.add(model.text);
+view.head.title.add(model.title);
+view.body.main.h1.add(model.heading);
+view.body.main.div.p.span.add(model.text);
 
 // This will trigger build on body only:
-view.html.head.style.add(view.html.body.getCss().join('')); // pageContributions
+view.head.style.add(view.body.getCss().join('')); // pageContributions
 
 const html = view.render(); // Will trigger build on entire DOM.
 ```
@@ -205,6 +205,10 @@ In terms of extendability, returning an object with named properties should be t
 | 0.x.x       | 6.12.2     |
 
 ## Changelog
+
+### 1.10.0
+
+* html, head and body accessible as property on any node
 
 ### 1.9.0
 

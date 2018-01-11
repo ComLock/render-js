@@ -7,6 +7,8 @@
 import { deepStrictEqual, notDeepStrictEqual } from 'assert';
 import { removeWhiteSpace } from './util.es';
 import {
+  PROPERTY_CHILDREN,
+  PROPERTY_TAG,
   Dom, Node,
   doctype, html, head, title, style,
   body, main, h1, div, p, span
@@ -103,11 +105,10 @@ describe('dom', () => {
   it('parent and root', () => {
     const b = body();
     deepStrictEqual(b.parent, undefined);
-    deepStrictEqual(b.root, undefined);
-
+    deepStrictEqual(b.root, b);
     const h = html(b);
     deepStrictEqual(h.parent, undefined);
-    deepStrictEqual(h.root, undefined);
+    deepStrictEqual(h.root, h);
     deepStrictEqual(b.parent, h);
     deepStrictEqual(h.body.parent, h);
     deepStrictEqual(b.root, h);
@@ -115,7 +116,7 @@ describe('dom', () => {
 
     const d = new Dom(h); // At this point root must be set for h and also for b;
     deepStrictEqual(d.parent, undefined);
-    deepStrictEqual(d.root, undefined);
+    deepStrictEqual(d.root, d);
     deepStrictEqual(h.parent, d);
     deepStrictEqual(d.html.parent, d);
     deepStrictEqual(b.parent, h);
@@ -129,17 +130,17 @@ describe('dom', () => {
 
     const dom = new Dom();
     deepStrictEqual(dom.parent, undefined);
-    deepStrictEqual(dom.root, undefined);
+    deepStrictEqual(dom.root, dom);
 
     dom.add(html());
     deepStrictEqual(dom.parent, undefined);
-    deepStrictEqual(dom.root, undefined);
+    deepStrictEqual(dom.root, dom);
     deepStrictEqual(dom.html.parent, dom);
     deepStrictEqual(dom.html.root, dom);
 
     dom.html.add(body());
     deepStrictEqual(dom.parent, undefined);
-    deepStrictEqual(dom.root, undefined);
+    deepStrictEqual(dom.root, dom);
     deepStrictEqual(dom.html.parent, dom);
     deepStrictEqual(dom.html.root, dom);
     deepStrictEqual(dom.html.body.parent, dom.html);
@@ -147,7 +148,7 @@ describe('dom', () => {
 
     const tree = new Dom().add(html().add(body()));
     deepStrictEqual(tree.parent, undefined);
-    deepStrictEqual(tree.root, undefined);
+    deepStrictEqual(tree.root, tree);
     deepStrictEqual(tree.html.parent, tree);
     deepStrictEqual(tree.html.root, tree);
     deepStrictEqual(tree.html.body.parent, tree.html);
@@ -155,7 +156,7 @@ describe('dom', () => {
 
     const view = new Dom(html(body()));
     deepStrictEqual(view.parent, undefined);
-    deepStrictEqual(view.root, undefined);
+    deepStrictEqual(view.root, view);
     deepStrictEqual(view.html.parent, view);
     deepStrictEqual(view.html.root, view);
     deepStrictEqual(view.html.body.parent, view.html);
@@ -163,22 +164,56 @@ describe('dom', () => {
   }); // parent and root
 
 
-  /* it('html, head and body', () => {
+  it('html, head and body', () => {
     const h = html();
+    deepStrictEqual(h.root, h);
     deepStrictEqual(h.html, h);
     deepStrictEqual(h.head, undefined);
     deepStrictEqual(h.body, undefined);
 
     const e = head();
+    deepStrictEqual(e.root, e);
     deepStrictEqual(e.html, undefined);
     deepStrictEqual(e.head, e);
     deepStrictEqual(e.body, undefined);
 
     const b = body();
+    deepStrictEqual(b.root, b);
     deepStrictEqual(b.html, undefined);
     deepStrictEqual(b.head, undefined);
     deepStrictEqual(b.body, b);
-  }); */
+
+    h.add(e);
+    deepStrictEqual(h.root, h);
+    deepStrictEqual(e.root, h);
+
+    deepStrictEqual(h.html, h);
+    deepStrictEqual(e.html, h);
+
+    deepStrictEqual(e.head, e);
+    deepStrictEqual(h.head, e);
+    deepStrictEqual(h.body, undefined);
+    deepStrictEqual(e.body, undefined);
+
+    const d = new Dom(html([
+      head(title()),
+      body(main())
+    ]));
+
+    [
+      d,
+      d.html,
+      d.html.head,
+      d.html.head.title,
+      d.html.body,
+      d.html.body.main
+    ].forEach(node => {
+      deepStrictEqual(node.root, d);
+      deepStrictEqual(node.html, d.html);
+      deepStrictEqual(node.head, d.html.head);
+      deepStrictEqual(node.body, d.html.body);
+    });
+  }); // html, head and body
 
 
   it('render', () => {
@@ -277,10 +312,10 @@ describe('dom', () => {
     }; // model
 
     // Controller
-    view.html.head.title.add(model.title);
-    view.html.body.main.h1.add(model.heading);
-    view.html.body.main.div.p.span.add(model.text);
-    view.html.head.style.add(view.html.body.getCss().join('')); // This will trigger build on body
+    view.head.title.add(model.title);
+    view.body.main.h1.add(model.heading);
+    view.body.main.div.p.span.add(model.text);
+    view.head.style.add(view.body.getCss().join('')); // This will trigger build on body
 
     // Test
     const classA = 'd-n';
