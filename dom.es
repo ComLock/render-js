@@ -36,7 +36,7 @@ const SYMBOL_HTML = '-h';
 const SYMBOL_SPEC = '-s';
 // const SYMBOL_PARENT = '_p';
 
-const METHODS = ['constructor', 'add', 'build', 'getCss', 'render'];
+const METHODS = ['constructor', 'add', 'build', 'getCss', 'render', 'setDown', 'setUp'];
 const UNIQUE_ELEMENTS = ['html', 'head', 'body'];
 
 
