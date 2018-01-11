@@ -10,7 +10,7 @@ This library can be imported and used in at least 3 ways: dom, ncss and index
 
 ```js
 import { Dom, doctype, html, head, title, style,
-  body, main, h1, div, p, span } from 'render-js';
+  body, main, h1, div, p, span } from 'render-js/dom.es';
 
 const view = new Dom([ // Things that are always the same
   doctype(),
