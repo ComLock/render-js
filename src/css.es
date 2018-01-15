@@ -16,6 +16,7 @@ import defaultUnit from 'jss-default-unit';
 import {
   dasherize,
   dict,
+  isSet,
   toStr
 } from '../util.es';
 
@@ -685,23 +686,24 @@ function handleNested({
     const char = selector[i];
     //console.log(`TRACE i:${toStr(i)} char:${toStr(char)}`);
     if (char === ':') { // pseudo
-      let nextI = i;
-      className += selector.substring(i).split(/:/).map(p => {
+      let nextI = i + 1;
+      className += selector.substring(nextI).split(/:/).map(p => {
         //console.log(`TRACE nextI:${toStr(nextI)} p:${toStr(p)}`);
         if (p === '') {
           nextI += 1;
           return '';
         }
-        // TRACE && console.log(`TRACE &: p:${p}`);
+        p = p.replace(/ .*/, ''); // TODO rather simple hack to support '&:hover top'
+        //console.log(`TRACE &: p:${p}`);
         if (CSS_PSEUDO_SELECTORS_TO_ABBR[p]) {
-          nextI += p.length + 1;
+          nextI += p.length + 1; // NOTE +1 due to split(/:/) add one too much after last, handeled below
           return `${CSS_PSEUDO_SELECTORS_TO_ABBR[p]}-`;
         }
         //console.log(`ERROR Unhandeled p:${toStr(p)}`);
         return '';
       }).join('');
       //console.log(`TRACE nextI:${toStr(nextI)}`);
-      i = nextI;
+      i = nextI - 1; // NOTE -1 because +1 to much in added after last split(:) element in map, see above
     } else if (CSS_SELECTORS_TO_ABBR[char]) {
       className += `${CSS_SELECTORS_TO_ABBR[char]}-`;
       i += 1;
@@ -777,7 +779,7 @@ export function classAppendAndCssFromStyle(
   Object.keys(style).forEach(prop => {
     // DEBUG && console.log(`DEBUG prop:${prop}`);
     const value = maybePrefixedStyle[prop];
-    if (value) {
+    if (isSet(value)) {
       if (prop.startsWith('&')) {
         const n = handleNested({
           selector: prop, style: style[prop], postfix, prefix

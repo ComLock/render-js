@@ -44,6 +44,21 @@ describe('css', () => {
     );
   });
 
+  it('pseudo and nested', () => {
+    const className = 'h-in-div-t-0';
+    deepStrictEqual(
+      classAppendAndCssFromStyle({
+        '&:hover div': {
+          top: 0
+        }
+      }),
+      {
+        classAppend: [className],
+        css: [`.${className}:hover div{top:0}`]
+      }
+    );
+  });
+
   it('autoprefixer false', () => {
     deepStrictEqual(
       classAppendAndCssFromStyle({
