@@ -67,6 +67,11 @@ export function isInt(value) {
   // DEBUG && console.log(`isInt(${toStr(value)}) --> ${bool}`);
   // return bool;
 }
+
+
+export function isNumeric(value) {
+  return !isNaN(parseFloat(value)) && isFinite(value);
+}
 /* eslint-enable no-restricted-globals */
 
 

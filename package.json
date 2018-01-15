@@ -1,5 +1,8 @@
 {
   "author": "Christian Westgaard <cwe@enonic.com>",
+  "dependencies": {
+    "jss-default-unit": "^8.0.2"
+  },
   "devDependencies": {
     "autoprefixer": "^7.2.4",
     "babel-core": "^6.26.0",

@@ -12,13 +12,14 @@
 
 // import _autoprefixer from 'autoprefixer';
 // import { sync as postCssSync } from 'postcss-js';
+import defaultUnit from 'jss-default-unit';
 import {
   dasherize,
   dict,
-  isInt,
   toStr
 } from '../util.es';
 
+const addDefaultUnit = defaultUnit().onChangeValue;
 
 // const prefixer = postCssSync([_autoprefixer]);
 
@@ -736,12 +737,8 @@ function handleProp({
     console.warn(`WARN: Couldn't find abbreviation for property:${prop} falling back to toClassName on property:${propAbbr}`);
   } */
   let lastValue = value;
-  if (isInt(value)) {
-    value = `${value}px`; // TRACE && console.log(`value:${toStr(value)}`);
-  } else if (Array.isArray(value)) {
-    value = value.map(v => isInt(v) ? `${v}px` : v);
-    lastValue = value[value.length - 1];
-  }
+  value = addDefaultUnit(value, prop);
+  if (Array.isArray(value)) { lastValue = value[value.length - 1]; }
   const valueAbbr = (CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][lastValue]) || toClassName(lastValue);
   /* if (WARN && !(CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][value])) {
     console.warn(`WARN: Couldn't find abbreviation for property:${prop} value:${value} falling back to toClassName on value:${valueAbbr}`);

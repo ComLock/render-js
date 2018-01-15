@@ -222,11 +222,11 @@ describe('ncss', () => {
       })
       , new Node({
         css: [
-          `.${classA}{un-known:100px}`,
+          `.${classA}{un-known:100}`,
           `${pre}${classB}{color:black}}`,
           `${pre}${classC}{display:invalid}}`,
           `${pre}${classD}{exclamation:!exclamation}}`,
-          `${pre}${classE}{int:100px}}`,
+          `${pre}${classE}{int:100}}`,
           `${pre}${classF}{percent:100%}}`,
           `${pre}${classG}{un-known:va lue}}`,
           `${pre}${classH}{underscore:_underscore_}}`,
