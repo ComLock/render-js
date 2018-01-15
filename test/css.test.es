@@ -29,6 +29,21 @@ describe('css', () => {
     });
   });
 
+  it('nested', () => {
+    const className = 'in-div-c-r';
+    deepStrictEqual(
+      classAppendAndCssFromStyle({
+        '& div': {
+          color: 'red'
+        }
+      }),
+      {
+        classAppend: [className],
+        css: [`.${className} div{color:red}`]
+      }
+    );
+  });
+
   it('autoprefixer false', () => {
     deepStrictEqual(
       classAppendAndCssFromStyle({

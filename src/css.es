@@ -3,8 +3,10 @@
 /* eslint-disable max-len */
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable no-multi-spaces */
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable object-property-newline */
+/* eslint-disable spaced-comment */
 
 /* eslint-enable no-console */
 
@@ -143,6 +145,7 @@ export const CSS_SELECTORS_ABBR = {
 }; // CSS_SELECTORS_ABBR
 export const CSS_SELECTORS_TO_ABBR = dict(Object.keys(CSS_SELECTORS_ABBR).map(a =>
   [CSS_SELECTORS_ABBR[a], a]));
+export const CSS_SELECTORS = Object.keys(CSS_SELECTORS_TO_ABBR);
 
 
 export const CSS_PSEUDO_CLASSES_ABBR = { // https://www.w3schools.com/cssref/css_selectors.asp
@@ -669,22 +672,93 @@ function handleNested({
   postfix = '',
   prefix = ''
 }) {
-  let classAppend = [];
-  let css = [];
-  // DEBUG && console.log(`DEBUG &: prop:${prop}`);
-  const pseudoClassPrefix = selector.substring(2).split(/:+/).map(p => {
-    // TRACE && console.log(`TRACE &: p:${p}`);
-    const abbr = CSS_PSEUDO_SELECTORS_TO_ABBR[p];
-    if (abbr) { return `${abbr}-`; }
-    // WARN && console.log(`WARN Could not find match for pseudo:${p}`);
-    return '';
-  }).join('');
+  /*console.log(`handleNested(${toStr({
+    selector, style, postfix, prefix
+  })})`);*/
+  if (selector.startsWith('&')) { selector = selector.substring(1); }
+  let className = '';
+  const classAppend = [];
+  const css = [];
+  //console.log(`TRACE selector.length:${toStr(selector.length)}`);
+  for (let i = 0; i < selector.length;) {
+    const char = selector[i];
+    //console.log(`TRACE i:${toStr(i)} char:${toStr(char)}`);
+    if (char === ':') { // pseudo
+      let nextI = i;
+      className += selector.substring(i).split(/:/).map(p => {
+        //console.log(`TRACE nextI:${toStr(nextI)} p:${toStr(p)}`);
+        if (p === '') {
+          nextI += 1;
+          return '';
+        }
+        // TRACE && console.log(`TRACE &: p:${p}`);
+        if (CSS_PSEUDO_SELECTORS_TO_ABBR[p]) {
+          nextI += p.length + 1;
+          return `${CSS_PSEUDO_SELECTORS_TO_ABBR[p]}-`;
+        }
+        //console.log(`ERROR Unhandeled p:${toStr(p)}`);
+        return '';
+      }).join('');
+      //console.log(`TRACE nextI:${toStr(nextI)}`);
+      i = nextI;
+    } else if (CSS_SELECTORS_TO_ABBR[char]) {
+      className += `${CSS_SELECTORS_TO_ABBR[char]}-`;
+      i += 1;
+    } else {
+      className += char;
+      i += 1;
+    }
+  } // for char
+  //console.log(`DEBUG selector:${toStr(selector)} className:${toStr(className)}`);
 
   // eslint-disable-next-line no-use-before-define
   return classAppendAndCssFromStyle(style, { // "recurse"
-    classAppend, css, prefix: `${prefix}${pseudoClassPrefix}-`, postfix, pseudoPostfix: selector.substring(1)
+    classAppend, css, prefix: `${prefix}${className}-`, postfix, pseudoPostfix: selector
   }); // Seems like both classAppend and css gets passed by reference and modified in recursion.
 } // function handleNested
+
+
+function handleProp({
+  prop,
+  value,
+  classAppend = [],
+  css = [],
+  prefix = '',
+  postfix = '',
+  pseudoPostfix = ''
+}) {
+  /*console.log(`handleProp(${toStr({
+    prop, value, classAppend, css, prefix, postfix, pseudoPostfix
+  })})`);*/
+  const dashProp = dasherize(prop); // TRACE && console.log(`dashProp:${toStr(dashProp)}`);
+  const propAbbr = CSS_PROP_TO_ABBR[dashProp] || toClassName(prop);
+  /* if (WARN && !CSS_PROP_TO_ABBR[dashProp]) {
+    console.warn(`WARN: Couldn't find abbreviation for property:${prop} falling back to toClassName on property:${propAbbr}`);
+  } */
+  let lastValue = value;
+  if (isInt(value)) {
+    value = `${value}px`; // TRACE && console.log(`value:${toStr(value)}`);
+  } else if (Array.isArray(value)) {
+    value = value.map(v => isInt(v) ? `${v}px` : v);
+    lastValue = value[value.length - 1];
+  }
+  const valueAbbr = (CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][lastValue]) || toClassName(lastValue);
+  /* if (WARN && !(CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][value])) {
+    console.warn(`WARN: Couldn't find abbreviation for property:${prop} value:${value} falling back to toClassName on value:${valueAbbr}`);
+  } */
+  const className = `${prefix}${propAbbr}-${valueAbbr}${postfix}`;// console.log(`className:${toStr(className)}`);
+  classAppend.push(className);
+  if (Array.isArray(value)) {
+    const props = value.map(v => `${dashProp}:${v}`).join(';');
+    css.push(`.${className}{${props}}`);
+  } else {
+    css.push(`.${className}${pseudoPostfix}{${dashProp}:${value}}`);
+  }
+  return {
+    css,
+    classAppend
+  };
+} // function handleProp
 
 
 export function classAppendAndCssFromStyle(
@@ -698,14 +772,14 @@ export function classAppendAndCssFromStyle(
     pseudoPostfix = ''
   } = {}
 ) {
-  /* TRACE && console.log(`classAppendAndCssFromStyle(${toStr(style)}, ${toStr({
-    classAppend, css, prefix, postfix
-  })})`); */
+  /*console.log(`classAppendAndCssFromStyle(${toStr(style)}, ${toStr({
+    classAppend, css, prefix, postfix, pseudoPostfix
+  })})`);*/
   // const maybePrefixedStyle = autoprefixer ? prefixer(style) : style; // TRACE && console.log(`maybePrefixedStyle:${toStr(maybePrefixedStyle)}`);
   const maybePrefixedStyle = style;
   Object.keys(style).forEach(prop => {
     // DEBUG && console.log(`DEBUG prop:${prop}`);
-    let value = maybePrefixedStyle[prop];
+    const value = maybePrefixedStyle[prop];
     if (value) {
       if (prop.startsWith('&')) {
         const n = handleNested({
@@ -713,31 +787,12 @@ export function classAppendAndCssFromStyle(
         });
         classAppend.push(...n.classAppend);
         css.push(...n.css);
-      } else { // not pseudo
-        const dashProp = dasherize(prop); // TRACE && console.log(`dashProp:${toStr(dashProp)}`);
-        const propAbbr = CSS_PROP_TO_ABBR[dashProp] || toClassName(prop);
-        /* if (WARN && !CSS_PROP_TO_ABBR[dashProp]) {
-          console.warn(`WARN: Couldn't find abbreviation for property:${prop} falling back to toClassName on property:${propAbbr}`);
-        } */
-        let lastValue = value;
-        if (isInt(value)) {
-          value = `${value}px`; // TRACE && console.log(`value:${toStr(value)}`);
-        } else if (Array.isArray(value)) {
-          value = value.map(v => isInt(v) ? `${v}px` : v);
-          lastValue = value[value.length - 1];
-        }
-        const valueAbbr = (CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][lastValue]) || toClassName(lastValue);
-        /* if (WARN && !(CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][value])) {
-          console.warn(`WARN: Couldn't find abbreviation for property:${prop} value:${value} falling back to toClassName on value:${valueAbbr}`);
-        } */
-        const className = `${prefix}${propAbbr}-${valueAbbr}${postfix}`;
-        classAppend.push(className);
-        if (Array.isArray(value)) {
-          const props = value.map(v => `${dashProp}:${v}`).join(';');
-          css.push(`.${className}{${props}}`);
-        } else {
-          css.push(`.${className}${pseudoPostfix}{${dashProp}:${value}}`);
-        }
+      } else { // not nested
+        const p = handleProp({
+          prop, value, prefix, postfix, pseudoPostfix
+        });
+        classAppend.push(...p.classAppend);
+        css.push(...p.css);
       } // not pseudo
     } /* else {
       WARN && console.warn(`WARN: Ignoring property:${prop} due to no value`);
