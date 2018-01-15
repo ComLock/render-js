@@ -130,6 +130,21 @@ export const CSS_MEDIA_FEATURES = [ // https://developer.mozilla.org/en-US/docs/
 ]; // CSS_MEDIA_FEATURES
 
 
+export const CSS_SELECTORS_ABBR = {
+  c:  '.', // class (dot)
+  i:  '#', // id (hash)
+  a:  '*', // all (asteriks)
+  an: ',', // and (comma)
+  in: ' ', // inside (single space)
+  gt: '>', // childOf (greaterthan)
+  p:  '+', // immediately after (plus sign)
+  t:  '~'  // after (tilde)
+  // TODO Attribute selectors
+}; // CSS_SELECTORS_ABBR
+export const CSS_SELECTORS_TO_ABBR = dict(Object.keys(CSS_SELECTORS_ABBR).map(a =>
+  [CSS_SELECTORS_ABBR[a], a]));
+
+
 export const CSS_PSEUDO_CLASSES_ABBR = { // https://www.w3schools.com/cssref/css_selectors.asp
   ac:   'active',
   c:   'checked',
@@ -647,6 +662,31 @@ export const CSS_PROP_VALUES_TO_ABBR = dict(Object.keys(CSS_PROP_VALUES_ABBR).ma
 // DEBUG && console.log(`CSS_PROP_VALUES_TO_ABBR:${toStr(CSS_PROP_VALUES_TO_ABBR)}`);
 
 
+function handleNested({
+  selector,
+  style,
+  // parentSelectorAbbr = ''
+  postfix = '',
+  prefix = ''
+}) {
+  let classAppend = [];
+  let css = [];
+  // DEBUG && console.log(`DEBUG &: prop:${prop}`);
+  const pseudoClassPrefix = selector.substring(2).split(/:+/).map(p => {
+    // TRACE && console.log(`TRACE &: p:${p}`);
+    const abbr = CSS_PSEUDO_SELECTORS_TO_ABBR[p];
+    if (abbr) { return `${abbr}-`; }
+    // WARN && console.log(`WARN Could not find match for pseudo:${p}`);
+    return '';
+  }).join('');
+
+  // eslint-disable-next-line no-use-before-define
+  return classAppendAndCssFromStyle(style, { // "recurse"
+    classAppend, css, prefix: `${prefix}${pseudoClassPrefix}-`, postfix, pseudoPostfix: selector.substring(1)
+  }); // Seems like both classAppend and css gets passed by reference and modified in recursion.
+} // function handleNested
+
+
 export function classAppendAndCssFromStyle(
   style,
   {
@@ -667,18 +707,12 @@ export function classAppendAndCssFromStyle(
     // DEBUG && console.log(`DEBUG prop:${prop}`);
     let value = maybePrefixedStyle[prop];
     if (value) {
-      if (prop.startsWith('&:')) {
-        // DEBUG && console.log(`DEBUG &: prop:${prop}`);
-        const pseudoClassPrefix = prop.substring(2).split(/:+/).map(p => {
-          // TRACE && console.log(`TRACE &: p:${p}`);
-          const abbr = CSS_PSEUDO_SELECTORS_TO_ABBR[p];
-          if (abbr) { return `${abbr}-`; }
-          // WARN && console.log(`WARN Could not find match for pseudo:${p}`);
-          return '';
-        }).join('');
-        classAppendAndCssFromStyle(style[prop], { // "recurse"
-          classAppend, css, prefix: `${prefix}${pseudoClassPrefix}-`, postfix, pseudoPostfix: prop.substring(1)
-        }); // Seems like both classAppend and css gets passed by reference and modified in recursion.
+      if (prop.startsWith('&')) {
+        const n = handleNested({
+          selector: prop, style: style[prop], postfix, prefix
+        });
+        classAppend.push(...n.classAppend);
+        css.push(...n.css);
       } else { // not pseudo
         const dashProp = dasherize(prop); // TRACE && console.log(`dashProp:${toStr(dashProp)}`);
         const propAbbr = CSS_PROP_TO_ABBR[dashProp] || toClassName(prop);
