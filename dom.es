@@ -150,7 +150,7 @@ class Node {
         }
         //} // !UNIQUE_ELEMENT
         newNodes.push(newContent);
-      } else {
+      } else if (isSet(newContent)) {
         throw new Error(`Unhandeled type when adding newContent:${toStr(newContent)}`);
       }
     }); // forEach newContent
