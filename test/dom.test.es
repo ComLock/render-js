@@ -11,7 +11,7 @@ import {
   PROPERTY_TAG,
   Dom, Node,
   doctype, html, head, title, style,
-  body, main, h1, div, p, span
+  body, main, section, header, h1, div, p, span
 } from '../dom.es';
 import { toStr } from '../util.es';
 
@@ -41,6 +41,32 @@ describe('dom', () => {
     const custom = (...args) => new Node('custom', ...args);
     deepStrictEqual(new Node('custom', { key: 'value' }, 'Text').render(), '<custom key="value">Text</custom>');
     deepStrictEqual(custom({ key: 'value' }, 'Text').render(), '<custom key="value">Text</custom>');
+  });
+
+
+  it('accepts array as content', () => {
+    deepStrictEqual(body([main()]).render(), '<body><main></main></body>');
+  });
+
+
+  it('accepts function as content', () => {
+    deepStrictEqual(body(() => main()).render(), '<body><main></main></body>');
+  });
+
+
+  it('accepts nested functions as content', () => {
+    deepStrictEqual(body(() => () => main()).render(), '<body><main></main></body>');
+  });
+
+
+  it('accepts arrays of nested functions as content', () => {
+    deepStrictEqual(
+      section([
+        () => header(),
+        () => () => p()
+      ]).render(),
+      '<section><header></header><p></p></section>'
+    );
   });
 
   it('_media', () => {

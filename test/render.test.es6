@@ -1,27 +1,29 @@
 /* global describe it */
 /* eslint-disable quotes */
 /* eslint-disable quote-props */
-import { strictEqual, throws } from 'assert';
-import R, { render, doctype, html, br, div, el } from '../index';
+import { deepStrictEqual, throws } from 'assert';
+import R, { el, render, doctype, html, head,
+  body, main, section, header, div, p, br
+} from '../index';
 
 
 describe('render', () => {
   it('doctype', () => {
-    strictEqual(
+    deepStrictEqual(
       doctype(),
       '<!DOCTYPE html>'
     );
   });
 
   it('tag', () => {
-    strictEqual(
+    deepStrictEqual(
       html(),
       '<html></html>'
     );
   });
 
   it('void elements', () => {
-    strictEqual(
+    deepStrictEqual(
       render([
         br('get lost')
       ]),
@@ -30,7 +32,7 @@ describe('render', () => {
   });
 
   it('just content', () => {
-    strictEqual(
+    deepStrictEqual(
       render([
         doctype(),
         html('Text')
@@ -41,7 +43,7 @@ describe('render', () => {
   });
 
   it('attributes sorted', () => {
-    strictEqual(
+    deepStrictEqual(
       html({
         key: 'value',
         alpha: 'first',
@@ -67,7 +69,7 @@ describe('render', () => {
   });
 
   it('attributes then content', () => {
-    strictEqual(
+    deepStrictEqual(
       render([
         doctype(),
         html(
@@ -83,7 +85,7 @@ describe('render', () => {
   });
 
   it('content then attributes', () => {
-    strictEqual(
+    deepStrictEqual(
       R.render([
         R.doctype(),
         R.html(
@@ -103,7 +105,7 @@ describe('render', () => {
      letters that are an ASCII case-insensitive match for the attribute’s name.
   */
   it('dasherize attribute names', () => {
-    strictEqual(
+    deepStrictEqual(
       div({
         dataString: 'value',
         dataEmptyString: '',
@@ -143,7 +145,7 @@ describe('render', () => {
       repeat( [ <positive-integer> | auto-fill | auto-fit ] , <track-list> )
   */
   it('style attribute object, keep property order, dasherize property name', () => { // TODO same key multiple times Map() ?
-    strictEqual(
+    deepStrictEqual(
       div({
         style: {
           'grid-template-rows': 'auto',
@@ -163,7 +165,7 @@ describe('render', () => {
   });
 
   it('can render custom elements', () => {
-    strictEqual(
+    deepStrictEqual(
       el(
         'myElement',
         {
@@ -172,6 +174,37 @@ describe('render', () => {
         'Text'
       ),
       '<myElement key="value">Text</myElement>'
+    );
+  });
+
+  it('accepts array as content', () => {
+    deepStrictEqual(
+      html([head]),
+      '<html><head></head></html>'
+    );
+  });
+
+  it('accepts function as content', () => {
+    deepStrictEqual(
+      html(() => head()),
+      '<html><head></head></html>'
+    );
+  });
+
+  it('accepts nested functions as content', () => {
+    deepStrictEqual(
+      body(() => () => main()),
+      '<body><main></main></body>'
+    );
+  });
+
+  it('accepts arrays of nested functions as content', () => {
+    deepStrictEqual(
+      section([
+        () => header(),
+        () => () => p()
+      ]),
+      '<section><header></header><p></p></section>'
     );
   });
 }); // describe

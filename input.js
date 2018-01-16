@@ -1,6 +1,4 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-expressions */
-
 /* eslint-enable no-console */
 
 

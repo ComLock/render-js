@@ -4,8 +4,9 @@
 
 
 import { deepStrictEqual } from 'assert';
+import { removeWhiteSpace } from './util.es';
 import { render, doctype, html, head, title, style } from '../index';
-import { el, Node, body, div, p, main, h1 } from '../ncss.es';
+import { el, Node, body, div, p, main, section, header, h1 } from '../ncss.es';
 import { UNICODE_LETTERS } from '../util.es';
 
 
@@ -164,16 +165,27 @@ describe('ncss', () => {
         html([
           head([
             title('Title'),
-            style({ type: 'text/css' }, node.css.join('\n')) // pageContributions.headEnd
+            style({ type: 'text/css' }, node.css.join('')) // pageContributions.headEnd
           ]),
           node.html
         ])
       ), // render
-      `<html><head><title>Title</title>
-<style type="text/css">.c-b{color:black}
-@media (min-width: 1024px){.d-ib-w-mi-1024{display:inline-block}}
-@media (min-width: 480px){.d-b-w-mi-480{display:block}}</style></head>
-<body><main><h1 class="c-b d-b-w-mi-480 d-ib-w-mi-1024">Main heading</h1></main></body></html>`
+      removeWhiteSpace(`
+<html>
+  <head>
+  <title>Title</title>
+  <style type="text/css">
+    .c-b{color:black}
+    @media (min-width: 1024px){.d-ib-w-mi-1024{display:inline-block}}
+    @media (min-width: 480px){.d-b-w-mi-480{display:block}}
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1 class="c-b d-b-w-mi-480 d-ib-w-mi-1024">Main heading</h1>
+    </main>
+  </body>
+</html>`)
     ); // deepStrictEqual
   }); // it
 
@@ -224,4 +236,26 @@ describe('ncss', () => {
       })
     ); // deepStrictEqual
   }); // it
+
+  it('accepts array as content', () => {
+    deepStrictEqual(body([main()]).html, '<body><main></main></body>');
+  });
+
+  it('accepts function as content', () => {
+    deepStrictEqual(body(() => main()).html, '<body><main></main></body>');
+  });
+
+  it('accepts nested functions as content', () => {
+    deepStrictEqual(body(() => () => main()).html, '<body><main></main></body>');
+  });
+
+  it('accepts arrays of nested functions as content', () => {
+    deepStrictEqual(
+      section([
+        () => header(),
+        () => () => p()
+      ]).html,
+      '<section><header></header><p></p></section>'
+    );
+  });
 }); // describe ncss

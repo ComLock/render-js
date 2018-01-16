@@ -1,14 +1,14 @@
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable no-confusing-arrow */
-/* eslint-disable no-unused-expressions */
 /* eslint-disable no-param-reassign */
-
 /* eslint-enable no-console */
 
 
 import {
-  isArrayOrString// ,
-  // toStr
+  isArray,
+  isArrayOrString,
+  isArrayOrFuncOrString,
+  isFunction,
+  // isSet,
+  toStr
 } from './util.es';
 import { ELEMENTS, att2Str, isVoid } from './src/html.es';
 
@@ -21,23 +21,32 @@ const NEWLINE = '\n';
 
 
 exports.el = (tag, attributes = null, content = null) => {
-  if (isArrayOrString(attributes)) {
+  if (isArrayOrFuncOrString(attributes)) { // Allow arguments in any order
+    if (isArrayOrFuncOrString(content)) {
+      throw new Error(`When called with two arguments one must be an object! ${toStr(tag)}(${toStr(attributes)}, ${toStr(content)})`);
+    }
     const tmp = content;
     content = attributes;
     attributes = tmp;
   }
-  if (isArrayOrString(attributes)) {
-    throw new Error('When called with two arguments the first one must be an object!');
-  }
 
   // DEBUG && console.log(`attributes:${toStr(attributes)}`);
-  if (content) {
-    content = [].concat(content).join(NEWLINE);
-  } else {
-    content = '';
-  }
-  // DEBUG && console.log(`content:${toStr(content)}`);
   attributes = att2Str(attributes);
+
+  if (!isArray(content)) { content = [content]; } // forceArray to simplify code
+  content = content.map(item => {
+    while (isFunction(item)) {
+      item = item();
+    }
+
+    if (isArrayOrString(item)) {
+      item = [].concat(item).join(''); // This works for both array and string
+    } else {
+      item = '';
+    }
+    return item;
+  }).join('');
+  // DEBUG && console.log(`content:${toStr(content)}`);
   return isVoid(tag) ? `<${tag}${attributes}/>` : `<${tag}${attributes}>${content}</${tag}>`;
 }; // el
 

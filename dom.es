@@ -1,21 +1,25 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-expressions */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-useless-constructor */
 /* eslint-disable spaced-comment */
-
 /* eslint max-len: ["error", { "code": 150, "comments": 200 }] */
 /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
-
 /* eslint-enable no-console */
 
 import { ELEMENTS, att2Str, isVoid } from './src/html.es';
 import { doctype } from './index';
 import { classAppendAndCssFromMedia, classAppendAndCssFromStyle } from './src/css.es';
-import { isSet, isString, sortAndRemoveDups, toStr } from './util.es';
+import {
+  isArray,
+  isFunction,
+  isSet,
+  isString,
+  sortAndRemoveDups,
+  toStr
+} from './util.es';
 
-const WARN = true;
+
+//const WARN = true;
 //const DEBUG = false;
 //const TRACE = false;
 
@@ -52,7 +56,7 @@ class Node {
     this[PROPERTY_TAG] = tag;
     if (UNIQUE_ELEMENTS.includes(tag)) { this[tag] = this; } // Reference self
     // TRACE && console.log(`${tag} spec is ${(isString(spec) && 'string') || (spec instanceof Node && 'Node') || (Array.isArray(spec) && 'Array') || 'Unknown type'}`);
-    if (isString(spec) || spec instanceof Node || Array.isArray(spec)) {
+    if (isString(spec) || spec instanceof Node || isArray(spec) || isFunction(spec)) {
       content = spec;
       spec = {};
     }
@@ -108,12 +112,15 @@ class Node {
     //console.log(`add(${toStr(content)}) children:${toStr(this[PROPERTY_CHILDREN])}`);
 
     // Make sure children is an array.
-    if (!Array.isArray(this[PROPERTY_CHILDREN])) { this[PROPERTY_CHILDREN] = [this[PROPERTY_CHILDREN]]; }
+    if (!isArray(this[PROPERTY_CHILDREN])) { this[PROPERTY_CHILDREN] = [this[PROPERTY_CHILDREN]]; }
 
     // Make it possible to add more than one content at a time.
     const newContents = Array.isArray(content) ? content : [content];
     const newNodes = [];
     newContents.forEach(newContent => {
+      while (isFunction(newContent)) {
+        newContent = newContent();
+      }
       if (isString(newContent)) {
         this[PROPERTY_CHILDREN].push(newContent);
       } else if (newContent instanceof Node) {

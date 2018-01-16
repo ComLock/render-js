@@ -1,24 +1,23 @@
-/* eslint-disable arrow-body-style */
-/* eslint-disable function-paren-newline */
 /* eslint-disable max-len */
-/* eslint-disable no-new-object */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable spaced-comment */
-
 /* eslint-enable no-console */
 
+
 import { el as htmlEl, ELEMENTS } from './index';
-import { dasherize, isInt, isString, sortAndRemoveDups, toStr } from './util.es';
+import {
+  isArray,
+  isArrayOrFuncOrString,
+  isFunction,
+  isString,
+  sortAndRemoveDups/*,
+  toStr*/
+} from './util.es';
 import {
   classAppendAndCssFromMedia,
-  classAppendAndCssFromStyle,
-  CSS_MEDIA_WORD_TO_ABBR,
-  CSS_PROP_TO_ABBR,
-  CSS_PROP_VALUES_TO_ABBR,
-  toClassName
+  classAppendAndCssFromStyle
 } from './src/css.es';
 
 // export { html, head } from './index';
@@ -47,15 +46,16 @@ exports.el = (
     autoprefixer = true
   } = {}
 ) => {
-  // TRACE && console.log(`tag:${toStr(tag)} spec:${toStr(spec)} content:${toStr(content)}`);
+  //console.log(`tag:${toStr(tag)} spec:${toStr(spec)} content:${toStr(content)}`);
   // TRACE && console.log(`spec instanceof Node:${spec instanceof Node}`);
-  if (isString(spec) || spec instanceof Node) {
+  if (spec instanceof Node || isArrayOrFuncOrString(spec)) {
     content = spec;
     spec = {};
   }
-  // TRACE && console.log(`tag:${toStr(tag)} spec:${toStr(spec)} content:${toStr(content)}`);
-  let css = content instanceof Node ? content.css : []; // Assuming Node always has a css property.
-  if (spec) {
+  //console.log(`tag:${toStr(tag)} spec:${toStr(spec)} content:${toStr(content)}`);
+
+  let css = [];
+  if (spec) { // generate css from spec.style and spec._media append to spec.class
     if (spec.style) {
       const s = classAppendAndCssFromStyle(spec.style, { autoprefixer });
       spec.class = [].concat(spec.class, s.classAppend).filter(n => n); // Remove null elements;
@@ -69,10 +69,24 @@ exports.el = (
       // TRACE && console.log(`css:${toStr(css)}`);
       spec._media = null; // Don't pass to htmlEl as attribute. NOTE this means cannot have attribute named _media
     }
-  }
+  } // generate css from spec
+
+  if (!isArray(content)) { content = [content]; } // forceArray to simplify code
+  content = content.map(item => {
+    while (isFunction(item)) {
+      item = item();
+    }
+    if (item instanceof Node) {
+      css = sortAndRemoveDups(css.concat(item.css));
+      return item.html;
+    }
+    if (isString(item)) { return item; }
+    return '';
+  }).join(''); // map
+
   // const string = content instanceof Node ? content.html : content;
   return new Node({
-    html: htmlEl(tag, spec, content instanceof Node ? content.html : content), // Allow content to be Node or string
+    html: htmlEl(tag, spec, content),
     css
   });
 };

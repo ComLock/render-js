@@ -206,6 +206,10 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+### 1.11.0
+
+* You can now pass a function as content. Or an array of functions++.
+
 ### 1.10.0
 
 * html, head and body accessible as property on any node

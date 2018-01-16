@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-expressions */
+/* eslint-disable max-len */
 
 
 // const DEBUG = false;
@@ -43,10 +44,19 @@ export function dasherize(str) {
 export const dict = arr => Object.assign(...arr.map(([k, v]) => ({ [k]: v })));
 
 
+export function isArray(value) {
+  return Array.isArray(value);
+}
+
+
 export function isBool(value) {
   return typeof (value) === typeof (true);
 }
 
+
+export function isFunction(value) {
+  return !!(value && value.constructor && value.call && value.apply); // highly performant from underscore
+}
 
 /* eslint-disable no-restricted-globals */
 export function isInt(value) {
@@ -73,6 +83,11 @@ export function isString(value) {
 
 export function isArrayOrString(value) {
   return Array.isArray(value) || isString(value);
+}
+
+
+export function isArrayOrFuncOrString(value) {
+  return Array.isArray(value) || isString(value) || isFunction(value);
 }
 
 
