@@ -20,7 +20,9 @@ import {
   toStr
 } from '../util.es';
 
-const addDefaultUnit = defaultUnit().onChangeValue;
+const addDefaultUnit = defaultUnit({
+  'line-height': 'px'
+}).onChangeValue;
 
 // const prefixer = postCssSync([_autoprefixer]);
 
