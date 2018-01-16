@@ -206,6 +206,11 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+### 1.12.0
+
+* Limited support for nested selectors (&:hover div)
+* Apply default units to css property values using jss-default-unit.
+
 ### 1.11.0
 
 * You can now pass a function as content. Or an array of functions++.
