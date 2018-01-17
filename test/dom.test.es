@@ -69,6 +69,25 @@ describe('dom', () => {
     );
   });
 
+  it('Issue #9 CSS order matters', () => {
+    deepStrictEqual(
+      div({
+        _media: {
+          minWidth800: {
+            width: 660
+          },
+          minWidth1200: {
+            width: 1020
+          }
+        }
+      }).getCss(),
+      [
+        '@media (min-width: 800px).w-660-w-mi-800{width: 660px;}',
+        '@media (min-width: 1200px).w-1020-w-mi-1200{width: 1020px;}'
+      ]
+    ); // deepStrictEqual
+  }); // it
+
   it('_media', () => {
     const content = 'Only visible from screen width 480';
     const classA = 'd-n';

@@ -98,6 +98,27 @@ describe('ncss', () => {
     );
   });
 
+
+  it('Issue #9 CSS order matters', () => {
+    deepStrictEqual(
+      div({
+        _media: {
+          minWidth800: {
+            width: 660
+          },
+          minWidth1200: {
+            width: 1020
+          }
+        }
+      }).css,
+      [
+        '@media (min-width: 800px).w-660-w-mi-800{width: 660px;}',
+        '@media (min-width: 1200px).w-1020-w-mi-1200{width: 1020px;}'
+      ]
+    ); // deepStrictEqual
+  }); // it
+
+
   it('nested elements with spec.style and spec._media', () => {
     const classA = 'c-b';
     const classB = 'd-n';
