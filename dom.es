@@ -193,13 +193,13 @@ class Node {
     if (spec.style) {
       const s = classAppendAndCssFromStyle(spec.style, { autoprefixer });
       spec.class = [].concat(spec.class, s.classAppend).filter(n => n); // Remove null elements;
-      this[PROPERTY_CSS] = sortAndRemoveDups(this[PROPERTY_CSS].concat(s.css));
+      this[PROPERTY_CSS] = this[PROPERTY_CSS].concat(s.css);
       spec.style = null;
     }
     if (spec._media) {
       const o = classAppendAndCssFromMedia(spec._media, { autoprefixer });
       spec.class = [].concat(spec.class, o.classAppend).filter(n => n); // Remove null elements;
-      this[PROPERTY_CSS] = sortAndRemoveDups(this[PROPERTY_CSS].concat(o.css));
+      this[PROPERTY_CSS] = this[PROPERTY_CSS].concat(o.css);
     }
     const attributes = att2Str({ ...spec, _media: null }); //DEBUG && console.log(`attributes:${toStr(attributes)}`);
     if (isVoid(tag)) { this[PROPERTY_HTML] = `<${tag}${attributes}/>`; return this; }
@@ -209,7 +209,7 @@ class Node {
     if (children instanceof Node) {
       children.build();
       this[PROPERTY_HTML] = `<${tag}${attributes}>${children[PROPERTY_HTML]}</${tag}>`;
-      this[PROPERTY_CSS] = sortAndRemoveDups(this[PROPERTY_CSS].concat(children[PROPERTY_CSS]));
+      this[PROPERTY_CSS] = this[PROPERTY_CSS].concat(children[PROPERTY_CSS]);
       return this;
     }
     if (Array.isArray(children)) {
@@ -224,7 +224,6 @@ class Node {
         }
       }); // forEach(child
       this[PROPERTY_HTML] = `<${tag}${attributes}>${innerHtml}</${tag}>`;
-      this[PROPERTY_CSS] = sortAndRemoveDups(this[PROPERTY_CSS]);
       return this;
     } // childen isArray
     //WARN && console.warn(`NODE: children not String, Node or Array of Nodes!`);
@@ -233,7 +232,7 @@ class Node {
   } // build
 
   getCss() {
-    return this.build()[PROPERTY_CSS];
+    return sortAndRemoveDups(this.build()[PROPERTY_CSS]);
   }
 
   render() {
@@ -255,7 +254,7 @@ class Dom extends Node {
     if (isString(children)) { this[PROPERTY_HTML] = children; return this; }
     if (children instanceof Node) {
       this[PROPERTY_HTML] = children.build()[PROPERTY_HTML];
-      this[PROPERTY_CSS] = children[PROPERTY_CSS] ? sortAndRemoveDups(children[PROPERTY_CSS]) : [];
+      this[PROPERTY_CSS] = children[PROPERTY_CSS] ? children[PROPERTY_CSS] : [];
       return this;
     }
     if (Array.isArray(children)) {
@@ -270,7 +269,6 @@ class Dom extends Node {
         }
       }); // forEach(child
       this[PROPERTY_HTML] = innerHtml;
-      this[PROPERTY_CSS] = sortAndRemoveDups(this[PROPERTY_CSS]);
       return this;
     }
     //WARN && console.warn(`DOM: children not String, Node or Array of Nodes!`);
