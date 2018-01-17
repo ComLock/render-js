@@ -154,10 +154,10 @@ describe('ncss', () => {
       new Node({
         html: `<div class="${classC} ${classD} ${classB}"><p class="${classA} ${classC} ${classD}">String</p></div>`,
         css: [ // NOTE Order changes due to sortAndRemoveDups
-          `.${classA}{color:black}`,
           `.${classB}{display:none}`,
-          `@media (min-width: 1024px){.${classD}{display:inline-block}}`,
-          `@media (min-width: 480px){.${classC}{display:block}}`
+          `.${classA}{color:black}`,
+          `@media (min-width: 480px){.${classC}{display:block}}`,
+          `@media (min-width: 1024px){.${classD}{display:inline-block}}`
         ]
       })
     ); // deepStrictEqual
@@ -197,8 +197,8 @@ describe('ncss', () => {
   <title>Title</title>
   <style type="text/css">
     .c-b{color:black}
-    @media (min-width: 1024px){.d-ib-w-mi-1024{display:inline-block}}
     @media (min-width: 480px){.d-b-w-mi-480{display:block}}
+    @media (min-width: 1024px){.d-ib-w-mi-1024{display:inline-block}}
     </style>
   </head>
   <body>
@@ -244,12 +244,12 @@ describe('ncss', () => {
       , new Node({
         css: [
           `.${classA}{un-known:100}`,
-          `${pre}${classB}{color:black}}`,
           `${pre}${classC}{display:invalid}}`,
-          `${pre}${classD}{exclamation:!exclamation}}`,
-          `${pre}${classE}{int:100}}`,
-          `${pre}${classF}{percent:100%}}`,
           `${pre}${classG}{un-known:va lue}}`,
+          `${pre}${classE}{int:100}}`,
+          `${pre}${classB}{color:black}}`,
+          `${pre}${classF}{percent:100%}}`,
+          `${pre}${classD}{exclamation:!exclamation}}`,
           `${pre}${classH}{underscore:_underscore_}}`,
           `${pre}${classI}{unicode-letters:${UNICODE_LETTERS}}}`
         ],
