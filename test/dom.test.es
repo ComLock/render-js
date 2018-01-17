@@ -82,8 +82,8 @@ describe('dom', () => {
         }
       }).getCss(),
       [
-        '@media (min-width: 800px).w-660-w-mi-800{width: 660px;}',
-        '@media (min-width: 1200px).w-1020-w-mi-1200{width: 1020px;}'
+        '@media (min-width: 800px){.w-660-w-mi-800{width:660px}}',
+        '@media (min-width: 1200px){.w-1020-w-mi-1200{width:1020px}}'
       ]
     ); // deepStrictEqual
   }); // it

@@ -8,13 +8,16 @@
 
 import { ELEMENTS, att2Str, isVoid } from './src/html.es';
 import { doctype } from './index';
-import { classAppendAndCssFromMedia, classAppendAndCssFromStyle } from './src/css.es';
+import {
+  classAppendAndCssFromMedia,
+  classAppendAndCssFromStyle,
+  uniqCss
+} from './src/css.es';
 import {
   isArray,
   isFunction,
   isSet,
   isString,
-  sortAndRemoveDups,
   toStr
 } from './util.es';
 
@@ -232,7 +235,7 @@ class Node {
   } // build
 
   getCss() {
-    return sortAndRemoveDups(this.build()[PROPERTY_CSS]);
+    return uniqCss(this.build()[PROPERTY_CSS]);
   }
 
   render() {

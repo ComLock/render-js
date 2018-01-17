@@ -17,6 +17,7 @@ import {
   dasherize,
   dict,
   isSet,
+  isString,
   toStr
 } from '../util.es';
 
@@ -844,3 +845,17 @@ export function classAppendAndCssFromMedia(
     css
   };
 } // export function classAppendAndCssFromMedia
+
+
+export function uniqCss(arr) {
+  const style = [];
+  const media = [];
+  arr.forEach(line => {
+    if (isString(line)) {
+      if (line.startsWith('@')) {
+        if (!media.includes(line)) { media.push(line); }
+      } else if (!style.includes(line)) { style.push(line); }
+    }
+  });
+  return style.concat(media);
+} // export function uniqCss

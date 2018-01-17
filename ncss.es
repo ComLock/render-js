@@ -11,13 +11,13 @@ import {
   isArray,
   isArrayOrFuncOrString,
   isFunction,
-  isString,
-  sortAndRemoveDups/*,
+  isString/*,
   toStr*/
 } from './util.es';
 import {
   classAppendAndCssFromMedia,
-  classAppendAndCssFromStyle
+  classAppendAndCssFromStyle,
+  uniqCss
 } from './src/css.es';
 
 // export { html, head } from './index';
@@ -59,13 +59,13 @@ exports.el = (
     if (spec.style) {
       const s = classAppendAndCssFromStyle(spec.style, { autoprefixer });
       spec.class = [].concat(spec.class, s.classAppend).filter(n => n); // Remove null elements;
-      css = sortAndRemoveDups(css.concat(s.css));
+      css = uniqCss(css.concat(s.css));
       spec.style = null; // Generate away the style attribute, so we can avoid !important
     }
     if (spec._media) {
       const o = classAppendAndCssFromMedia(spec._media, { autoprefixer });
       spec.class = [].concat(spec.class, o.classAppend).filter(n => n); // Remove null elements;
-      css = sortAndRemoveDups(css.concat(o.css));
+      css = uniqCss(css.concat(o.css));
       // TRACE && console.log(`css:${toStr(css)}`);
       spec._media = null; // Don't pass to htmlEl as attribute. NOTE this means cannot have attribute named _media
     }
@@ -77,7 +77,7 @@ exports.el = (
       item = item();
     }
     if (item instanceof Node) {
-      css = sortAndRemoveDups(css.concat(item.css));
+      css = uniqCss(css.concat(item.css));
       return item.html;
     }
     if (isString(item)) { return item; }
