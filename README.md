@@ -206,6 +206,10 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+### 1.12.1
+
+* Fix #9 Css order
+
 ### 1.12.0
 
 * Limited support for nested selectors (&:hover div)
