@@ -7,7 +7,7 @@ import {
   isSet,
   isString,
   objectToCssDeclarations,
-  sortAndRemoveDups// ,
+  sortedUniqStr// ,
   // toStr
 } from '../util.es';
 
@@ -79,13 +79,13 @@ export function att2Str(attributes) {
     if (isSet(attributes[a])) {
       if (isString(attributes[a])) {
         if (a === 'class') {
-          return `class="${sortAndRemoveDups(attributes[a].split(' ')).join(' ')}"`;
+          return `class="${sortedUniqStr(attributes[a].split(' '))}"`;
         }
         return attributes[a].length ? `${dasherize(a)}="${attributes[a]}"` : `${dasherize(a)}`;
       }
       if (Array.isArray(attributes[a])) {
         if (a === 'class') {
-          return `class="${sortAndRemoveDups(attributes[a].join(' ').split(' ')).join(' ')}"`; // join and split to handle array item with space seperated classes.
+          return `class="${sortedUniqStr(attributes[a].join(' ').split(' '))}"`; // join and split to handle array item with space seperated classes.
         }
         return `${dasherize(a)}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
       }

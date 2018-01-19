@@ -2,6 +2,8 @@
   "extends": "airbnb",
   "globals": {
     "app": false,
+    "describe": false,
+    "it": false,
     "Java": false,
     "resolve": false,
     "__": false
@@ -14,6 +16,8 @@
         "imports": "never",
         "exports": "never",
         "functions": "never"
-    }]
+    }],
+    "import/no-extraneous-dependencies": ["off"],
+    "spaced-comment": ["off"]
   }
 }

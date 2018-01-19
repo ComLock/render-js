@@ -103,7 +103,30 @@ export function objectToCssDeclarations(obj, { newline = '' } = {}) {
 } // function objectToCssDeclarations
 
 
+// This implementation has been profiled. If you want to change it,
+// duplicate it and profile old and new too see if your changes are faster...
 export function sortAndRemoveDups(arr) {
-  return arr.sort() // must happen before removing duplicates
-    .filter((item, pos, ary) => !pos || item !== ary[pos - 1]); // removing duplicates
+  const sorted = arr.sort();
+  const uniq = [];
+  let prev = null;
+  for (let i = 0; i < sorted.length; i += 1) {
+    if (sorted[i] !== prev) { uniq.push(sorted[i]); }
+    prev = sorted[i];
+  }
+  return uniq;
 }
+
+// This implementation has been profiled. If you want to change it,
+// duplicate it and profile old and new too see if your changes are faster...
+export function sortedUniqStr(arr) {
+  const sorted = arr.sort();
+  let str = '';
+  let prev = null;
+  for (let i = 0; i < sorted.length; i += 1) {
+    if (sorted[i] !== prev) { str += ` ${sorted[i]}`; }
+    prev = sorted[i];
+  }
+  return str.substr(1);
+}
+// Slower:
+//return arr.sort().reduce((x, y, i, a) => y === a[i - 1] ? x : `${x} ${y}`, '').substr(1);

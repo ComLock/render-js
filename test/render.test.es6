@@ -1,4 +1,3 @@
-/* global describe it */
 /* eslint-disable quotes */
 /* eslint-disable quote-props */
 import { deepStrictEqual, throws } from 'assert';
