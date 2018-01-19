@@ -206,6 +206,12 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+### 1.13.0
+
+* Default units in style attribute when using index.es
+* Deprecated objectToCssDeclarations in favour of objToStyleAttr
+* Profiling led to sortedUniqStr
+
 ### 1.12.1
 
 * Fix #9 Css order
