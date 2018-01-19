@@ -96,6 +96,7 @@ export function isArrayOrFuncOrString(value) {
 }
 
 
+// NOTE Deprecated
 export function objectToCssDeclarations(obj, { newline = '' } = {}) {
   return Object.keys(obj)
     .map(name => `${dasherize(name)}: ${obj[name]}`)

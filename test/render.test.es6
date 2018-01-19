@@ -155,6 +155,16 @@ describe('render', () => {
     );
   });
 
+  it('style attribute : default units', () => {
+    deepStrictEqual(
+      div({
+        style: {
+          width: 1
+        }
+      }),
+      '<div style="width: 1px"></div>'
+    );
+  });
 
   it('throws when two args and neither is Object', () => {
     throws(

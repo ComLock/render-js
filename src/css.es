@@ -670,6 +670,13 @@ export const CSS_PROP_VALUES_TO_ABBR = dict(Object.keys(CSS_PROP_VALUES_ABBR).ma
 // DEBUG && console.log(`CSS_PROP_VALUES_TO_ABBR:${toStr(CSS_PROP_VALUES_TO_ABBR)}`);
 
 
+export function objToStyleAttr(props) {
+  return Object.keys(props)
+    .map(k => `${dasherize(k)}: ${addDefaultUnit(props[k], k)}`)
+    .join(';');
+}
+
+
 function handleNested({
   selector,
   style,

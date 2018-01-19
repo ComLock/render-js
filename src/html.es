@@ -6,10 +6,10 @@ import {
   dasherize,
   isSet,
   isString,
-  objectToCssDeclarations,
   sortedUniqStr// ,
   // toStr
 } from '../util.es';
+import { objToStyleAttr } from './css.es';
 
 
 const OBSOLETE_ELEMENTS = [
@@ -90,7 +90,7 @@ export function att2Str(attributes) {
         return `${dasherize(a)}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
       }
       if (a === 'style') {
-        return `style="${objectToCssDeclarations(attributes[a])}"`;
+        return `style="${objToStyleAttr(attributes[a])}"`;
       }
       // DEBUG && console.log(`Not string or array. attributes[${toStr(a)}]:${toStr(attributes[a])}`);
       return `${dasherize(a)}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
