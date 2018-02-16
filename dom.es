@@ -7,7 +7,7 @@
 /* eslint-enable no-console */
 
 import { ELEMENTS, att2Str, isVoid } from './src/html.es';
-import { doctype } from './index';
+import { cdata, doctype } from './index';
 import {
   classAppendAndCssFromMedia,
   classAppendAndCssFromStyle,
@@ -287,6 +287,7 @@ ELEMENTS.forEach(k => {
 });
 
 
+exports.cdata = (...args) => new Dom(cdata(...args));
 exports.doctype = (...args) => new Dom(doctype(...args));
 
 

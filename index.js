@@ -20,6 +20,11 @@ exports.ELEMENTS = ELEMENTS; // TODO backwardscompat remove in 2.0.0
 const NEWLINE = '\n';
 
 
+exports.cdata = (content = '') => `/*<![CDATA[*/
+${content}
+/*]]>*/`;
+
+
 exports.el = (tag, attributes = null, content = null) => {
   if (isArrayOrFuncOrString(attributes)) { // Allow arguments in any order
     if (isArrayOrFuncOrString(content)) {

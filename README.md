@@ -206,6 +206,10 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+### 1.14.0
+
+* cdata function (https://www.w3.org/TR/REC-xml/#dt-chardata)
+
 ### 1.13.0
 
 * Default units in style attribute when using index.es

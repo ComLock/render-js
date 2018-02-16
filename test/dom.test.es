@@ -10,13 +10,22 @@ import {
   PROPERTY_CHILDREN,
   PROPERTY_TAG,
   Dom, Node,
-  doctype, html, head, title, style,
+  cdata, doctype, html, head, title, style,
   body, main, section, header, h1, div, p, span
 } from '../dom.es';
 import { toStr } from '../util.es';
 
 
 describe('dom', () => {
+  it('cdata', () => {
+    deepStrictEqual(cdata().render(), `/*<![CDATA[*/
+
+/*]]>*/`);
+    deepStrictEqual(cdata('whatever').render(), `/*<![CDATA[*/
+whatever
+/*]]>*/`);
+  });
+
   it('empty element', () => {
     deepStrictEqual(new Dom().render(), '');
     deepStrictEqual(new Dom(html()).render(), '<html></html>');

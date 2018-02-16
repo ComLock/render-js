@@ -1,12 +1,27 @@
 /* eslint-disable quotes */
 /* eslint-disable quote-props */
 import { deepStrictEqual, throws } from 'assert';
-import R, { el, render, doctype, html, head,
+import R, { cdata, el, render, doctype, html, head,
   body, main, section, header, div, p, br
 } from '../index';
 
 
 describe('render', () => {
+  it('cdata', () => {
+    deepStrictEqual(
+      cdata(),
+      `/*<![CDATA[*/
+
+/*]]>*/`
+    );
+    deepStrictEqual(
+      cdata('whatever'),
+      `/*<![CDATA[*/
+whatever
+/*]]>*/`
+    );
+  });
+
   it('doctype', () => {
     deepStrictEqual(
       doctype(),
