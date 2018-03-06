@@ -6,9 +6,14 @@ import {
   isEmptyObject,
   isFunction,
   isObject,
-  isString,
-  toStr
+  isString//,
+  //toStr
 } from './util.es';
+import {
+  classAppendAndCssFromMedia,
+  classAppendAndCssFromStyle,
+  uniqCss
+} from './src/css.es';
 import {
   att2Str,
   isVoid
@@ -37,7 +42,7 @@ export function render({
       const tag = Object.keys(item)[0]; // There should only be one property.
       //console.log(`tag:${tag}`);
       const value = item[tag]; //console.log(`value:${toStr(value)}`);
-      let attributes = '';
+      let attrStr = '';
       let content = '';
       if (isArray(value)) {
         throw new Error(`The value of tag:${tag} cannot be of type array!`);
@@ -49,23 +54,41 @@ export function render({
         } else {
           //console.log(`tag:${tag} value:${toStr(value)}`);
           if (value.c) {
-            console.log(`tag:${tag} recursing`);
-            content = render({ view: value.c }).html; // recurse
+            //console.log(`tag:${tag} recursing`);
+            const c = render({ view: value.c }); // recurse
+            res.css = res.css.concat(c.css);
+            content = c.html;
           }
-          if (value.a) { attributes = att2Str(value.a); }
-          //if (value.m) {}
-          //if (value.s) {}
+          const attributes = value.a || {};
+          if (value.s) { // S is processed before M. This means Mobile first.
+            const s = classAppendAndCssFromStyle(value.s);
+            //console.log(`tag:${tag} s:${toStr(s)}`);
+            res.css = res.css.concat(s.css);
+            attributes.class = attributes.class ?
+              [].concat(attributes.class, s.classAppend) : s.classAppend;
+            //console.log(`tag:${tag} attributes.class:${toStr(attributes.class)}`);
+          }
+          if (value.m) {
+            const m = classAppendAndCssFromMedia(value.m);
+            //console.log(`tag:${tag} m:${toStr(m)}`);
+            res.css = res.css.concat(m.css);
+            attributes.class = attributes.class ?
+              [].concat(attributes.class, m.classAppend) : m.classAppend;
+            //console.log(`tag:${tag} attributes.class:${toStr(attributes.class)}`);
+          }
+          if (res.css) { res.css = uniqCss(res.css); }
+          if (attributes) { attrStr = att2Str(attributes); }
         }
       } else if (isString(value)) {
         content = value;
       }
-      if (isVoid(tag)) { // TODO short circuit
-        res.html += `<${tag}${attributes}/>`;
+      if (isVoid(tag)) { // TODO? short circuit
+        res.html += `<${tag}${attrStr}/>`;
       } else {
-        res.html += `<${tag}${attributes}>${content}</${tag}>`;
+        res.html += `<${tag}${attrStr}>${content}</${tag}>`;
       }
     }
   }
-  console.log(`res:${toStr(res)}`);
+  //console.log(`res:${toStr(res)}`);
   return res;
 }

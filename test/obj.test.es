@@ -120,7 +120,7 @@ describe('obj', () => {
           }, {
             body: {
               s: { // style property (will be processed to NCSS)
-                fontSize: 16
+                fontSize: 24
               },
               m: { // media property (will be processed to NCSS)
                 minWidth800: {
@@ -145,6 +145,12 @@ describe('obj', () => {
           }]
         } // html
       } // view
-    }).html, '<html class="className" style="font-size: 16px;"><head><title>Title</title></head><body><main><header><h1>Title</h1><span>Text</span></header></main></body></html>'); // deepStrictEqual
+    }), {
+      css: [
+        '.fs-24{font-size:24px}',
+        '@media (min-width: 800px){.w-660-w-mi-800{width:660px}}'
+      ],
+      html: '<html class="className" style="font-size: 16px;"><head><title>Title</title></head><body class="fs-24 w-660-w-mi-800"><main><header><h1>Title</h1><span>Text</span></header></main></body></html>'
+    }); // deepStrictEqual
   }); // it*/
 }); // describe
