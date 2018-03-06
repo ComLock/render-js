@@ -8,16 +8,16 @@ import {
   isObject,
   isString//,
   //toStr
-} from './util.es';
+} from '../util.es';
 import {
   classAppendAndCssFromMedia,
   classAppendAndCssFromStyle,
   uniqCss
-} from './src/css.es';
+} from './css.es';
 import {
   att2Str,
   isVoid
-} from './src/html.es';
+} from './html.es';
 
 
 export function render(view) {

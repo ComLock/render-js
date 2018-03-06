@@ -1,7 +1,7 @@
 /* global describe it */
 
 import { deepStrictEqual } from 'assert';
-import { render } from '../obj.es';
+import { render } from '../src/obj.es';
 
 
 describe('obj', () => {
