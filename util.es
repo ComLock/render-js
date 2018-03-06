@@ -54,6 +54,12 @@ export function isBool(value) {
 }
 
 
+// https://stackoverflow.com/questions/679915/how-do-i-test-for-an-empty-javascript-object
+export function isEmptyObject(value) {
+  return Object.keys(value).length === 0 && value.constructor === Object;
+}
+
+
 export function isFunction(value) {
   return !!(value && value.constructor && value.call && value.apply); // highly performant from underscore
 }
@@ -73,6 +79,17 @@ export function isNumeric(value) {
   return !isNaN(parseFloat(value)) && isFinite(value);
 }
 /* eslint-enable no-restricted-globals */
+
+
+/**
+ * Returns true if the value is an object. Otherwise false.
+ * Note that array and function is an object.
+ * @param {*} value
+ * @returns {boolean}
+ */
+export function isObject(value) {
+  return value === Object(value);
+}
 
 
 export function isSet(value) {
