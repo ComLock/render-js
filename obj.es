@@ -20,18 +20,10 @@ import {
 } from './src/html.es';
 
 
-export function render({
-  view,
-  res = {
-    html: '',
-    css: []
-  }
-}) {
-  //console.log(`render(${toStr({ view, res })})`);
-  if (isString(view)) {
-    res.html += view;
-    return res;
-  }
+export function render(view) {
+  //console.log(`render(${toStr(view)})`);
+  if (isString(view)) { return { css: [], html: view }; }
+  const res = { css: [], html: '' };
   const arr = isArray(view) ? view : [view]; //console.log(`arr:${toStr(arr)}`);
   for (let i = 0; i < arr.length; i += 1) {
     const item = arr[i];
@@ -55,7 +47,7 @@ export function render({
           //console.log(`tag:${tag} value:${toStr(value)}`);
           if (!boolVoid && value.c) {
             //console.log(`tag:${tag} recursing`);
-            const c = render({ view: value.c }); // recurse
+            const c = render(value.c); // recurse
             res.css = res.css.concat(c.css);
             contentStr = c.html;
           }
