@@ -206,6 +206,10 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+### 1.15.0
+
+* Obj
+
 ### 1.14.0
 
 * cdata function (https://www.w3.org/TR/REC-xml/#dt-chardata)
