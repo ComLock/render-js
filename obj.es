@@ -9,6 +9,10 @@ import {
   isString,
   toStr
 } from './util.es';
+import {
+  att2Str,
+  isVoid
+} from './src/html.es';
 
 // view, model, data, view
 // item, entry, child
@@ -31,22 +35,35 @@ export function render({
       res.html += item; // Modifying res which is passed by reference.
     } else { // isObject
       const tag = Object.keys(item)[0]; // There should only be one property.
-      //console.log(`tag:${toStr(tag)}`);
-      let value = item[tag]; //console.log(`value:${toStr(value)}`);
+      //console.log(`tag:${tag}`);
+      const value = item[tag]; //console.log(`value:${toStr(value)}`);
+      let attributes = '';
+      let content = '';
       if (isArray(value)) {
         throw new Error(`The value of tag:${tag} cannot be of type array!`);
       } else if (isFunction(value)) {
         throw new Error(`The value of tag:${tag} cannot be of type function!`);
       } else if (isObject(value)) {
-        if (isEmptyObject(value)) { value = ''; }
-        //if (item.a) {}
-        //if (item.c) {}
-        //if (item.m) {}
-        //if (item.s) {}
-      } else if (!value) {
-        value = '';
+        if (isEmptyObject(value)) {
+          content = '';
+        } else {
+          //console.log(`tag:${tag} value:${toStr(value)}`);
+          if (value.c) {
+            console.log(`tag:${tag} recursing`);
+            content = render({ view: value.c }).html; // recurse
+          }
+          if (value.a) { attributes = att2Str(value.a); }
+          //if (value.m) {}
+          //if (value.s) {}
+        }
+      } else if (isString(value)) {
+        content = value;
       }
-      res.html += `<${tag}>${value}</${tag}>`;
+      if (isVoid(tag)) { // TODO short circuit
+        res.html += `<${tag}${attributes}/>`;
+      } else {
+        res.html += `<${tag}${attributes}>${content}</${tag}>`;
+      }
     }
   }
   console.log(`res:${toStr(res)}`);
