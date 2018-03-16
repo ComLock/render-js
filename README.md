@@ -206,6 +206,10 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+### 1.17.0
+
+* modifyStyleAndMediaToClassAndCss()
+
 ### 1.16.0
 
 * Function to object syntax.

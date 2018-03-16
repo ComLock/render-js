@@ -60,6 +60,40 @@ ELEMENTS.forEach(t => {
 }); // ELEMENTS.forEach
 
 
+/* eslint-disable no-param-reassign */
+export function modifyStyleAndMediaToClassAndCss(view) {
+  if (isString(view)) { return view; }
+  const arr = isArray(view) ? view : [view];
+  const ret = arr.map(item => { //console.log(`item(${toStr(item)})`);
+    if (isString(item)) { return item; }
+    const tag = Object.keys(item)[0]; //console.log(`tag(${toStr(tag)})`);
+    const value = item[tag]; //console.log(`value(${toStr(value)})`);
+    if (isObject(value) && !isEmptyObject(value)) {
+      // S is processed before M. This means Mobile first.
+      if (value.s) { //console.log(`value.s(${toStr(value.s)})`);
+        const s = classAppendAndCssFromStyle(value.s); //console.log(`s(${toStr(s)})`);
+        item[tag].css = isArray(item[tag].css) ? item[tag].css.concat(s.css) : s.css;
+        if (!isSet(item[tag].a)) { item[tag].a = {}; }
+        item[tag].a.class = item[tag].a.class ?
+          [].concat(item[tag].a.class, s.classAppend) : s.classAppend;
+        delete item[tag].s;
+      }
+      if (value.m) { //console.log(`value.m(${toStr(value.m)})`);
+        const m = classAppendAndCssFromMedia(value.m);
+        item[tag].css = isArray(item[tag].css) ? item[tag].css.concat(m.css) : m.css;
+        if (!isSet(item[tag].a)) { item[tag].a = {}; }
+        item[tag].a.class = item[tag].a.class ?
+          [].concat(item[tag].a.class, m.classAppend) : m.classAppend;
+        delete item[tag].m;
+      }
+    }
+    return item;
+  }); // arr.map
+  return ret.length === 1 ? ret[0] : ret;
+} // export function modifyStyleAndMediaToClassAndCss
+/* eslint-enable-next-line no-param-reassign */
+
+
 export function render(view) {
   //console.log(`render(${toStr(view)})`);
   if (isString(view)) { return { css: [], html: view }; }
@@ -92,6 +126,7 @@ export function render(view) {
             contentStr = c.html;
           }
           const attrs = value.a || {};
+          if (value.css) { res.css = res.css.concat(value.css); }
           if (value.s) { // S is processed before M. This means Mobile first.
             const s = classAppendAndCssFromStyle(value.s);
             //console.log(`tag:${tag} s:${toStr(s)}`);

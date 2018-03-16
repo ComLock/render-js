@@ -1,8 +1,13 @@
 /* global describe it */
 /* eslint-disable function-paren-newline */
+/* eslint-disable no-console */
 
 import { deepStrictEqual } from 'assert';
-import { render, html, head, body, main, header, h1, span } from '../src/obj.es';
+import {
+  modifyStyleAndMediaToClassAndCss, render,
+  html, head, body, main, header, h1, div, span
+} from '../src/obj.es';
+//import { toStr } from '../util.es';
 
 
 describe('obj', () => {
@@ -177,5 +182,53 @@ describe('obj', () => {
         html: '<html class="className" style="font-size: 16px;"><head><title>Title</title></head><body class="fs-24 w-660-w-mi-800"><main><header><h1>Title</h1><span>Text</span></header></main></body></html>'
       }
     ); // deepStrictEqual
+  }); // it
+
+  it('modifyStyleAndMediaToClassAndCss(obj)', () => {
+    const obj = div({
+      _s: {
+        display: 'none'
+      },
+      _m: {
+        minWidth1: {
+          display: 'block'
+        }
+      }
+    });
+    modifyStyleAndMediaToClassAndCss(obj);
+    const css = [
+      '.d-n{display:none}',
+      '@media (min-width: 1px){.d-b-w-mi-1{display:block}}'
+    ];
+    deepStrictEqual(obj, {
+      div: {
+        a: {
+          class: [
+            'd-n',
+            'd-b-w-mi-1'
+          ]
+        },
+        css
+      },
+      _t: 'div'
+    }); // deepStrictEqual
+
+    // These are bad since clone.div references obj.div
+    //const clone = Object.assign({}, obj);
+    //const clone = { ...{}, ...obj };
+
+    // These are bad, since div gets overwritten rather than merged:
+    //const clone = { ...{}, ...obj, div: { a: { id: 'id' } } };
+    //const clone = { div: { a: { id: 'id' } }, ...obj };
+
+    const clone = JSON.parse(JSON.stringify(obj)); // Should work most of the time.
+    //const clone = Object.create(obj); // Native implementation not available yet.
+    clone.div.a.id = 'id';
+    //console.log(`clone:${toStr(clone)}`);
+    //console.log(`obj:${toStr(obj)}`); // This should not contain the id!
+    deepStrictEqual(render([obj, clone]), {
+      css,
+      html: '<div class="d-b-w-mi-1 d-n"></div><div class="d-b-w-mi-1 d-n" id="id"></div>'
+    });
   }); // it
 }); // describe
