@@ -6,6 +6,7 @@ import {
   isEmptyObject,
   isFunction,
   isObject,
+  isSet,
   isString//,
   //toStr
 } from '../util.es';
@@ -15,9 +16,48 @@ import {
   uniqCss
 } from './css.es';
 import {
+  ELEMENTS,
   att2Str,
   isVoid
 } from './html.es';
+
+
+ELEMENTS.forEach(t => {
+  exports[t] = (...args) => {
+    if (isString(args[0]) || isArray(args[0]) || !isSet(args[0]) || args[0]._t) {
+      const obj = {
+        [t]: {
+          c: args[0]
+        },
+        _t: t // So we can differentiate between attributes and element objects.
+      }; // obj
+      //console.log(`obj:${toStr(obj)}`);
+      return obj;
+    } // if
+
+    // At this point args[0] should be an attribute object.
+    const el = {
+      a: args[0]
+    };
+    if (isSet(args[1])) {
+      el.c = args[1]; // eslint-disable-line prefer-destructuring
+    }
+    if (el.a._s) {
+      el.s = el.a._s;
+      delete el.a._s;
+    }
+    if (el.a._m) {
+      el.m = el.a._m;
+      delete el.a._m;
+    }
+    const obj = {
+      [t]: el,
+      _t: t // So we can differentiate between attributes and element objects.
+    }; // obj
+    //console.log(`obj:${toStr(obj)}`);
+    return obj;
+  };
+}); // ELEMENTS.forEach
 
 
 export function render(view) {

@@ -18,6 +18,16 @@
         "functions": "never"
     }],
     "import/no-extraneous-dependencies": ["off"],
+    'no-underscore-dangle': ['error', {
+            allow: [
+                '_m',
+                '_s',
+                '_t'
+            ],
+            allowAfterThis: false,
+            allowAfterSuper: false,
+            enforceInMethodNames: false,
+        }],
     "spaced-comment": ["off"]
   }
 }
