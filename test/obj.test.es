@@ -194,12 +194,21 @@ describe('obj', () => {
           display: 'block'
         }
       }
-    });
+    }, span({
+      _s: {
+        display: 'inline-block'
+      },
+      _m: {
+        minWidth1: {
+          display: 'flex'
+        }
+      }
+    }));
     modifyStyleAndMediaToClassAndCss(obj);
-    const css = [
-      '.d-n{display:none}',
-      '@media (min-width: 1px){.d-b-w-mi-1{display:block}}'
-    ];
+    const divS = '.d-n{display:none}';
+    const divM = '@media (min-width: 1px){.d-b-w-mi-1{display:block}}';
+    const spanS = '.d-ib{display:inline-block}';
+    const spanM = '@media (min-width: 1px){.d-f-w-mi-1{display:flex}}';
     deepStrictEqual(obj, {
       div: {
         a: {
@@ -208,7 +217,25 @@ describe('obj', () => {
             'd-b-w-mi-1'
           ]
         },
-        css
+        css: [
+          divS,
+          divM
+        ],
+        c: {
+          span: {
+            a: {
+              class: [
+                'd-ib',
+                'd-f-w-mi-1'
+              ]
+            },
+            css: [
+              spanS,
+              spanM
+            ]
+          },
+          _t: 'span'
+        }
       },
       _t: 'div'
     }); // deepStrictEqual
@@ -227,8 +254,13 @@ describe('obj', () => {
     //console.log(`clone:${toStr(clone)}`);
     //console.log(`obj:${toStr(obj)}`); // This should not contain the id!
     deepStrictEqual(render([obj, clone]), {
-      css,
-      html: '<div class="d-b-w-mi-1 d-n"></div><div class="d-b-w-mi-1 d-n" id="id"></div>'
+      css: [
+        spanS,
+        divS,
+        spanM,
+        divM
+      ],
+      html: '<div class="d-b-w-mi-1 d-n"><span class="d-f-w-mi-1 d-ib"></span></div><div class="d-b-w-mi-1 d-n" id="id"><span class="d-f-w-mi-1 d-ib"></span></div>'
     });
   }); // it
 }); // describe

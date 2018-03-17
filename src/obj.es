@@ -86,6 +86,9 @@ export function modifyStyleAndMediaToClassAndCss(view) {
           [].concat(item[tag].a.class, m.classAppend) : m.classAppend;
         delete item[tag].m;
       }
+      if (value.c) {
+        modifyStyleAndMediaToClassAndCss(value.c);
+      }
     }
     return item;
   }); // arr.map
