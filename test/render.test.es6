@@ -2,7 +2,7 @@
 /* eslint-disable quote-props */
 import { deepStrictEqual, throws } from 'assert';
 import R, { cdata, el, render, doctype, html, head,
-  body, main, section, header, div, p, br
+  body, main, section, header, div, p, br, svg
 } from '../index';
 
 
@@ -230,5 +230,11 @@ whatever
       ]),
       '<section><header></header><p></p></section>'
     );
-  });
+  }); // it
+
+  it('handles svg viewBox attribute which is case sensitive', () => {
+    const VIEWBOX = '0 0 1 1';
+    const view = svg({ viewBox: VIEWBOX });
+    deepStrictEqual(view, `<svg viewBox="${VIEWBOX}"></svg>`);
+  }); // it
 }); // describe

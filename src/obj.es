@@ -16,13 +16,17 @@ import {
   uniqCss
 } from './css.es';
 import {
-  ELEMENTS,
+  ELEMENTS as HTML_ELEMENTS,
   att2Str,
   isVoid
 } from './html.es';
+import { SVG_NOT_HTML_ELEMENTS } from './svg.es';
 
 
-ELEMENTS.forEach(t => {
+const HTML_AND_SVG_ELEMENTS = HTML_ELEMENTS.concat(SVG_NOT_HTML_ELEMENTS);
+
+
+HTML_AND_SVG_ELEMENTS.forEach(t => {
   exports[t] = (...args) => {
     if (isString(args[0]) || isArray(args[0]) || !isSet(args[0]) || args[0]._t) {
       const obj = {

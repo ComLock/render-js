@@ -77,23 +77,24 @@ export function att2Str(attributes) {
   // DEBUG && console.log(`attributes:${toStr(attributes)}`);
   attributes = Object.keys(attributes).sort().map(a => {
     if (isSet(attributes[a])) {
+      const property = a === 'viewBox' ? 'viewBox' : dasherize(a); // svg viewBox is case-sensitive!
       if (isString(attributes[a])) {
         if (a === 'class') {
           return `class="${sortedUniqStr(attributes[a].split(' '))}"`;
         }
-        return attributes[a].length ? `${dasherize(a)}="${attributes[a]}"` : `${dasherize(a)}`;
+        return attributes[a].length ? `${property}="${attributes[a]}"` : `${property}`;
       }
       if (Array.isArray(attributes[a])) {
         if (a === 'class') {
           return `class="${sortedUniqStr(attributes[a].join(' ').split(' '))}"`; // join and split to handle array item with space seperated classes.
         }
-        return `${dasherize(a)}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
+        return `${property}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
       }
       if (a === 'style') {
         return `style="${objToStyleAttr(attributes[a])}"`;
       }
       // DEBUG && console.log(`Not string or array. attributes[${toStr(a)}]:${toStr(attributes[a])}`);
-      return `${dasherize(a)}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
+      return `${property}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
     }
     return null;
   }).filter(n => n) // Remove null elements

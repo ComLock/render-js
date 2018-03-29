@@ -5,7 +5,7 @@
 import { deepStrictEqual } from 'assert';
 import {
   modifyStyleAndMediaToClassAndCss, render,
-  html, head, body, main, header, h1, div, span
+  html, head, body, main, header, h1, div, span, svg
 } from '../src/obj.es';
 //import { toStr } from '../util.es';
 
@@ -261,6 +261,23 @@ describe('obj', () => {
         divM
       ],
       html: '<div class="d-b-w-mi-1 d-n"><span class="d-f-w-mi-1 d-ib"></span></div><div class="d-b-w-mi-1 d-n" id="id"><span class="d-f-w-mi-1 d-ib"></span></div>'
+    });
+  }); // it
+
+  it('handles svg viewBox attribute which is case sensitive', () => {
+    const VIEWBOX = '0 0 1 1';
+    const view = svg({ viewBox: VIEWBOX });
+    deepStrictEqual(view, {
+      svg: {
+        a: {
+          viewBox: VIEWBOX
+        }
+      },
+      _t: 'svg'
+    });
+    deepStrictEqual(render(view), {
+      css: [],
+      html: `<svg viewBox="${VIEWBOX}"></svg>`
     });
   }); // it
 }); // describe

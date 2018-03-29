@@ -11,7 +11,7 @@ import {
   PROPERTY_TAG,
   Dom, Node,
   cdata, doctype, html, head, title, style,
-  body, main, section, header, h1, div, p, span
+  body, main, section, header, h1, div, p, span, svg
 } from '../dom.es';
 import { toStr } from '../util.es';
 
@@ -395,4 +395,10 @@ whatever
 </body>
 </html>`));
   }); // it view
+
+  it('handles svg viewBox attribute which is case sensitive', () => {
+    const VIEWBOX = '0 0 1 1';
+    const view = svg({ viewBox: VIEWBOX });
+    deepStrictEqual(view.render(), `<svg viewBox="${VIEWBOX}"></svg>`);
+  }); // it
 }); // describe

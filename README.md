@@ -206,6 +206,11 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+### 1.18.0
+
+* SVG elements
+* Handle SVG´s case sensitive viewBox attribute
+
 ### 1.17.1
 
 * Recursive modifyStyleAndMediaToClassAndCss()

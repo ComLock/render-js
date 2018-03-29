@@ -10,10 +10,11 @@ import {
   // isSet,
   toStr
 } from './util.es';
-import { ELEMENTS, att2Str, isVoid } from './src/html.es';
+import { ELEMENTS as HTML_ELEMENTS, att2Str, isVoid } from './src/html.es';
+import { SVG_NOT_HTML_ELEMENTS } from './src/svg.es';
 
 
-exports.ELEMENTS = ELEMENTS; // TODO backwardscompat remove in 2.0.0
+exports.ELEMENTS = HTML_ELEMENTS; // TODO backwardscompat remove in 2.0.0
 
 
 // const DEBUG = false;
@@ -76,8 +77,8 @@ exports.doctype = ({
   legacy = null // '"-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"'
 } = {}) => `<!DOCTYPE ${type}${system ? ' ' + system : ''}${legacy ? ' ' + legacy : ''}>`; // eslint-disable-line prefer-template
 
-
-ELEMENTS.forEach(k => {
+const HTML_AND_SVG_ELEMENTS = HTML_ELEMENTS.concat(SVG_NOT_HTML_ELEMENTS);
+HTML_AND_SVG_ELEMENTS.forEach(k => {
   exports[k] = (...args) => exports.el(k, ...args);
 });
 

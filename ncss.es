@@ -6,7 +6,8 @@
 /* eslint-enable no-console */
 
 
-import { el as htmlEl, ELEMENTS } from './index';
+import { el as htmlEl, ELEMENTS as HTML_ELEMENTS } from './index';
+import { SVG_NOT_HTML_ELEMENTS } from './src/svg.es';
 import {
   isArray,
   isArrayOrFuncOrString,
@@ -92,7 +93,9 @@ exports.el = (
 };
 
 
-ELEMENTS.forEach(k => {
+const HTML_AND_SVG_ELEMENTS = HTML_ELEMENTS.concat(SVG_NOT_HTML_ELEMENTS);
+
+HTML_AND_SVG_ELEMENTS.forEach(k => {
   exports[k] = (...args) => exports.el(k, ...args);
 });
 

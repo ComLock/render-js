@@ -6,7 +6,9 @@
 import { deepStrictEqual } from 'assert';
 import { removeWhiteSpace } from './util.es';
 import { render, doctype, html, head, title, style } from '../index';
-import { el, Node, body, div, p, main, section, header, h1 } from '../ncss.es';
+import {
+  el, Node, body, div, p, main, section, header, h1, svg
+} from '../ncss.es';
 import { UNICODE_LETTERS } from '../util.es';
 
 
@@ -278,5 +280,11 @@ describe('ncss', () => {
       ]).html,
       '<section><header></header><p></p></section>'
     );
-  });
+  }); // it
+
+  it('handles svg viewBox attribute which is case sensitive', () => {
+    const VIEWBOX = '0 0 1 1';
+    const view = svg({ viewBox: VIEWBOX });
+    deepStrictEqual(view.html, `<svg viewBox="${VIEWBOX}"></svg>`);
+  }); // it
 }); // describe ncss

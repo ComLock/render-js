@@ -6,7 +6,8 @@
 /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
 /* eslint-enable no-console */
 
-import { ELEMENTS, att2Str, isVoid } from './src/html.es';
+import { ELEMENTS as HTML_ELEMENTS, att2Str, isVoid } from './src/html.es';
+import { SVG_NOT_HTML_ELEMENTS } from './src/svg.es';
 import { cdata, doctype } from './index';
 import {
   classAppendAndCssFromMedia,
@@ -281,8 +282,9 @@ class Dom extends Node {
 } // class Dom
 exports.Dom = Dom;
 
+const HTML_AND_SVG_ELEMENTS = HTML_ELEMENTS.concat(SVG_NOT_HTML_ELEMENTS);
 
-ELEMENTS.forEach(k => {
+HTML_AND_SVG_ELEMENTS.forEach(k => {
   exports[k] = (...args) => new Node(k, ...args);
 });
 
