@@ -12,7 +12,6 @@
 
 // import _autoprefixer from 'autoprefixer';
 // import { sync as postCssSync } from 'postcss-js';
-import defaultUnit from 'jss-default-unit';
 import {
   dasherize,
   dict,
@@ -21,9 +20,11 @@ import {
   toStr
 } from '../util.es';
 
-const addDefaultUnit = defaultUnit({
-  'line-height': 'px'
-}).onChangeValue;
+
+import {addDefaultUnit} from './css/addDefaultUnit.es';
+
+
+export {objToStyleAttr} from './css/objToStyleAttr.es';
 
 // const prefixer = postCssSync([_autoprefixer]);
 
@@ -668,13 +669,6 @@ export const CSS_PROP_VALUES_TO_ABBR = dict(Object.keys(CSS_PROP_VALUES_ABBR).ma
   dict(Object.keys(CSS_PROP_VALUES_ABBR[prop]).map(a => [CSS_PROP_VALUES_ABBR[prop][a], a]))
 ]));
 // DEBUG && console.log(`CSS_PROP_VALUES_TO_ABBR:${toStr(CSS_PROP_VALUES_TO_ABBR)}`);
-
-
-export function objToStyleAttr(props) {
-  return Object.keys(props)
-    .map(k => `${dasherize(k)}: ${addDefaultUnit(props[k], k)}`)
-    .join(';');
-}
 
 
 function handleNested({
