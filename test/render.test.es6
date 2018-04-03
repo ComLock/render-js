@@ -166,7 +166,7 @@ whatever
           gridTemplateColumns: 'auto 16px 1rem 25% 1fr'
         }
       }),
-      '<div style="grid-template-rows: auto;grid-template-columns: auto 16px 1rem 25% 1fr"></div>'
+      '<div style="grid-template-rows:auto;grid-template-columns:auto 16px 1rem 25% 1fr"></div>'
     );
   });
 
@@ -177,7 +177,7 @@ whatever
           width: 1
         }
       }),
-      '<div style="width: 1px"></div>'
+      '<div style="width:1px"></div>'
     );
   });
 
