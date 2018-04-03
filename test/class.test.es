@@ -1,5 +1,11 @@
 import {deepStrictEqual} from 'assert';
-import {html, svg, render} from '../src/class.es';
+import {
+  html, head, title, body, main, h1,
+  svg,
+  addContent, getAttribute, getAttributes, getContent, setAttribute,
+  setAttributes, setContent,
+  clone, render
+} from '../src/class.es';
 
 
 describe('class', () => {
@@ -36,6 +42,7 @@ describe('class', () => {
         _c: 'text'
       });
     });//it
+
 
     describe('attributes', () => {
       it('dasherize', () => {
@@ -90,4 +97,68 @@ describe('class', () => {
       }); // it
     }); // describe attributes*/
   }); // describe function
+
+
+  describe('path', () => {
+    const dom = html([
+      head(title('Title')),
+      body(main(h1('Title')))
+    ]);
+    deepStrictEqual(dom.head.title._c, 'Title');
+    deepStrictEqual(dom.body.main.h1._c, 'Title');
+  }); // describe path
+
+
+  describe('dom accessors', () => {
+    const dom = html();
+    describe('dom setters', () => {
+      it('setAttributes()', () => {
+        setAttributes(dom, { name: 'value' });
+        deepStrictEqual(dom._a.name, 'value');
+      }); // it setAttributes
+      it('setAttribute()', () => {
+        setAttribute(dom, 'anotherName', 'anotherValue');
+        deepStrictEqual(dom._a.anotherName, 'anotherValue');
+      }); // it setAttribute
+      it('setContent()', () => {
+        setContent(dom, 'content');
+        deepStrictEqual(dom._c, 'content');
+      }); // it setContent
+    }); // describe dom setters
+    describe('dom adders', () => {
+      it('addContent()', () => {
+        addContent(dom, 'content');
+        deepStrictEqual(dom._c, ['content', 'content']);
+      }); // it setContent
+    }); // describe dom setters
+    describe('dom getters', () => {
+      it('getAttribute()', () => {
+        deepStrictEqual(getAttribute(dom, 'name'), 'value');
+      }); // it getAttribute
+      it('getAttributes()', () => {
+        deepStrictEqual(getAttributes(dom), {
+          name: 'value',
+          anotherName: 'anotherValue'
+        });
+        it('getContent()', () => {
+          deepStrictEqual(getContent(dom), 'content');
+        }); // it setContent
+      }); // it getAttributes
+    }); // describe dom getters
+  }); // describe dom accessors
+
+
+  describe('build', () => {
+  }); // describe build
+
+
+  describe('clone', () => {
+    it('handles nested objects and arrays', () => {
+      const dom = html();
+      const aClone = clone(dom);
+      deepStrictEqual(aClone, {
+        _t: 'html'
+      });
+    }); // it
+  }); // describe clone
 });// describe class

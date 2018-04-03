@@ -7,6 +7,15 @@ import {element as importedElement} from './class/element.es';
 
 
 export const element = importedElement;
+export {build} from './class/build.es';
+export {addContent} from './class/addContent.es';
+export {getAttribute} from './class/getAttribute.es';
+export {getAttributes} from './class/getAttributes.es';
+export {getContent} from './class/getContent.es';
+export {setAttribute} from './class/setAttribute.es';
+export {setAttributes} from './class/setAttributes.es';
+export {setContent} from './class/setContent.es';
+export {clone} from './class/clone.es';
 export {render} from './class/render.es';
 
 
