@@ -206,6 +206,10 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+### 1.19.1
+
+* Deepmerge is a runtime dependancy.
+
 ### 1.19.0
 
 * Class syntax (semantic, path, style, build, clone, content, render)

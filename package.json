@@ -1,6 +1,7 @@
 {
   "author": "Christian Westgaard <cwe@enonic.com>",
   "dependencies": {
+    "deepmerge": "^2.1.0",
     "jss-default-unit": "^8.0.2"
   },
   "devDependencies": {
@@ -17,7 +18,6 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "convert-hrtime": "^2.0.0",
-    "deepmerge": "^2.1.0",
     "eslint": "^4.13.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
@@ -47,5 +47,5 @@
     "mocha": "node_modules/.bin/mocha -c --require babel-core/register",
     "test": "npm run mocha -- test/*.es* test/*/*.es*"
   },
-  "version": "1.19.0"
+  "version": "1.19.1"
 }
