@@ -2,6 +2,7 @@
 
 
 import merge from 'deepmerge';
+import {isArray} from '../util/isArray.es';
 
 
-export const clone = obj => merge({}, obj);
+export const clone = obj => merge(isArray(obj) ? [] : {}, obj);

@@ -16,7 +16,6 @@ import {
   dasherize,
   dict,
   isSet,
-  isString,
   toStr
 } from '../util.es';
 
@@ -25,6 +24,7 @@ import {addDefaultUnit} from './css/addDefaultUnit.es';
 
 
 export {objToStyleAttr} from './css/objToStyleAttr.es';
+export {uniqCss} from './css/uniqCss.es';
 
 // const prefixer = postCssSync([_autoprefixer]);
 
@@ -847,17 +847,3 @@ export function classAppendAndCssFromMedia(
     css
   };
 } // export function classAppendAndCssFromMedia
-
-
-export function uniqCss(arr) {
-  const style = [];
-  const media = [];
-  arr.forEach(line => {
-    if (isString(line)) {
-      if (line.startsWith('@')) {
-        if (!media.includes(line)) { media.push(line); }
-      } else if (!style.includes(line)) { style.push(line); }
-    }
-  });
-  return style.concat(media);
-} // export function uniqCss

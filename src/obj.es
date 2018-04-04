@@ -165,4 +165,4 @@ export function render(view) {
   }
   //console.log(`res:${toStr(res)}`);
   return res;
-}
+} // export function render

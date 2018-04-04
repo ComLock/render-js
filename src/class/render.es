@@ -1,21 +1,20 @@
 /* eslint-disable import/prefer-default-export */
 
 
-import {att2Str} from '../html/att2Str.es';
-import {isVoid} from '../html/isVoid.es';
 import {
   PROP_ATTR,
   PROP_CONTENT,
   PROP_CSS,
   PROP_TAG
 } from './element.es';
-import {
-  isArray,
-  //isEmptyObject,
-  //isFunction,
-  //isObject,
-  isString
-} from '../util.es';
+import {buildStyleAndMedia} from './build.es';
+import {uniqCss} from '../css/uniqCss.es';
+import {att2Str} from '../html/att2Str.es';
+import {isVoid} from '../html/isVoid.es';
+import {isArray} from '../util/isArray.es';
+import {isString} from '../util/isString.es';
+//import {toStr} from '../util/toStr.es';
+
 
 /*, {
   dasherizeHtmlAttributes = true,
@@ -36,16 +35,17 @@ export function render(dom) {
 
       let contentStr = '';
       if (!boolVoid && item[PROP_CONTENT]) {
-        //console.log(`tag:${tag} recursing`);
+        //console.log(`tag:${PROP_TAG} recursing`);
         const c = render(item[PROP_CONTENT]); // recurse
-        //res.css = res.css.concat(c.css);
+        res.css = res.css.concat(c.css);
         contentStr = c.html;
       }
-      const attrs = item[PROP_ATTR] || {};
+
+      buildStyleAndMedia(item); // console.log(`item:${toStr(item)}`);
       if (item[PROP_CSS]) { res.css = res.css.concat(item[PROP_CSS]); }
-      //if (res.css) { res.css = uniqCss(res.css); }
-      let attrStr = '';
-      if (attrs) { attrStr = att2Str(attrs); }
+      if (res.css) { res.css = uniqCss(res.css); }
+
+      const attrStr = item[PROP_ATTR] ? att2Str(item[PROP_ATTR]) : '';
       if (boolVoid) {
         res.html += `<${item[PROP_TAG]}${attrStr}/>`;
       } else {

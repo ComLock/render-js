@@ -33,9 +33,7 @@
     "/index.js",
     "/input.js",
     "/ncss.es",
-    "/src/css.es",
-    "/src/html.es",
-    "/src/obj.es",
+    "/src",
     "/util.es"
   ],
   "license": "Apache-2.0",
@@ -47,7 +45,7 @@
   "scripts": {
     "eslint": "node_modules/.bin/eslint",
     "mocha": "node_modules/.bin/mocha -c --require babel-core/register",
-    "test": "npm run mocha -- test/**/*.es*"
+    "test": "npm run mocha -- test/*.es* test/*/*.es*"
   },
-  "version": "1.18.0"
+  "version": "1.19.0"
 }

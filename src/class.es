@@ -6,17 +6,24 @@ import {SVG_NOT_HTML_ELEMENTS} from './svg.es';
 import {element as importedElement} from './class/element.es';
 
 
-export const element = importedElement;
 export {build} from './class/build.es';
+export {clone} from './class/clone.es';
 export {addContent} from './class/addContent.es';
+export const element = importedElement;
+
 export {getAttribute} from './class/getAttribute.es';
 export {getAttributes} from './class/getAttributes.es';
 export {getContent} from './class/getContent.es';
+export {getMedia} from './class/getMedia.es';
+export {getStyle} from './class/getStyle.es';
+
+export {render} from './class/render.es';
+
 export {setAttribute} from './class/setAttribute.es';
 export {setAttributes} from './class/setAttributes.es';
 export {setContent} from './class/setContent.es';
-export {clone} from './class/clone.es';
-export {render} from './class/render.es';
+export {setMedia} from './class/setMedia.es';
+export {setStyle} from './class/setStyle.es';
 
 
 const HTML_AND_SVG_ELEMENTS = HTML_ELEMENTS.concat(SVG_NOT_HTML_ELEMENTS);
@@ -125,11 +132,6 @@ Resulting Dom Object:
     preElement: Array<string|Node>, // These could affect css selectors!
     postElement: Array<string|Node>
   }
-}
-
-After build
-{
-
 }
 
 */

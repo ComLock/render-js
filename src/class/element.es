@@ -4,21 +4,25 @@
 /* eslint-disable semi-spacing */
 /* eslint-disable space-in-parens */
 
+import {cloneObj} from '../util/cloneObj.es';
 import {isArray} from '../util/isArray.es';
+import {isEmptyObject} from '../util/isEmptyObject.es';
 import {isString} from '../util/isString.es';
 
-
 const DEFAULT_TAGNAME = 'div';
+
 
 export const PROP_TAG        = '_t';
 export const PROP_ATTR       = '_a';
 export const PROP_CONTENT    = '_c';
 export const PROP_CSS        = '_css';
-/*const PROP_MEDIA      = '_m';
-const PROP_HEAD_BEGIN = '_hb';
+export const PROP_STYLE      = '_s';
+export const PROP_MEDIA      = '_m';
+/*const PROP_HEAD_BEGIN = '_hb';
 const PROP_HEAD_END   = '_he';
 const PROP_BODY_BEGIN = '_bb';
 const PROP_BODY_END   = '_be';*/
+
 
 function applyPath(obj) {
   const contentArr = isArray(obj[PROP_CONTENT]) ? obj[PROP_CONTENT] : [obj[PROP_CONTENT]];
@@ -41,9 +45,8 @@ function applyPath(obj) {
 
 export function Element({
   tagName = DEFAULT_TAGNAME,
-  attributes = null,
+  spec = null,
   content = null/*,
-  media = {},
   headBegin = [],
   headEnd = [],
   bodyBegin = [],
@@ -52,13 +55,26 @@ export function Element({
   const obj = {
     [PROP_TAG]: tagName
   };
-  if (attributes) { obj[PROP_ATTR] = attributes; }
+  if (spec) {
+    // Avoid modifying function parameter spec, which is an object and as such
+    // passed by reference.
+    const attributes = cloneObj(spec);
+
+    if (spec._s) {
+      obj[PROP_STYLE] = spec._s;
+      delete attributes._s;
+    }
+    if (spec._m) {
+      obj[PROP_MEDIA] = spec._m;
+      delete attributes._m;
+    }
+    if (!isEmptyObject(attributes)) { obj[PROP_ATTR] = attributes; }
+  } // if spec
   if (content) {
     obj[PROP_CONTENT] = content;
     applyPath(obj);
   } // if content
   /*
-  if (media     ) { obj[PROP_MEDIA     ] = media    ; }
   if (headBegin ) { obj[PROP_HEAD_BEGIN] = headBegin; }
   if (headEnd   ) { obj[PROP_HEAD_END  ] = headEnd  ; }
   if (bodyBegin ) { obj[PROP_BODY_BEGIN] = bodyBegin; }
@@ -82,7 +98,7 @@ export function element(t, ...args) {
   }
   return Element({
     tagName: t,
-    attributes: args[0],
+    spec: args[0],
     content: args[1]
   });
 }

@@ -206,6 +206,12 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+### 1.19.0
+
+* Class syntax (semantic, path, style, build, clone, content, render)
+* Remove useless space in html style attribute after property colon.
+* BUG src/obj.es and src/svg.es wasn't transpiled in gradle.build.
+
 ### 1.18.0
 
 * SVG elements
