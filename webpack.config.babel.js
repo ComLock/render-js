@@ -3,9 +3,11 @@ const path = require('path');
 
 const WEBPACK_CONFIG = {
   entry: {
+    'src/class/addClass': path.resolve(__dirname, 'src/class/addClass.es'),
     'src/class/addContent': path.resolve(__dirname, 'src/class/addContent.es'),
     'src/class/build': path.resolve(__dirname, 'src/class/build.es'),
     'src/class/clone': path.resolve(__dirname, 'src/class/clone.es'),
+    'src/class/domPath': path.resolve(__dirname, 'src/class/domPath.es'),
     'src/class/element': path.resolve(__dirname, 'src/class/element.es'),
     'src/class/getAttribute': path.resolve(__dirname, 'src/class/getAttribute.es'),
     'src/class/getAttributes': path.resolve(__dirname, 'src/class/getAttributes.es'),
@@ -44,6 +46,7 @@ const WEBPACK_CONFIG = {
     'src/util/isSet': path.resolve(__dirname, 'src/util/isSet.es'),
     'src/util/isString': path.resolve(__dirname, 'src/util/isString.es'),
     'src/util/sortedUniqStr': path.resolve(__dirname, 'src/util/sortedUniqStr.es'),
+    'src/util/sortAndRemoveDups': path.resolve(__dirname, 'src/util/sortAndRemoveDups.es'),
     'src/util/toStr': path.resolve(__dirname, 'src/util/toStr.es'),
     'src/util': path.resolve(__dirname, 'src/util.es'),
 

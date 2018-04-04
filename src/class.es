@@ -8,7 +8,9 @@ import {element as importedElement} from './class/element.es';
 
 export {build} from './class/build.es';
 export {clone} from './class/clone.es';
+export {addClass} from './class/addClass.es';
 export {addContent} from './class/addContent.es';
+export {domPath} from './class/domPath.es';
 export const element = importedElement;
 
 export {getAttribute} from './class/getAttribute.es';

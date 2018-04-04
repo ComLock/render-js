@@ -206,6 +206,13 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+### 1.20.0
+
+* Class FEATURE: addClass()
+* Class FEATURE: Chainable setters
+* Class BUG: domPath() must be external since clone doesn't rebuild self-references.
+* Class BUG: setAttribute() failed when no previous attributes
+
 ### 1.19.1
 
 * Deepmerge is a runtime dependancy.
@@ -214,7 +221,7 @@ In terms of extendability, returning an object with named properties should be t
 
 * Class syntax (semantic, path, style, build, clone, content, render)
 * Remove useless space in html style attribute after property colon.
-* BUG src/obj.es and src/svg.es wasn't transpiled in gradle.build.
+* BUG: src/obj.es and src/svg.es wasn't transpiled in gradle.build.
 
 ### 1.18.0
 

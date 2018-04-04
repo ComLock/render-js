@@ -7,5 +7,6 @@ export {isFunction} from './util/isFunction.es';
 export {isObject} from './util/isObject.es';
 export {isSet} from './util/isSet.es';
 export {isString} from './util/isString.es';
+export {sortAndRemoveDups} from './util/sortAndRemoveDups.es';
 export {sortedUniqStr} from './util/sortedUniqStr.es';
 export {toStr} from './util/toStr.es';

@@ -24,25 +24,6 @@ const PROP_BODY_BEGIN = '_bb';
 const PROP_BODY_END   = '_be';*/
 
 
-function applyPath(obj) {
-  const contentArr = isArray(obj[PROP_CONTENT]) ? obj[PROP_CONTENT] : [obj[PROP_CONTENT]];
-  for (let i = 0; i < contentArr.length; i += 1) {
-    const item = contentArr[i];
-    //if (isString(item)) { // TODO Parse string into Element? }
-    if (item && item[PROP_TAG]) {
-      const childTag = item[PROP_TAG];
-      if (isArray(obj[childTag])) {
-        obj[childTag].push(item);
-      } else if (obj[childTag]) {
-        obj[childTag] = [obj[childTag], item]; // eslint-disable-line no-param-reassign
-      } else {
-        obj[childTag] = item; // eslint-disable-line no-param-reassign
-      }
-    } // if Element
-  } // for
-} // function applyPath
-
-
 export function Element({
   tagName = DEFAULT_TAGNAME,
   spec = null,
@@ -70,10 +51,7 @@ export function Element({
     }
     if (!isEmptyObject(attributes)) { obj[PROP_ATTR] = attributes; }
   } // if spec
-  if (content) {
-    obj[PROP_CONTENT] = content;
-    applyPath(obj);
-  } // if content
+  if (content) { obj[PROP_CONTENT] = content; } // if content
   /*
   if (headBegin ) { obj[PROP_HEAD_BEGIN] = headBegin; }
   if (headEnd   ) { obj[PROP_HEAD_END  ] = headEnd  ; }
