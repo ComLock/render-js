@@ -96,7 +96,7 @@ Object.defineProperty(exports,'__esModule',{value:true});var _camelize=__webpack
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,'__esModule',{value:true});exports.objToStyleAttr=objToStyleAttr;var _addDefaultUnit=__webpack_require__(10);var _util=__webpack_require__(3);function objToStyleAttr(props){return Object.keys(props).map(function(k){return(0,_util.dasherize)(k)+':'+(0,_addDefaultUnit.addDefaultUnit)(props[k],k)}).join(';')}
+Object.defineProperty(exports,'__esModule',{value:true});exports.objToStyleAttr=objToStyleAttr;var _addDefaultUnit=__webpack_require__(11);var _util=__webpack_require__(3);function objToStyleAttr(props){return Object.keys(props).map(function(k){return(0,_util.dasherize)(k)+':'+(0,_addDefaultUnit.addDefaultUnit)(props[k],k)}).join(';')}
 
 /***/ }),
 /* 5 */
@@ -124,22 +124,22 @@ Object.defineProperty(exports,"__esModule",{value:true});exports.toStr=toStr;fun
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,'__esModule',{value:true});exports.HTML_AND_SVG_ELEMENTS=exports.ELEMENTS=exports.VOID_ELEMENTS=undefined;var _svg=__webpack_require__(11);var OBSOLETE_ELEMENTS=['acronym','applet','basefont','big','blink','center','command','dir','element','font','image','listing','marquee','multicol','nextid','plaintext','shadow','spacer','strike','tt','xmp'];var NON_STANDARD_ELEMENTS=['bsgound','nobr','noembed'];var DEPRECATED_ELEMENTS=['content','frame','frameset','isindex','keygen'];var EXPERIMENTAL_ELEMENTS=['dialog','hgroup','menu','menuitem'];var VOID_ELEMENTS=exports.VOID_ELEMENTS=['area','base','br','col','command','embed','hr','input','keygen','link','menuitem','meta','param','source','track','wbr'];var ELEMENTS=exports.ELEMENTS=['a','abbr','address','area','article','aside','audio','b','base','bdi','bdo','blockquote','body','br','button','canvas','caption','cite','code','col','colgroup','data','datalist','dd','del','details','dfn','div','dl','dt','em','embed','fieldset','figcaption','figure','footer','form','h1','h2','h3','h4','h5','h6','head','header','hr','html','i','iframe','img','input','ins','kbd','label','legend','li','link','main','map','mark','meta','meter','nav','noframes','noscript','object','ol','optgroup','option','output','p','param','picture','pre','progress','q','rp','rt','rtc','ruby','s','samp','script','section','select','slot','small','source','span','strong','style','sub','summary','sup','table','tbody','td','template','textarea','tfoot','th','thead','time','title','tr','track','u','ul','var','video','wbr'].concat(DEPRECATED_ELEMENTS,NON_STANDARD_ELEMENTS,OBSOLETE_ELEMENTS,EXPERIMENTAL_ELEMENTS);var HTML_AND_SVG_ELEMENTS=exports.HTML_AND_SVG_ELEMENTS=ELEMENTS.concat(_svg.SVG_NOT_HTML_ELEMENTS);
+Object.defineProperty(exports,'__esModule',{value:true});exports.HTML_AND_SVG_ELEMENTS=exports.ELEMENTS=exports.VOID_ELEMENTS=undefined;var _svg=__webpack_require__(9);var OBSOLETE_ELEMENTS=['acronym','applet','basefont','big','blink','center','command','dir','element','font','image','listing','marquee','multicol','nextid','plaintext','shadow','spacer','strike','tt','xmp'];var NON_STANDARD_ELEMENTS=['bsgound','nobr','noembed'];var DEPRECATED_ELEMENTS=['content','frame','frameset','isindex','keygen'];var EXPERIMENTAL_ELEMENTS=['dialog','hgroup','menu','menuitem'];var VOID_ELEMENTS=exports.VOID_ELEMENTS=['area','base','br','col','command','embed','hr','input','keygen','link','menuitem','meta','param','source','track','wbr'];var ELEMENTS=exports.ELEMENTS=['a','abbr','address','area','article','aside','audio','b','base','bdi','bdo','blockquote','body','br','button','canvas','caption','cite','code','col','colgroup','data','datalist','dd','del','details','dfn','div','dl','dt','em','embed','fieldset','figcaption','figure','footer','form','h1','h2','h3','h4','h5','h6','head','header','hr','html','i','iframe','img','input','ins','kbd','label','legend','li','link','main','map','mark','meta','meter','nav','noframes','noscript','object','ol','optgroup','option','output','p','param','picture','pre','progress','q','rp','rt','rtc','ruby','s','samp','script','section','select','slot','small','source','span','strong','style','sub','summary','sup','table','tbody','td','template','textarea','tfoot','th','thead','time','title','tr','track','u','ul','var','video','wbr'].concat(DEPRECATED_ELEMENTS,NON_STANDARD_ELEMENTS,OBSOLETE_ELEMENTS,EXPERIMENTAL_ELEMENTS);var HTML_AND_SVG_ELEMENTS=exports.HTML_AND_SVG_ELEMENTS=ELEMENTS.concat(_svg.SVG_NOT_HTML_ELEMENTS);
 
 /***/ }),
-/* 9 */,
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports,'__esModule',{value:true});exports.addDefaultUnit=undefined;var _jssDefaultUnit=__webpack_require__(25);var _jssDefaultUnit2=_interopRequireDefault(_jssDefaultUnit);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}var addDefaultUnit=exports.addDefaultUnit=(0,_jssDefaultUnit2.default)({'line-height':'px'}).onChangeValue;
-
-/***/ }),
-/* 11 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports,'__esModule',{value:true});var SVG_AND_HTML_ELEMENTS=['font','image','script','style','title'];var SVG_NOT_HTML_ELEMENTS=exports.SVG_NOT_HTML_ELEMENTS=['altGlyph','altGlyphDef','altGlyphItem','animate','animateColor','animateMotion','animateTransform','circle','clipPath','color-profile','cursor','defs','desc','discard','ellipse','feBlend','feColorMatrix','feComponentTransfer','feComposite','feConvolveMatrix','feDiffuseLighting','feDisplacementMap','feDistantLight','feDropShadow','feFlood','feFuncA','feFuncB','feFuncG','feFuncR','feGaussianBlur','feImage','feMerge','feMergeNode','feMorphology','feOffset','fePointLight','feSpecularLighting','feSpotLight','feTile','feTurbulence','filter','font-face','font-face-format','font-face-name','font-face-src','font-face-uri','foreignObject','g','glyph','glyphRef','hatch','hatchpath','hkern','line','linearGradient','marker','mask','feTurbulence','filter','font-face','font-face-format','font-face-name','font-face-src','font-face-uri','foreignObject','g','glyph','glyphRef','hatch','hatchpath','hkern','line','linearGradient','marker','mask','mesh','meshgradient','meshpatch','meshrow','metadata','missing-glyph','mpath','path','pattern','polygon','polyline','radialGradient','rect','set','solidcolor','stop','svg','switch','symbol','text','textPath','tref','tspan','unknown','use','view','vkern'];var SVG_ELEMENTS=exports.SVG_ELEMENTS=SVG_AND_HTML_ELEMENTS.concat(SVG_NOT_HTML_ELEMENTS);
+
+/***/ }),
+/* 10 */,
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports,'__esModule',{value:true});exports.addDefaultUnit=undefined;var _jssDefaultUnit=__webpack_require__(25);var _jssDefaultUnit2=_interopRequireDefault(_jssDefaultUnit);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj}}var addDefaultUnit=exports.addDefaultUnit=(0,_jssDefaultUnit2.default)({'line-height':'px'}).onChangeValue;
 
 /***/ }),
 /* 12 */

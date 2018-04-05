@@ -3,7 +3,7 @@
 import convertHrtime from 'convert-hrtime';
 import { deepStrictEqual, ok } from 'assert';
 //import { div } from '../index';
-import { sortAndRemoveDups, sortedUniqStr, toStr } from '../util.es';
+import { sortAndRemoveDups, sortedUniqStr, toStr } from '../dist/util';
 
 function profile(fn, message, times = 10000) {
   const start = process.hrtime();

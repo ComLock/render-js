@@ -18,6 +18,7 @@ const DIST_CONFIG = {
     'html/input': path.resolve(__dirname, 'src/html/input.es'),
     ncss: path.resolve(__dirname, 'ncss.es'),
     obj: path.resolve(__dirname, 'src/obj.es'),
+    svg: path.resolve(__dirname, 'src/svg.es'),
     util: path.resolve(__dirname, 'src/util.es')
   },
   devtool: 'source-map', // sourceMaps might be useful in browser

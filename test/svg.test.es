@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { ok } from 'assert';
-import { ELEMENTS as HTML_ELEMENTS } from '../src/html.es';
-import { SVG_NOT_HTML_ELEMENTS } from '../src/svg.es';
+import { ELEMENTS as HTML_ELEMENTS } from '../dist/html';
+import { SVG_NOT_HTML_ELEMENTS } from '../dist/svg';
 
 describe('svg', () => {
   it('check name collisions', () => {
