@@ -1,12 +1,159 @@
 # ![Logo](render-js.png?raw=true "Title") [Render-js](https://github.com/ComLock/render-js) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![npm version](https://img.shields.io/npm/v/react.svg?style=flat)](https://www.npmjs.com/package/render-js)
 
-Render-js is library for generating html and sometimes css from js.
+Render-js is library for generating html and non cascading styling in js.
 
-## Examples
+It's a can be used to build simple websites or advanced frontend frameworks, alleviating typical css complexity problems.
 
-This library can be imported and used in at least 3 ways: dom, ncss and index
+Typically a framework starts out simple, but quickly reaches a point where it becomes hard to change anything because of ever increasing CSS entanglement.
 
-### Dom (ECMAscript 2015)
+Render-js keeps specificity extremely low by generating tachyons (single purpose classes).
+
+The programmer simply defines what css properties an HTML element should have. You can even define media queries for responsive styling.
+
+## Genesis
+
+I started programming Render-js as an alternative to thymeleaf, but it quickly grew into much more. Everytime I got a major idea I developed it as a new variant without changing the previous one:
+
+## Generation 1: HTML
+
+Use this if you only want to generate html. It should be highly performant.
+
+### Core concepts (syntax)
+
+#### HTML element functions
+
+An HTML element consists of three things:
+* tagName
+* attributes
+* content
+
+Which rather naturally gives this syntax in js:
+
+```js
+tagName(attributes, content);
+```
+
+The attributes is an object with properties, while the content can be a string or a function reference or an array of them.
+Both the attributes and content parameter are optional.
+
+```js
+tagName();
+tagName('String');
+tagName({key: 'value'});
+tagName({key: 'value'}, 'String');
+```
+
+You build a dom by nesting html element functions.
+
+```js
+tagName(
+  tagName()
+);
+```
+
+For example:
+```js
+p({
+  class: 'className'
+}, [
+  'Text before ',
+  a({href: 'https://www.example.com'}, 'link'),
+  ' text after.'
+]);
+```
+
+### HTML attribute object
+
+An html attribute looks like this (EBNF):
+```ebnf
+<html-attribute> :== <name> <equalSign> <quoteMark> <value> <quoteMark>
+<name> :== <case insensitive string sometimes with dashes>
+<quoteMark> :== ' | "
+```
+
+Which lead to the following syntax in js:
+
+```js
+{ name: value, ... }
+```
+
+Too avoid having to quote js property names, any dashes must be removed.
+This can be achieved since html attribute names are case insensitive, while js property names are case sensitive. So we use camelcase in JS and later dasherize into html attribute names.
+
+```js
+{dataProp: 'value'}
+```
+
+```html
+data-prop="value"
+```
+
+I have found an exception: The SVG attribute named viewBox. It is case-sensitive. So I simply don't dasherize that one. Make an issue on github if you run into any other case-sensitive HTML/SVG attributes.
+
+### Style attribute object
+
+An html style attribute consists of is a semicolon seperated key value pair list. (EBNF):
+
+```ebnf
+<style-attribute> ::= <declaration> {<semicolon> <declaration>}
+<declaration> ::= <property> <colon> <value>
+<property> :== <case insensitive string sometimes with dashes>
+<value> :== <string>
+```
+
+Which lead to the following syntax in js:
+
+```js
+{ property: value, ... }
+```
+
+CSS property names contains dashes, which JS property names also can, but needs to be quotes. This can be avoided since CSS property names are case insensitive, while JS property names are case sensitive. So we use camelcase in JS and later dasherize into CSS property name.
+
+```js
+{
+  color: 'white',
+  backgroundColor: 'black'
+}
+```
+
+```html
+style="color:white;background-color:black"
+```
+
+
+###### HTML: ECMAscript 2015 example
+
+```js
+import {p, render} from 'render-js/html.es';
+render(p({style: {backgroundColor: 'white'}}, 'Hello world'));
+```
+
+###### HTML: Javascript 1.6 example
+
+```js
+var R = require('render-js/dist/html.js');
+var render = R.render;
+var p = R.p;
+render(p({style: {backgroundColor: 'white'}}, 'Hello world'));
+```
+
+###### HTML: Result
+```html
+<p style="background-color:white">Hello world</p>
+```
+
+
+## Generation 2: NCSS
+This is when I figured out that it would be nice to generate css too.
+
+All the features of this generation is present in the newest generation, so you should probably use that instead.
+
+## Generation 3: DOM
+This is when I figured out accessing and modify the dom could be useful.
+
+All the features of this generation should be present in the newest generation, so you should probably use that instead.
+
+###### DOM: ECMAscript 2015 example
 
 ```js
 import { Dom, doctype, html, head, title, style,
@@ -95,16 +242,27 @@ Which will give you this html (without whitespace and indentation):
 </html>
 ```
 
-Yes the css is autogenerated.
+## Generation 4: OBJ
+This is when I started thinking about elements with "shared" styling, such as list elements. It would be wasteful to generate the same css many times. Which meant I needed to keep some state.
+
+All the features of this generation should be present in the newest generation, so you should probably use that instead.
+
+## Generation 5: CLASS (current generation)
+This is when I started thinking about keeping the Dom object as small as possible so it could be transferred efficiently to the browser.
+
+
+## Examples
+
+
 
 ### How to include in Enonic XP app (does not apply to Node.js)
 ```groovy
 dependencies {
-  include 'com.enonic.lib:render-js:1.0.0'
+  include 'com.enonic.lib:render-js:1.20.0'
 }
 ```
 
-### How to use it in Javascript 1.6 (Enonic XP 6.12.2)
+###### HTML: How to use it in Javascript 1.6 (Enonic XP 6.12.2)
 
 ```js
 var R = require('/lib/render-js/index.js');
@@ -127,7 +285,7 @@ exports.get = function(request) {
 } // exports.get
 ```
 
-### How to use it in ECMAscript 2015 (Node.js, Enonic XP 7)
+###### HTML: How to use it in ECMAscript 2015 (Node.js, Enonic XP 7)
 
 ```js
 import R, { render, doctype, html, head, title, body, main, h1, form } from 'render-js';
@@ -205,6 +363,10 @@ In terms of extendability, returning an object with named properties should be t
 | 0.x.x       | 6.12.2     |
 
 ## Changelog
+
+### 1.20.1-SNAPSHOT
+
+* Documentation improvements
 
 ### 1.20.0
 

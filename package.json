@@ -48,5 +48,5 @@
     "mocha": "node_modules/.bin/mocha -c --require babel-core/register",
     "test": "npm run mocha -- test/*.es* test/*/*.es*"
   },
-  "version": "1.20.0"
+  "version": "1.20.1-SNAPSHOT"
 }
