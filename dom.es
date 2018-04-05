@@ -1,26 +1,24 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable spaced-comment */
 /* eslint max-len: ["error", { "code": 150, "comments": 200 }] */
 /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
-/* eslint-enable no-console */
 
-import { ELEMENTS as HTML_ELEMENTS, att2Str, isVoid } from './src/html.es';
-import { SVG_NOT_HTML_ELEMENTS } from './src/svg.es';
-import { cdata, doctype } from './index';
 import {
   classAppendAndCssFromMedia,
-  classAppendAndCssFromStyle,
-  uniqCss
+  classAppendAndCssFromStyle
 } from './src/css.es';
-import {
-  isArray,
-  isFunction,
-  isSet,
-  isString,
-  toStr
-} from './util.es';
+import {uniqCss} from './src/css/uniqCss.es';
+import {HTML_AND_SVG_ELEMENTS} from './src/html/elements.es';
+import {att2Str} from './src/html/att2Str.es';
+import {isVoid} from './src/html/isVoid.es';
+import {cdata} from './src/html/cdata.es';
+import {doctype} from './src/html/doctype.es';
+import {isArray} from './src/util/isArray.es';
+import {isFunction} from './src/util/isFunction.es';
+import {isSet} from './src/util/isSet.es';
+import {isString} from './src/util/isString.es';
+import {toStr} from './src/util/toStr.es'; // Used in throw
 
 
 //const WARN = true;
@@ -282,7 +280,6 @@ class Dom extends Node {
 } // class Dom
 exports.Dom = Dom;
 
-const HTML_AND_SVG_ELEMENTS = HTML_ELEMENTS.concat(SVG_NOT_HTML_ELEMENTS);
 
 HTML_AND_SVG_ELEMENTS.forEach(k => {
   exports[k] = (...args) => new Node(k, ...args);

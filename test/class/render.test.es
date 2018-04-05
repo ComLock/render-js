@@ -1,10 +1,9 @@
 import {deepStrictEqual} from 'assert';
-import {html, svg, render} from '../../src/class.es';
-
+import {html, svg, render} from '../../dist/class';
 
 describe('class', () => {
   describe('render', () => {
-    /*describe('attributes', () => {
+    describe('attributes', () => {
       it('dasherize', () => {
         const dom = html({dataProp: 'value'});
         deepStrictEqual(dom, {
@@ -55,7 +54,7 @@ describe('class', () => {
           html: '<html style="border-bottom-width:1px;line-height:1px"></html>'
         });
       }); // it
-    }); // describe attributes*/
+    }); // describe attributes
 
     it('style and media', () => {
       const STYLE = {borderBottomWidth: 1};

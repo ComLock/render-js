@@ -2,7 +2,7 @@ import {deepStrictEqual} from 'assert';
 
 import {
   html
-} from '../../src/class.es';
+} from '../../dist/class';
 
 
 describe('class', () => {

@@ -1,19 +1,16 @@
 /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
 /* eslint-disable no-console */
 /* eslint-disable function-paren-newline */
-/* eslint-disable no-unused-vars */
 /* global describe it */
 
-import { deepStrictEqual, notDeepStrictEqual } from 'assert';
-import { removeWhiteSpace } from './util.es';
+import {deepStrictEqual, notDeepStrictEqual} from 'assert';
+import {removeWhiteSpace} from './util.es';
 import {
-  PROPERTY_CHILDREN,
-  PROPERTY_TAG,
   Dom, Node,
   cdata, doctype, html, head, title, style,
   body, main, section, header, h1, div, p, span, svg
-} from '../dist/dom';
-import { toStr } from '../dist/util';
+} from '../dom.es'; // TODO make dist/dom work!
+//import {toStr} from '../dist/util';
 
 
 describe('dom', () => {

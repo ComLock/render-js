@@ -1,7 +1,7 @@
 import {deepStrictEqual} from 'assert';
 import {
   html, head, title, body, main, h1, ul, li, domPath
-} from '../../src/class.es';
+} from '../../dist/class';
 
 
 describe('class', () => {
