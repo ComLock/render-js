@@ -6,7 +6,7 @@ import { deepStrictEqual } from 'assert';
 import {
   modifyStyleAndMediaToClassAndCss, render,
   html, head, body, main, header, h1, div, span, svg
-} from '../dist/obj';
+} from '../lib/obj';
 //import { toStr } from '../dist/util';
 
 

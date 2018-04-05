@@ -1,7 +1,7 @@
 /* global describe it */
 
 import { deepStrictEqual } from 'assert';
-import { isArrayOrFuncOrString } from '../util.es';
+import { isArrayOrFuncOrString } from '../lib/util';
 
 
 describe('util', () => {

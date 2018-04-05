@@ -1,3 +1,5 @@
-exports.cdata = (content = '') => `/*<![CDATA[*/
+export function cdata(content = '') {
+  return `/*<![CDATA[*/
 ${content}
 /*]]>*/`;
+}

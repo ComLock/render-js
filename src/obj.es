@@ -1,29 +1,20 @@
-/* eslint-disable import/prefer-default-export */
 /* eslint-enable no-console */
 
-import {
-  isArray,
-  isEmptyObject,
-  isFunction,
-  isObject,
-  isSet,
-  isString//,
-  //toStr
-} from '../util.es';
-import {
-  classAppendAndCssFromMedia,
-  classAppendAndCssFromStyle,
-  uniqCss
-} from './css.es';
-import {
-  ELEMENTS as HTML_ELEMENTS,
-  att2Str,
-  isVoid
-} from './html.es';
-import { SVG_NOT_HTML_ELEMENTS } from './svg.es';
 
+import {classAppendAndCssFromMedia} from './css/classAppendAndCssFromMedia.es';
+import {classAppendAndCssFromStyle} from './css/classAppendAndCssFromStyle.es';
+import {uniqCss} from './css/uniqCss.es';
 
-const HTML_AND_SVG_ELEMENTS = HTML_ELEMENTS.concat(SVG_NOT_HTML_ELEMENTS);
+import {HTML_AND_SVG_ELEMENTS} from './html/elements.es';
+import {att2Str} from './html/att2Str.es';
+import {isVoid} from './html/isVoid.es';
+
+import {isArray} from './util/isArray.es';
+import {isEmptyObject} from './util/isEmptyObject.es';
+import {isFunction} from './util/isFunction.es';
+import {isObject} from './util/isObject.es';
+import {isSet} from './util/isSet.es';
+import {isString} from './util/isString.es';
 
 
 HTML_AND_SVG_ELEMENTS.forEach(t => {
@@ -65,7 +56,7 @@ HTML_AND_SVG_ELEMENTS.forEach(t => {
 
 
 /* eslint-disable no-param-reassign */
-export function modifyStyleAndMediaToClassAndCss(view) {
+function modifyStyleAndMediaToClassAndCss(view) {
   if (isString(view)) { return view; }
   const arr = isArray(view) ? view : [view];
   const ret = arr.map(item => { //console.log(`item(${toStr(item)})`);
@@ -97,11 +88,12 @@ export function modifyStyleAndMediaToClassAndCss(view) {
     return item;
   }); // arr.map
   return ret.length === 1 ? ret[0] : ret;
-} // export function modifyStyleAndMediaToClassAndCss
+} // function modifyStyleAndMediaToClassAndCss
 /* eslint-enable-next-line no-param-reassign */
+exports.modifyStyleAndMediaToClassAndCss = modifyStyleAndMediaToClassAndCss;
 
 
-export function render(view) {
+function render(view) {
   //console.log(`render(${toStr(view)})`);
   if (isString(view)) { return { css: [], html: view }; }
   const res = { css: [], html: '' };
@@ -165,4 +157,5 @@ export function render(view) {
   }
   //console.log(`res:${toStr(res)}`);
   return res;
-} // export function render
+} // function render
+exports.render = render;

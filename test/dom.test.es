@@ -9,7 +9,7 @@ import {
   Dom, Node,
   cdata, doctype, html, head, title, style,
   body, main, section, header, h1, div, p, span, svg
-} from '../dom.es'; // TODO make dist/dom work!
+} from '../lib/dom';
 //import {toStr} from '../dist/util';
 
 

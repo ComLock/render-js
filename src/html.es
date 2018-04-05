@@ -1,16 +1,27 @@
+import {att2Str} from './html/att2Str.es';
+import {cdata} from './html/cdata.es';
+import {doctype} from './html/doctype.es';
+import {el, elFn} from './html/el.es';
 import {HTML_AND_SVG_ELEMENTS} from './html/elements.es';
+import {isVoid} from './html/isVoid.es';
+import {render} from './html/render.es';
 
+/*
+  A little weird way of exporting, but it works when:
+  1. imported directly
+  2. transpiled to dist
+  3. webpacked to lib
+*/
 
-export {att2Str} from './html/att2Str.es';
-export {cdata} from './html/cdata.es';
-export {doctype} from './html/doctype.es';
-export {el} from './html/el.es';
-export {ELEMENTS} from './html/elements.es';
-export {isVoid} from './html/isVoid.es';
-export {render} from './html/render.es';
+exports.att2Str = att2Str;
+exports.cdata = cdata;
+exports.doctype = doctype;
+exports.el = el;
+exports.isVoid = isVoid;
+exports.render = render;
 
-HTML_AND_SVG_ELEMENTS.forEach(k => {
-  exports[k] = (...args) => exports.el(k, ...args);
+HTML_AND_SVG_ELEMENTS.forEach(t => {
+  exports[t] = elFn(t);
 });
 
-export default exports;
+//export default exports; // Not needed

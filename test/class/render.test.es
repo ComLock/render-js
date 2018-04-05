@@ -1,5 +1,5 @@
 import {deepStrictEqual} from 'assert';
-import {html, svg, render} from '../../dist/class';
+import {html, svg, render} from '../../lib/class';
 
 describe('class', () => {
   describe('render', () => {

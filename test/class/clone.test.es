@@ -1,7 +1,7 @@
 import {deepStrictEqual} from 'assert';
 import {
   html, clone
-} from '../../dist/class';
+} from '../../lib/class';
 
 
 describe('class', () => {

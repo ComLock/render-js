@@ -1,3 +1,14 @@
+/* eslint-disable function-paren-newline */
+/* eslint-disable max-len */
+
+
+import {classAppendAndCssFromStyle} from './classAppendAndCssFromStyle.es';
+import {CSS_MEDIA_WORD_TO_ABBR} from './media.es';
+
+import {dasherize} from '../util/dasherize.es';
+import {toStr} from '../util/toStr.es'; // used in throw
+
+
 export function classAppendAndCssFromMedia(
   media,
   {

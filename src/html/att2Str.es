@@ -2,12 +2,10 @@
 
 
 import {objToStyleAttr} from '../css/objToStyleAttr.es';
-import {
-  dasherize,
-  isSet,
-  isString,
-  sortedUniqStr
-} from '../util.es';
+import {dasherize} from '../util/dasherize.es';
+import {isSet} from '../util/isSet.es';
+import {isString} from '../util/isString.es';
+import {sortedUniqStr} from '../util/sortedUniqStr.es';
 
 
 export function att2Str(attributes) {

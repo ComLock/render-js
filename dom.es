@@ -4,16 +4,16 @@
 /* eslint max-len: ["error", { "code": 150, "comments": 200 }] */
 /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
 
-import {
-  classAppendAndCssFromMedia,
-  classAppendAndCssFromStyle
-} from './src/css.es';
+import {classAppendAndCssFromMedia} from './src/css/classAppendAndCssFromMedia.es';
+import {classAppendAndCssFromStyle} from './src/css/classAppendAndCssFromStyle.es';
 import {uniqCss} from './src/css/uniqCss.es';
+
 import {HTML_AND_SVG_ELEMENTS} from './src/html/elements.es';
 import {att2Str} from './src/html/att2Str.es';
 import {isVoid} from './src/html/isVoid.es';
 import {cdata} from './src/html/cdata.es';
 import {doctype} from './src/html/doctype.es';
+
 import {isArray} from './src/util/isArray.es';
 import {isFunction} from './src/util/isFunction.es';
 import {isSet} from './src/util/isSet.es';
@@ -34,9 +34,20 @@ import {toStr} from './src/util/toStr.es'; // Used in throw
   Element names cannot contain spaces
 */
 
-export const PROPERTY_TAG = '-t';
+/*
+  A little weird way of exporting, but it works when:
+  1. imported directly
+  2. transpiled to dist
+  3. webpacked to lib
+*/
+
+const PROPERTY_TAG = '-t';
+exports.PROPERTY_TAG = PROPERTY_TAG;
 // const PROPERTY_ATTRIBUTES = '_a';
-export const PROPERTY_CHILDREN = '-c';
+
+const PROPERTY_CHILDREN = '-c';
+exports.PROPERTY_CHILDREN = PROPERTY_CHILDREN;
+
 const PROPERTY_CSS = '-cs';
 const PROPERTY_HTML = '-h';
 const PROPERTY_SPEC = '-s';
@@ -290,4 +301,4 @@ exports.cdata = (...args) => new Dom(cdata(...args));
 exports.doctype = (...args) => new Dom(doctype(...args));
 
 
-export default exports;
+//export default exports; // Not needed

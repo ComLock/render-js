@@ -1,5 +1,17 @@
 /* eslint-disable max-len */
+
+import {
+  CSS_PROP_TO_ABBR,
+  CSS_PROP_VALUES_TO_ABBR
+} from './properties.es';
+import {
+  CSS_PSEUDO_SELECTORS_TO_ABBR,
+  CSS_SELECTORS_TO_ABBR
+} from './selectors.es';
+
 import {addDefaultUnit} from './addDefaultUnit.es';
+import {toClassName} from './toClassName.es';
+
 import {dasherize} from '../util/dasherize.es';
 import {isSet} from '../util/isSet.es';
 
@@ -22,7 +34,7 @@ function handleProp({
     console.warn(`WARN: Couldn't find abbreviation for property:${prop} falling back to toClassName on property:${propAbbr}`);
   } */
   let lastValue = value;
-  value = addDefaultUnit(value, prop);
+  value = addDefaultUnit(value, prop); // eslint-disable-line no-param-reassign
   if (Array.isArray(value)) { lastValue = value[value.length - 1]; }
   const valueAbbr = (CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][lastValue]) || toClassName(lastValue);
   /* if (WARN && !(CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][value])) {
@@ -53,7 +65,7 @@ function handleNested({
   /*console.log(`handleNested(${toStr({
     selector, style, postfix, prefix
   })})`);*/
-  if (selector.startsWith('&')) { selector = selector.substring(1); }
+  if (selector.startsWith('&')) { selector = selector.substring(1); } // eslint-disable-line no-param-reassign
   let className = '';
   const classAppend = [];
   const css = [];
@@ -69,6 +81,7 @@ function handleNested({
           nextI += 1;
           return '';
         }
+        // eslint-disable-next-line no-param-reassign
         p = p.replace(/ .*/, ''); // TODO rather simple hack to support '&:hover top'
         //console.log(`TRACE &: p:${p}`);
         if (CSS_PSEUDO_SELECTORS_TO_ABBR[p]) {

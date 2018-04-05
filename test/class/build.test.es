@@ -1,5 +1,5 @@
 import {deepStrictEqual} from 'assert';
-import {html, build} from '../../dist/class';
+import {html, build} from '../../lib/class';
 
 
 describe('class', () => {

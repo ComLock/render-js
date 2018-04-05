@@ -4,7 +4,7 @@ import {
   addClass, addContent,
   getAttribute, getAttributes, getContent, getMedia, getStyle,
   setAttribute, setAttributes, setContent, setMedia, setStyle
-} from '../../dist/class';
+} from '../../lib/class';
 
 
 describe('class', () => {

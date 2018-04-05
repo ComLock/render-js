@@ -1,34 +1,46 @@
 /* eslint-disable import/prefer-default-export */
 /* See NOTE-S at the bottom of the file. */
-import {ELEMENTS as HTML_ELEMENTS} from './html/elements.es';
-import {SVG_NOT_HTML_ELEMENTS} from './svg.es';
+import {addClass} from './class/addClass.es';
+import {addContent} from './class/addContent.es';
+import {build} from './class/build.es';
+import {clone} from './class/clone.es';
+import {domPath} from './class/domPath.es';
+import {element} from './class/element.es';
+import {HTML_AND_SVG_ELEMENTS} from './html/elements.es';
+import {getAttribute} from './class/getAttribute.es';
+import {getAttributes} from './class/getAttributes.es';
+import {getContent} from './class/getContent.es';
+import {getMedia} from './class/getMedia.es';
+import {getStyle} from './class/getStyle.es';
+import {render} from './class/render.es';
+import {setAttribute} from './class/setAttribute.es';
+import {setAttributes} from './class/setAttributes.es';
+import {setContent} from './class/setContent.es';
+import {setMedia} from './class/setMedia.es';
+import {setStyle} from './class/setStyle.es';
 
-import {element as importedElement} from './class/element.es';
-
-
-export {build} from './class/build.es';
-export {clone} from './class/clone.es';
-export {addClass} from './class/addClass.es';
-export {addContent} from './class/addContent.es';
-export {domPath} from './class/domPath.es';
-export const element = importedElement;
-
-export {getAttribute} from './class/getAttribute.es';
-export {getAttributes} from './class/getAttributes.es';
-export {getContent} from './class/getContent.es';
-export {getMedia} from './class/getMedia.es';
-export {getStyle} from './class/getStyle.es';
-
-export {render} from './class/render.es';
-
-export {setAttribute} from './class/setAttribute.es';
-export {setAttributes} from './class/setAttributes.es';
-export {setContent} from './class/setContent.es';
-export {setMedia} from './class/setMedia.es';
-export {setStyle} from './class/setStyle.es';
-
-
-const HTML_AND_SVG_ELEMENTS = HTML_ELEMENTS.concat(SVG_NOT_HTML_ELEMENTS);
+/*
+  A little weird way of exporting, but it works when:
+  1. imported directly
+  2. transpiled to dist
+  3. webpacked to lib
+*/
+exports.addClass = addClass;
+exports.addContent = addContent;
+exports.build = build;
+exports.clone = clone;
+exports.domPath = domPath;
+exports.getAttribute = getAttribute;
+exports.getAttributes = getAttributes;
+exports.getContent = getContent;
+exports.getMedia = getMedia;
+exports.getStyle = getStyle;
+exports.render = render;
+exports.setAttribute = setAttribute;
+exports.setAttributes = setAttributes;
+exports.setContent = setContent;
+exports.setMedia = setMedia;
+exports.setStyle = setStyle;
 
 
 HTML_AND_SVG_ELEMENTS.forEach(t => {

@@ -1,10 +1,11 @@
 /* eslint-disable quotes */
 /* eslint-disable quote-props */
+//import {print as inspect} from 'q-i'
 import { deepStrictEqual, throws } from 'assert';
 import R, { cdata, el, render, doctype, html, head,
   body, main, section, header, div, p, br, svg
-} from '../dist/html';
-
+} from '../lib/html';
+//inspect(R);
 
 describe('render', () => {
   it('cdata', () => {

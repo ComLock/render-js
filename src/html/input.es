@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import {print as inspect} from 'q-i'
+//import {print as inspect} from 'q-i'
 import {el} from './el.es';
 import {camelize} from '../util/camelize.es';
 import {isArrayOrString} from '../util/isArrayOrString.es';

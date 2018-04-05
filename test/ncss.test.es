@@ -8,7 +8,7 @@ import { removeWhiteSpace } from './util.es';
 import { render, doctype, html, head, title, style } from '../dist/html';
 import {
   el, Node, body, div, p, main, section, header, h1, svg
-} from '../dist/ncss';
+} from '../lib/ncss';
 import { UNICODE_LETTERS } from '../src/util/unicode.es';
 
 

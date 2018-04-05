@@ -1,25 +1,21 @@
 /* eslint-disable max-len */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-unused-vars */
 /* eslint-disable spaced-comment */
 /* eslint-enable no-console */
 
 
-import { el as htmlEl, ELEMENTS as HTML_ELEMENTS } from './index';
-import { SVG_NOT_HTML_ELEMENTS } from './src/svg.es';
-import {
-  isArray,
-  isArrayOrFuncOrString,
-  isFunction,
-  isString/*,
-  toStr*/
-} from './util.es';
-import {
-  classAppendAndCssFromMedia,
-  classAppendAndCssFromStyle,
-  uniqCss
-} from './src/css.es';
+import {el as htmlEl} from './src/html/el.es';
+import {HTML_AND_SVG_ELEMENTS} from './src/html/elements.es';
+
+import {isArray} from './src/util/isArray.es';
+import {isArrayOrFuncOrString} from './src/util/isArrayOrFuncOrString.es';
+import {isFunction} from './src/util/isFunction.es';
+import {isString} from './src/util/isString.es';
+
+import {classAppendAndCssFromMedia} from './src/css/classAppendAndCssFromMedia.es';
+import {classAppendAndCssFromStyle} from './src/css/classAppendAndCssFromStyle.es';
+import {uniqCss} from './src/css/uniqCss.es';
 
 // export { html, head } from './index';
 
@@ -93,11 +89,9 @@ exports.el = (
 };
 
 
-const HTML_AND_SVG_ELEMENTS = HTML_ELEMENTS.concat(SVG_NOT_HTML_ELEMENTS);
-
 HTML_AND_SVG_ELEMENTS.forEach(k => {
   exports[k] = (...args) => exports.el(k, ...args);
 });
 
 
-export default exports;
+//export default exports; // Not needed

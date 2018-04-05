@@ -8,7 +8,7 @@ import {isFunction} from '../util/isFunction.es';
 import {toStr} from '../util/toStr.es';
 
 
-exports.el = (tag, attributes = null, content = null) => {
+export function el(tag, attributes = null, content = null) {
   if (isArrayOrFuncOrString(attributes)) { // Allow arguments in any order
     if (isArrayOrFuncOrString(content)) {
       throw new Error(`When called with two arguments one must be an object! ${toStr(tag)}(${toStr(attributes)}, ${toStr(content)})`);
@@ -36,4 +36,7 @@ exports.el = (tag, attributes = null, content = null) => {
   }).join('');
   // DEBUG && console.log(`content:${toStr(content)}`);
   return isVoid(tag) ? `<${tag}${attributes}/>` : `<${tag}${attributes}>${content}</${tag}>`;
-}; // el
+} // el
+
+
+export const elFn = tag => (...args) => el(tag, ...args);

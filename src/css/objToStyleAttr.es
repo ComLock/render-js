@@ -2,7 +2,7 @@
 
 
 import {addDefaultUnit} from './addDefaultUnit.es';
-import {dasherize} from '../util.es';
+import {dasherize} from '../util/dasherize.es';
 
 
 export function objToStyleAttr(props) {
