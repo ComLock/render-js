@@ -10,6 +10,37 @@ Render-js keeps specificity extremely low by generating tachyons (single purpose
 
 The programmer simply defines what css properties an HTML element should have. You can even define media queries for responsive styling.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Contents
+
+- [Genesis](#genesis)
+- [Generation 1: HTML](#generation-1-html)
+  - [Core concepts (syntax)](#core-concepts-syntax)
+    - [HTML element functions](#html-element-functions)
+    - [HTML attribute object](#html-attribute-object)
+    - [Style attribute object](#style-attribute-object)
+  - [HTML: Examples:](#html-examples)
+    - [HTML: ECMAscript 2015 example](#html-ecmascript-2015-example)
+    - [HTML: Javascript 1.6 example](#html-javascript-16-example)
+    - [HTML: Result](#html-result)
+- [Generation 2: NCSS](#generation-2-ncss)
+- [Generation 3: DOM](#generation-3-dom)
+    - [DOM: ECMAscript 2015 example](#dom-ecmascript-2015-example)
+- [Generation 4: OBJ](#generation-4-obj)
+- [Generation 5: CLASS (current generation)](#generation-5-class-current-generation)
+- [Examples](#examples)
+  - [How to include in Enonic XP app (does not apply to Node.js)](#how-to-include-in-enonic-xp-app-does-not-apply-to-nodejs)
+  - [HTML: How to use it in Javascript 1.6 (Enonic XP 6.12.2)](#html-how-to-use-it-in-javascript-16-enonic-xp-6122)
+  - [HTML: How to use it in ECMAscript 2015 (Node.js, Enonic XP 7)](#html-how-to-use-it-in-ecmascript-2015-nodejs-enonic-xp-7)
+- [Vision / goal](#vision--goal)
+  - [New IDEA: Non Cascading Scaleable Styling](#new-idea-non-cascading-scaleable-styling)
+- [Definition](#definition)
+- [Compatibility](#compatibility)
+- [Changelog](#changelog)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Genesis
 
 I started programming Render-js as an alternative to thymeleaf, but it quickly grew into much more. Everytime I got a major idea I developed it as a new variant without changing the previous one:
@@ -62,7 +93,7 @@ p({
 ]);
 ```
 
-### HTML attribute object
+#### HTML attribute object
 
 An html attribute looks like this (EBNF):
 ```ebnf
@@ -90,7 +121,7 @@ data-prop="value"
 
 I have found an exception: The SVG attribute named viewBox. It is case-sensitive. So I simply don't dasherize that one. Make an issue on github if you run into any other case-sensitive HTML/SVG attributes.
 
-### Style attribute object
+#### Style attribute object
 
 An html style attribute consists of is a semicolon seperated key value pair list. (EBNF):
 
@@ -120,15 +151,16 @@ CSS property names contains dashes, which JS property names also can, but needs 
 style="color:white;background-color:black"
 ```
 
+### HTML: Examples:
 
-###### HTML: ECMAscript 2015 example
+#### HTML: ECMAscript 2015 example
 
 ```js
 import {p, render} from 'render-js/html.es';
 render(p({style: {backgroundColor: 'white'}}, 'Hello world'));
 ```
 
-###### HTML: Javascript 1.6 example
+#### HTML: Javascript 1.6 example
 
 ```js
 var R = require('render-js/dist/html.js');
@@ -137,7 +169,7 @@ var p = R.p;
 render(p({style: {backgroundColor: 'white'}}, 'Hello world'));
 ```
 
-###### HTML: Result
+#### HTML: Result
 ```html
 <p style="background-color:white">Hello world</p>
 ```
@@ -153,7 +185,7 @@ This is when I figured out accessing and modify the dom could be useful.
 
 All the features of this generation should be present in the newest generation, so you should probably use that instead.
 
-###### DOM: ECMAscript 2015 example
+#### DOM: ECMAscript 2015 example
 
 ```js
 import { Dom, doctype, html, head, title, style,
@@ -254,7 +286,6 @@ This is when I started thinking about keeping the Dom object as small as possibl
 ## Examples
 
 
-
 ### How to include in Enonic XP app (does not apply to Node.js)
 ```groovy
 dependencies {
@@ -262,7 +293,7 @@ dependencies {
 }
 ```
 
-###### HTML: How to use it in Javascript 1.6 (Enonic XP 6.12.2)
+### HTML: How to use it in Javascript 1.6 (Enonic XP 6.12.2)
 
 ```js
 var R = require('/lib/render-js/index.js');
@@ -285,7 +316,7 @@ exports.get = function(request) {
 } // exports.get
 ```
 
-###### HTML: How to use it in ECMAscript 2015 (Node.js, Enonic XP 7)
+### HTML: How to use it in ECMAscript 2015 (Node.js, Enonic XP 7)
 
 ```js
 import R, { render, doctype, html, head, title, body, main, h1, form } from 'render-js';
@@ -364,137 +395,132 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
-### 1.20.1-SNAPSHOT
+##### 1.20.1-SNAPSHOT
 
 * Documentation improvements
 
-### 1.20.0
+##### 1.20.0
 
 * Class FEATURE: addClass()
 * Class FEATURE: Chainable setters
 * Class BUG: domPath() must be external since clone doesn't rebuild self-references.
 * Class BUG: setAttribute() failed when no previous attributes
 
-### 1.19.1
+##### 1.19.1
 
 * Deepmerge is a runtime dependancy.
 
-### 1.19.0
+##### 1.19.0
 
 * Class syntax (semantic, path, style, build, clone, content, render)
 * Remove useless space in html style attribute after property colon.
 * BUG: src/obj.es and src/svg.es wasn't transpiled in gradle.build.
 
-### 1.18.0
+##### 1.18.0
 
 * SVG elements
 * Handle SVG´s case sensitive viewBox attribute
 
-### 1.17.1
+##### 1.17.1
 
 * Recursive modifyStyleAndMediaToClassAndCss()
 
-### 1.17.0
+##### 1.17.0
 
 * modifyStyleAndMediaToClassAndCss()
 
-### 1.16.0
+##### 1.16.0
 
 * Function to object syntax.
 
-### 1.15.0
+##### 1.15.0
 
 * Obj
 
-### 1.14.0
+##### 1.14.0
 
 * cdata function (https://www.w3.org/TR/REC-xml/#dt-chardata)
 
-### 1.13.0
+##### 1.13.0
 
 * Default units in style attribute when using index.es
 * Deprecated objectToCssDeclarations in favour of objToStyleAttr
 * Profiling led to sortedUniqStr
 
-### 1.12.1
+##### 1.12.1
 
 * Fix #9 Css order
 
-### 1.12.0
+##### 1.12.0
 
 * Limited support for nested selectors (&:hover div)
 * Apply default units to css property values using jss-default-unit.
 
-### 1.11.0
+##### 1.11.0
 
 * You can now pass a function as content. Or an array of functions++.
 
-### 1.10.0
+##### 1.10.0
 
 * html, head and body accessible as property on any node
 
-### 1.9.0
+##### 1.9.0
 
 * Parent and root
 
-### 1.8.0
+##### 1.8.0
 
 * Path -- Makes it possible to access and manipulate the DOM.
 * Node.add() -- Makes it possible to manipulate the DOM.
 
-### 1.7.0
+##### 1.7.0
 
 * Nested pseudo styling
 * Comment out autoprefixer as it introduced many problems.
 
-### 1.6.0
+##### 1.6.0
 
 * Autoprefixer
 
-### 1.5.0
+##### 1.5.0
 
 * Generate CSS from style too, so !important can be avoided.
 * Some Dom fixes
 
-### 1.4.0
+##### 1.4.0
 
 * Dom
 
-### 1.3.0
+##### 1.3.0
 
 * Non Cascading Scaleable Styling
 
-### 1.2.0
+##### 1.2.0
 
 * Dasherize attribute names.
 
-### 1.1.0
+##### 1.1.0
 
 * Style attribute from object. Keep property order. Dasherize property keys.
 
-### 1.0.0
+##### 1.0.0
 
 * Javascript 1.6 Example
 
-### 0.0.4
+##### 0.0.4
 
 * Input types.
 * Icon.
 * Use as Enonic XP lib too.
 
-### 0.0.3
+##### 0.0.3
 
 * Void elements.
 
-### 0.0.2
+##### 0.0.2
 
 * Handle javascript types in attribute values.
 
-### 0.0.1
+##### 0.0.1
 
 * Basic functionality. KISS!
-
-## Ideas
-
-* Implement indentation?
-* Implement minifying?
