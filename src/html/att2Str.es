@@ -39,3 +39,24 @@ export function att2Str(attributes) {
     .join(' ');
   return attrs.length ? ` ${attrs}` : attrs;
 } // export function att2Str
+
+
+/* NOTE-1
+ Both the XML and Html4 standard allows single
+ quotes to be used around attribute values:
+
+  * Extensible Markup Language (XML) 1.0 (Fifth Edition)
+    https://www.w3.org/TR/REC-xml/#NT-AttValue
+
+  * HTML 4.01 Specification
+    https://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.2
+
+ While JSON requires double quotes to be used:
+
+  * The JavaScript Object Notation (JSON) Data Interchange Format
+    https://tools.ietf.org/html/rfc7159#section-7
+
+ So when storing a json in a html attribute, it looks much to surround the value
+ with single quotes rather than to escape all double quotes in the JSON.
+
+*/

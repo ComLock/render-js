@@ -3,7 +3,7 @@
 import { deepStrictEqual, throws } from 'assert';
 import R, { cdata, el, render, doctype, html, head,
   body, main, section, header, div, p, br, svg
-} from '../index';
+} from '../dist/html';
 
 
 describe('render', () => {

@@ -31,6 +31,7 @@
     "webpack": "^3.10.0"
   },
   "files": [
+    "/dist",
     "/dom.es",
     "/index.js",
     "/input.js",
@@ -48,7 +49,10 @@
     "doctoc": "doctoc --github --maxlevel 4 README.md",
     "eslint": "node_modules/.bin/eslint",
     "mocha": "node_modules/.bin/mocha -c --require babel-core/register",
-    "test": "npm run mocha -- test/*.es* test/*/*.es*"
+    "prepack": "npm run test",
+    "pretest": "npm run webpack",
+    "test": "npm run mocha -- test/*.es* test/*/*.es*",
+    "webpack": "./node_modules/.bin/webpack --config webpack.config.babel.js"
   },
   "version": "1.20.1-SNAPSHOT"
 }

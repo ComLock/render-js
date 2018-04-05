@@ -12,8 +12,8 @@ import {
   Dom, Node,
   cdata, doctype, html, head, title, style,
   body, main, section, header, h1, div, p, span, svg
-} from '../dom.es';
-import { toStr } from '../util.es';
+} from '../dist/dom';
+import { toStr } from '../dist/util';
 
 
 describe('dom', () => {

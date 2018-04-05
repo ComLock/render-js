@@ -1,3 +1,6 @@
+import {SVG_NOT_HTML_ELEMENTS} from '../svg.es';
+
+
 const OBSOLETE_ELEMENTS = [
   'acronym', 'applet', 'basefont', 'big', 'blink', 'center', 'command', 'dir',
   'element', 'font', 'image', 'listing', 'marquee', 'multicol', 'nextid',
@@ -15,6 +18,7 @@ const DEPRECATED_ELEMENTS = [
 const EXPERIMENTAL_ELEMENTS = [
   'dialog', 'hgroup', 'menu', 'menuitem'
 ];
+
 
 export const VOID_ELEMENTS = [ // Self-closing elements
   'area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'input', 'keygen',
@@ -51,3 +55,6 @@ export const ELEMENTS = [
   OBSOLETE_ELEMENTS,
   EXPERIMENTAL_ELEMENTS
 );
+
+
+export const HTML_AND_SVG_ELEMENTS = ELEMENTS.concat(SVG_NOT_HTML_ELEMENTS);

@@ -397,6 +397,12 @@ In terms of extendability, returning an object with named properties should be t
 
 ##### 1.20.1-SNAPSHOT
 
+* Build and include dist folder (JavaScript 1.6)
+* Copy into and include lib folder (ECMAscript 2015)
+* Refactor index.js -> html.es -> src/html.es -> lib/html.js -> dist/util.js
+* Refactor util.es -> src/util.es -> lib/util.js -> dist/util.js
+* Refactor input.js -> src/html/input.es -> lib/html/input.js -> dist/html/input.js
+* Make tests use the dist folder.
 * Documentation improvements
 
 ##### 1.20.0

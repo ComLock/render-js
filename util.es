@@ -1,15 +1,16 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable max-len */
-
-
+// This file is ECMAscript 2015, if you need old JavaScript 1.6 use dist/util.js
 export {
+  camelize,
   dasherize,
+  dict,
   isArray,
   isArrayOrFuncOrString,
   isArrayOrString,
+  isBool,
   isEmptyObject,
   isFunction,
+  isInt,
+  isNumeric,
   isObject,
   isSet,
   isString,
@@ -17,44 +18,5 @@ export {
   sortedUniqStr,
   toStr
 } from './src/util.es';
-export {objToStyleAttr as objectToCssDeclarations} from './src/css/objToStyleAttr.es'; // NOTE Deprecated
-export const UNICODE_LETTERS = 'ÆÐƎƏƐƔĲŊŒẞÞǷȜæðǝəɛɣĳŋœĸſßþƿȝĄƁÇĐƊĘĦĮƘŁØƠŞȘŢȚŦŲƯY̨Ƴąɓçđɗęħįƙłøơşșţțŧųưy̨ƴÁÀÂÄǍĂĀÃÅǺĄÆǼǢƁĆĊĈČÇĎḌĐƊÐÉÈĖÊËĚĔĒĘẸƎƏƐĠĜǦĞĢƔáàâäǎăāãåǻąæǽǣɓćċĉčçďḍđɗðéèėêëěĕēęẹǝəɛġĝǧğģɣĤḤĦIÍÌİÎÏǏĬĪĨĮỊĲĴĶƘĹĻŁĽĿʼNŃN̈ŇÑŅŊÓÒÔÖǑŎŌÕŐỌØǾƠŒĥḥħıíìiîïǐĭīĩįịĳĵķƙĸĺļłľŀŉńn̈ňñņŋóòôöǒŏōõőọøǿơœŔŘŖŚŜŠŞȘṢẞŤŢṬŦÞÚÙÛÜǓŬŪŨŰŮŲỤƯẂẀŴẄǷÝỲŶŸȲỸƳŹŻŽẒŕřŗſśŝšşșṣßťţṭŧþúùûüǔŭūũűůųụưẃẁŵẅƿýỳŷÿȳỹƴźżžẓ';
-
-
-export function camelize(str) {
-  // console.log(`camelize(${toStr(str)})`);
-  // const camelizedStr =
-  return str.replace(
-    /(?:^\w|[A-Z]|\b\w)/g,
-    (letter, index) => index === 0 // eslint-disable-line no-confusing-arrow
-      ? letter.toLowerCase()
-      : letter.toUpperCase()
-  ).replace(/(\s|-)+/g, '');
-  // console.log(`camelize(${toStr(str)}) --> ${camelizedStr}`);
-  // return camelizedStr;
-} // function camelize
-
-
-export const dict = arr => Object.assign(...arr.map(([k, v]) => ({ [k]: v })));
-
-
-export function isBool(value) {
-  return typeof (value) === typeof (true);
-}
-
-
-/* eslint-disable no-restricted-globals */
-export function isInt(value) {
-  // console.log(`isInt(${toStr(value)})`);
-  // const bool =
-  return typeof value === 'number' && isFinite(value) && Math.floor(value) === value;
-  // const bool = !isNaN(value) && parseInt(Number(value)) == value && !isNaN(parseInt(value, 10));
-  // console.log(`isInt(${toStr(value)}) --> ${bool}`);
-  // return bool;
-}
-
-
-export function isNumeric(value) {
-  return !isNaN(parseFloat(value)) && isFinite(value);
-}
-/* eslint-enable no-restricted-globals */
+export {objToStyleAttr as objectToCssDeclarations} from './src/css/objToStyleAttr.es'; // NOTE Deprecated to be removed in 2.0.0
+export {UNICODE_LETTERS} from './src/util/unicode.es'; // Only used in test, keeping for backwards compat

@@ -5,11 +5,11 @@
 
 import { deepStrictEqual } from 'assert';
 import { removeWhiteSpace } from './util.es';
-import { render, doctype, html, head, title, style } from '../index';
+import { render, doctype, html, head, title, style } from '../dist/html';
 import {
   el, Node, body, div, p, main, section, header, h1, svg
-} from '../ncss.es';
-import { UNICODE_LETTERS } from '../util.es';
+} from '../dist/ncss';
+import { UNICODE_LETTERS } from '../src/util/unicode.es';
 
 
 describe('ncss', () => {

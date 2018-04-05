@@ -6,8 +6,8 @@ import { deepStrictEqual } from 'assert';
 import {
   modifyStyleAndMediaToClassAndCss, render,
   html, head, body, main, header, h1, div, span, svg
-} from '../src/obj.es';
-//import { toStr } from '../util.es';
+} from '../dist/obj';
+//import { toStr } from '../dist/util';
 
 
 describe('obj', () => {

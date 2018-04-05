@@ -1,11 +1,12 @@
 /* global describe it */
+//import {print as inspect} from 'q-i'
 import { ok, strictEqual } from 'assert';
-import { ELEMENTS } from '../index';
+import { ELEMENTS } from '../dist/html';
 import I, { button as inputButton, checkbox, color, datetimeLocal, email, file,
   hidden, image as inputImage, INPUT_TYPES_WITHOUT_KNOWN_CONFLICTS, month,
   number, password, radio, range, reset, search, submit, tel, text,
   time as inputTime, url, week
-} from '../input';
+} from '../dist/html/input';
 
 
 describe('input', () => {
