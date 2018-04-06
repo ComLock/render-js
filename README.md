@@ -395,6 +395,10 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+##### 1.21.1-B2
+
+* Abbreviations for alignContent, alignItems, gridColumnGap, gridRowGap, gridTemplateColumns, gridTemplateRows, justifyContent, justifyItems
+
 ##### 1.21.0
 
 * CLASS BUG: domPath() did not support elements without content.

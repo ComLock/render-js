@@ -1,16 +1,22 @@
 /* eslint-disable key-spacing */
 
 
+import {CSS_ALIGN_CONTENT_VALUES_ABBR} from './property/alignContent.es';
+import {CSS_ALIGN_ITEMS_VALUES_ABBR} from './property/alignItems.es';
 import {CSS_BORDER_STYLE_VALUES_ABBR} from './property/borderStyle.es';
 import {CSS_COLOR_VALUES_ABBR} from './property/color.es';
 import {CSS_DISPLAY_VALUES_ABBR} from './property/display.es';
 import {CSS_FLOAT_VALUES_ABBR} from './property/float.es';
 import {CSS_FONT_FAMILY_VALUES_ABBR} from './property/fontFamily.es';
+import {CSS_JUSTIFY_CONTENT_VALUES_ABBR} from './property/justifyContent.es';
+import {CSS_JUSTIFY_ITEMS_VALUES_ABBR} from './property/justifyItems.es';
 import {dict} from '../util/dict.es';
 
 
 // http://stackoverflow.com/questions/448981/which-characters-are-valid-in-css-class-names-selectors -?[_a-zA-Z]+[_a-zA-Z0-9-]*
 export const CSS_PROP_ABBR = { // Abbreviation
+  ac:     'align-content',
+  ai:     'align-items',
   b:      'bottom',
   ba:     'border', // all
   bc:     'border-color',
@@ -57,12 +63,17 @@ export const CSS_PROP_ABBR = { // Abbreviation
   fvl:    'font-variant-ligatures',
   fvn:    'font-variant-numeric',
   fw:     'font-weight',
+  gcg:    'grid-column-gap',
+  grg:    'grid-row-gap',
+  gtc:    'grid-template-columns',
+  gtr:    'grid-template-rows',
   h:      'height',
   'h-ma': 'max-height',
   'h-mi': 'min-height',
   i:      'isolation',
   ir:     'image-rendering',
   jc:     'justify-content',
+  ji:     'justify-items',
   l:      'left',
   ls:     'letter-spacing',
   lc:     'lighting-color',
@@ -157,6 +168,8 @@ export const CSS_PROP_TO_ABBR = dict(Object.keys(CSS_PROP_ABBR).map(a =>
 
 
 export const CSS_PROP_VALUES_ABBR = {
+  'align-content':       CSS_ALIGN_CONTENT_VALUES_ABBR,
+  'align-items':         CSS_ALIGN_ITEMS_VALUES_ABBR,
   'background-color':    CSS_COLOR_VALUES_ABBR,
   'border-bottom-color': CSS_COLOR_VALUES_ABBR,
   'border-bottom-style': CSS_BORDER_STYLE_VALUES_ABBR,
@@ -171,7 +184,9 @@ export const CSS_PROP_VALUES_ABBR = {
   color:                 CSS_COLOR_VALUES_ABBR,
   display:               CSS_DISPLAY_VALUES_ABBR,
   float:                 CSS_FLOAT_VALUES_ABBR,
-  'font-family':         CSS_FONT_FAMILY_VALUES_ABBR
+  'font-family':         CSS_FONT_FAMILY_VALUES_ABBR,
+  'justify-content':     CSS_JUSTIFY_CONTENT_VALUES_ABBR,
+  'justify-items':       CSS_JUSTIFY_ITEMS_VALUES_ABBR
 };
 
 export const CSS_PROP_VALUES_TO_ABBR = dict(Object.keys(CSS_PROP_VALUES_ABBR).map(prop => [
