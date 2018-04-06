@@ -397,6 +397,7 @@ In terms of extendability, returning an object with named properties should be t
 
 ##### 1.21.0-B2
 
+* CLASS BUG: domPath() did not support elements without content.
 * CLASS BUG: domPath() did not support an array as first parameter.
 * addStyle()
 * Transpile to and include dist folder (JavaScript 1.6)

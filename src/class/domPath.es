@@ -12,7 +12,7 @@ export function domPath(element, path) {
   const arr = isArray(element) ? element : contentArr;
   for (let i = 0; i < arr.length; i += 1) {
     const anElement = arr[i]; //inspect({anElement});
-    if (anElement[PROP_CONTENT]) {
+    if (anElement[PROP_TAG]) {
       const childTag = anElement[PROP_TAG];
       if (isArray(pathObj[childTag])) {
         pathObj[childTag].push(anElement); // reference

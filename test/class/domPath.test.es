@@ -33,5 +33,14 @@ describe('class', () => {
       const htmlRef = domPath(dom, 'html'); //inspect({htmlRef});
       deepStrictEqual(htmlRef._c, 'Text');
     }); // it root element isArray
+
+    it('element without content', () => {
+      const ref = html();
+      const dom = [
+        ref
+      ];
+      //inspect({html: domPath(dom, 'html')});
+      deepStrictEqual(domPath(dom, 'html'), ref);
+    }); // it nested root element isArray
   }); // describe domPath
 });// describe class
