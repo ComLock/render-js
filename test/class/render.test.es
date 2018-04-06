@@ -1,8 +1,23 @@
 import {deepStrictEqual} from 'assert';
-import {html, svg, render} from '../../lib/class';
+//import {print as inspect} from 'q-i';
+import {doctype, html, svg, render} from '../../lib/class';
 
 describe('class', () => {
   describe('render', () => {
+    it('root element isArray', () => {
+      const dom = [
+        doctype(),
+        html()
+      ];
+      //inspect({dom});
+      const r = render(dom);
+      //inspect({r});
+      deepStrictEqual(r, {
+        css: [],
+        html: '<!DOCTYPE html><html></html>'
+      });
+    });
+
     describe('attributes', () => {
       it('dasherize', () => {
         const dom = html({dataProp: 'value'});

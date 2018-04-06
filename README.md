@@ -395,8 +395,9 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
-##### 1.21.0-B1
+##### 1.21.0-B2
 
+* CLASS BUG: domPath() did not support an array as first parameter.
 * addStyle()
 * Transpile to and include dist folder (JavaScript 1.6)
 * Webpack to and include lib folder (ECMAscript 2015)

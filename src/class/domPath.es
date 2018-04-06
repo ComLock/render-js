@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 //import {print as inspect} from 'q-i';
 import {PROP_CONTENT, PROP_TAG} from './element.es';
 import {isArray} from '../util/isArray.es';
@@ -8,21 +6,21 @@ import {isArray} from '../util/isArray.es';
 export function domPath(element, path) {
   //inspect({domPath: {element, path}});
   //inspect({path});
-  if (!element[PROP_CONTENT]) { return null; }
-
+  const pathObj = {};
   const contentArr = isArray(element[PROP_CONTENT]) ?
     element[PROP_CONTENT] : [element[PROP_CONTENT]];
-
-  const pathObj = {};
-  for (let i = 0; i < contentArr.length; i += 1) {
-    const item = contentArr[i];
-    const childTag = item[PROP_TAG];
-    if (isArray(pathObj[childTag])) {
-      pathObj[childTag].push(item); // reference
-    } else if (pathObj[childTag]) {
-      pathObj[childTag] = [pathObj[childTag], item]; // reference
-    } else {
-      pathObj[childTag] = item; // reference
+  const arr = isArray(element) ? element : contentArr;
+  for (let i = 0; i < arr.length; i += 1) {
+    const anElement = arr[i]; //inspect({anElement});
+    if (anElement[PROP_CONTENT]) {
+      const childTag = anElement[PROP_TAG];
+      if (isArray(pathObj[childTag])) {
+        pathObj[childTag].push(anElement); // reference
+      } else if (pathObj[childTag]) {
+        pathObj[childTag] = [pathObj[childTag], anElement]; // reference
+      } else {
+        pathObj[childTag] = anElement; // reference
+      }
     }
   } // for
   //inspect({pathObj});

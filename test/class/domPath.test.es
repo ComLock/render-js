@@ -1,6 +1,7 @@
+//import {print as inspect} from 'q-i';
 import {deepStrictEqual} from 'assert';
 import {
-  html, head, title, body, main, h1, ul, li, domPath
+  doctype, html, head, title, body, main, h1, ul, li, domPath
 } from '../../lib/class';
 
 
@@ -23,5 +24,14 @@ describe('class', () => {
       deepStrictEqual(domPath(dom, 'head.title')._c, 'Title');
       deepStrictEqual(domPath(dom, 'body.main.h1')._c, 'Title');
     }); // it dot notation
+
+    it('root element isArray', () => {
+      const dom = [
+        doctype(),
+        html('Text')
+      ]; //inspect({dom});
+      const htmlRef = domPath(dom, 'html'); //inspect({htmlRef});
+      deepStrictEqual(htmlRef._c, 'Text');
+    }); // it root element isArray
   }); // describe domPath
 });// describe class

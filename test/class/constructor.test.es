@@ -1,8 +1,6 @@
 import {deepStrictEqual} from 'assert';
 
-import {
-  html
-} from '../../lib/class';
+import {html} from '../../lib/class';
 
 
 describe('class', () => {
