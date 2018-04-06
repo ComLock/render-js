@@ -1,7 +1,7 @@
 import {deepStrictEqual} from 'assert';
 import {
   html,
-  addClass, addContent,
+  addClass, addContent, addStyle,
   getAttribute, getAttributes, getContent, getMedia, getStyle,
   setAttribute, setAttributes, setContent, setMedia, setStyle
 } from '../../lib/class';
@@ -22,6 +22,16 @@ describe('class', () => {
       'c'
     ];
     describe('dom setters', () => {
+      it('addStyle()', () => {
+        addStyle(dom, 'borderBottomWidth', 1);
+        deepStrictEqual(dom._s, STYLE);
+        setStyle(dom, {});
+        deepStrictEqual(dom._s, {});
+        addStyle(dom, STYLE);
+        deepStrictEqual(dom._s, STYLE);
+        setStyle(dom, {});
+        deepStrictEqual(dom._s, {});
+      }); // it setAttributes
       it('setAttribute() when no previous attributes', () => {
         setAttribute(dom, 'anotherName', 'anotherValue');
         deepStrictEqual(dom._a.anotherName, 'anotherValue');

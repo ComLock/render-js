@@ -395,8 +395,9 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
-##### 1.20.1-SNAPSHOT
+##### 1.21.0-B1
 
+* addStyle()
 * Transpile to and include dist folder (JavaScript 1.6)
 * Webpack to and include lib folder (ECMAscript 2015)
 * Refactor index.js -> html.es -> src/html.es -> lib/html.js -> dist/util.js

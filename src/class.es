@@ -2,11 +2,11 @@
 /* See NOTE-S at the bottom of the file. */
 import {addClass} from './class/addClass.es';
 import {addContent} from './class/addContent.es';
+import {addStyle} from './class/addStyle.es';
 import {build} from './class/build.es';
 import {clone} from './class/clone.es';
 import {domPath} from './class/domPath.es';
 import {element} from './class/element.es';
-import {HTML_AND_SVG_ELEMENTS} from './html/elements.es';
 import {getAttribute} from './class/getAttribute.es';
 import {getAttributes} from './class/getAttributes.es';
 import {getContent} from './class/getContent.es';
@@ -19,6 +19,10 @@ import {setContent} from './class/setContent.es';
 import {setMedia} from './class/setMedia.es';
 import {setStyle} from './class/setStyle.es';
 
+import {HTML_AND_SVG_ELEMENTS} from './html/elements.es';
+import {cdata} from './html/cdata.es';
+import {doctype} from './html/doctype.es';
+
 /*
   A little weird way of exporting, but it works when:
   1. imported directly
@@ -27,8 +31,11 @@ import {setStyle} from './class/setStyle.es';
 */
 exports.addClass = addClass;
 exports.addContent = addContent;
+exports.addStyle = addStyle;
 exports.build = build;
 exports.clone = clone;
+exports.cdata = cdata;
+exports.doctype = doctype;
 exports.domPath = domPath;
 exports.getAttribute = getAttribute;
 exports.getAttributes = getAttributes;
