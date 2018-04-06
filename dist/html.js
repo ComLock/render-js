@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 58);
+/******/ 	return __webpack_require__(__webpack_require__.s = 59);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -195,30 +195,30 @@ Object.defineProperty(exports,'__esModule',{value:true});exports.isArrayOrFuncOr
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,'__esModule',{value:true});exports.isArrayOrString=isArrayOrString;var _isString=__webpack_require__(0);function isArrayOrString(value){return Array.isArray(value)||(0,_isString.isString)(value)}
-
-/***/ }),
-/* 32 */,
-/* 33 */,
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 Object.defineProperty(exports,'__esModule',{value:true});exports.cdata=cdata;function cdata(){var content=arguments.length>0&&arguments[0]!==undefined?arguments[0]:'';return'/*<![CDATA[*/\n'+content+'\n/*]]>*/'}
 
 /***/ }),
-/* 35 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 exports.doctype=function(){var _ref=arguments.length>0&&arguments[0]!==undefined?arguments[0]:{},_ref$type=_ref.type,type=_ref$type===undefined?'html':_ref$type,_ref$system=_ref.system,system=_ref$system===undefined?null:_ref$system,_ref$legacy=_ref.legacy,legacy=_ref$legacy===undefined?null:_ref$legacy;return'<!DOCTYPE '+type+(system?' '+system:'')+(legacy?' '+legacy:'')+'>'};
 
 /***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports,'__esModule',{value:true});exports.isArrayOrString=isArrayOrString;var _isString=__webpack_require__(0);function isArrayOrString(value){return Array.isArray(value)||(0,_isString.isString)(value)}
+
+/***/ }),
+/* 34 */,
+/* 35 */,
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,'__esModule',{value:true});exports.elFn=undefined;exports.el=el;var _att2Str=__webpack_require__(13);var _isVoid=__webpack_require__(14);var _isArray=__webpack_require__(2);var _isArrayOrString=__webpack_require__(31);var _isArrayOrFuncOrString=__webpack_require__(29);var _isFunction=__webpack_require__(9);var _toStr=__webpack_require__(8);function el(tag){var attributes=arguments.length>1&&arguments[1]!==undefined?arguments[1]:null;var content=arguments.length>2&&arguments[2]!==undefined?arguments[2]:null;if((0,_isArrayOrFuncOrString.isArrayOrFuncOrString)(attributes)){if((0,_isArrayOrFuncOrString.isArrayOrFuncOrString)(content)){throw new Error('When called with two arguments one must be an object! '+(0,_toStr.toStr)(tag)+'('+(0,_toStr.toStr)(attributes)+', '+(0,_toStr.toStr)(content)+')')}var tmp=content;content=attributes;attributes=tmp}attributes=(0,_att2Str.att2Str)(attributes);if(!(0,_isArray.isArray)(content)){content=[content]}content=content.map(function(item){while((0,_isFunction.isFunction)(item)){item=item()}if((0,_isArrayOrString.isArrayOrString)(item)){item=[].concat(item).join('')}else{item=''}return item}).join('');return(0,_isVoid.isVoid)(tag)?'<'+tag+attributes+'/>':'<'+tag+attributes+'>'+content+'</'+tag+'>'}var elFn=exports.elFn=function elFn(tag){return function(){for(var _len=arguments.length,args=Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key]}return el.apply(undefined,[tag].concat(args))}};
+Object.defineProperty(exports,'__esModule',{value:true});exports.elFn=undefined;exports.el=el;var _att2Str=__webpack_require__(13);var _isVoid=__webpack_require__(14);var _isArray=__webpack_require__(2);var _isArrayOrString=__webpack_require__(33);var _isArrayOrFuncOrString=__webpack_require__(29);var _isFunction=__webpack_require__(9);var _toStr=__webpack_require__(8);function el(tag){var attributes=arguments.length>1&&arguments[1]!==undefined?arguments[1]:null;var content=arguments.length>2&&arguments[2]!==undefined?arguments[2]:null;if((0,_isArrayOrFuncOrString.isArrayOrFuncOrString)(attributes)){if((0,_isArrayOrFuncOrString.isArrayOrFuncOrString)(content)){throw new Error('When called with two arguments one must be an object! '+(0,_toStr.toStr)(tag)+'('+(0,_toStr.toStr)(attributes)+', '+(0,_toStr.toStr)(content)+')')}var tmp=content;content=attributes;attributes=tmp}attributes=(0,_att2Str.att2Str)(attributes);if(!(0,_isArray.isArray)(content)){content=[content]}content=content.map(function(item){while((0,_isFunction.isFunction)(item)){item=item()}if((0,_isArrayOrString.isArrayOrString)(item)){item=[].concat(item).join('')}else{item=''}return item}).join('');return(0,_isVoid.isVoid)(tag)?'<'+tag+attributes+'/>':'<'+tag+attributes+'>'+content+'</'+tag+'>'}var elFn=exports.elFn=function elFn(tag){return function(){for(var _len=arguments.length,args=Array(_len),_key=0;_key<_len;_key++){args[_key]=arguments[_key]}return el.apply(undefined,[tag].concat(args))}};
 
 /***/ }),
 /* 37 */,
@@ -242,14 +242,15 @@ Object.defineProperty(exports,'__esModule',{value:true});exports.elFn=undefined;
 /* 55 */,
 /* 56 */,
 /* 57 */,
-/* 58 */
+/* 58 */,
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-var _att2Str=__webpack_require__(13);var _cdata=__webpack_require__(34);var _doctype=__webpack_require__(35);var _el=__webpack_require__(36);var _elements=__webpack_require__(6);var _isVoid=__webpack_require__(14);var _render=__webpack_require__(59);exports.att2Str=_att2Str.att2Str;exports.cdata=_cdata.cdata;exports.doctype=_doctype.doctype;exports.el=_el.el;exports.isVoid=_isVoid.isVoid;exports.render=_render.render;_elements.HTML_AND_SVG_ELEMENTS.forEach(function(t){exports[t]=(0,_el.elFn)(t)});
+var _att2Str=__webpack_require__(13);var _cdata=__webpack_require__(31);var _doctype=__webpack_require__(32);var _el=__webpack_require__(36);var _elements=__webpack_require__(6);var _isVoid=__webpack_require__(14);var _render=__webpack_require__(60);exports.att2Str=_att2Str.att2Str;exports.cdata=_cdata.cdata;exports.doctype=_doctype.doctype;exports.el=_el.el;exports.isVoid=_isVoid.isVoid;exports.render=_render.render;_elements.HTML_AND_SVG_ELEMENTS.forEach(function(t){exports[t]=(0,_el.elFn)(t)});
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

@@ -395,7 +395,7 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
-##### 1.21.0-B2
+##### 1.21.0
 
 * CLASS BUG: domPath() did not support elements without content.
 * CLASS BUG: domPath() did not support an array as first parameter.

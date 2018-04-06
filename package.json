@@ -54,5 +54,5 @@
     "test": "npm run mocha -- test/*.es* test/*/*.es*",
     "webpack": "./node_modules/.bin/webpack --config webpack.config.babel.js"
   },
-  "version": "1.21.0-B3"
+  "version": "1.21.0"
 }
