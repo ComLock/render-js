@@ -38,11 +38,11 @@ task copy(type: Copy) {
     from './'
     into 'build/resources/main/lib/render-js/'
     include(
-      'dom.es',
-      'index.js',
-      'input.js',
-      'ncss.es',
-      'src/**/*',
+      'dom.es', // 3
+      'html.es', // 1
+      'index.js', // 1
+      'ncss.es', // 2
+      'src/**/*', // 4 obj // 5 class
       'util.es'
     )
     rename { String fileName ->
@@ -53,23 +53,26 @@ assemble.dependsOn copy
 assemble.mustRunAfter copy
 
 
-task test(type:Exec, overwrite: true) {
-    executable 'npm'
-    args 'run', 'test'
-}
-build.dependsOn test
-build.mustRunAfter test
-
-
 task webpack(type:NodeTask) {
     script = file('node_modules/.bin/webpack')
     args = [
+        '--color',
         '--config', 'webpack.config.babel.js'
     ]
 }
 webpack.dependsOn npmInstall
 assemble.dependsOn webpack
 assemble.mustRunAfter webpack
+
+
+task test(type:Exec, overwrite: true) {
+    executable 'npm'
+    args 'run', 'mocha', 'test/*.es*', 'test/*/*.es*'
+}
+test.dependsOn webpack
+test.mustRunAfter webpack
+build.dependsOn test
+build.mustRunAfter test
 
 
 task wrapper(type: Wrapper) {
