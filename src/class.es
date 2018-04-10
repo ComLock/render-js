@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 /* See NOTE-S at the bottom of the file. */
+import {access} from './class/access.es';
 import {addClass} from './class/addClass.es';
 import {addContent} from './class/addContent.es';
 import {addStyle} from './class/addStyle.es';
@@ -29,6 +30,7 @@ import {doctype} from './html/doctype.es';
   2. transpiled to dist
   3. webpacked to lib
 */
+exports.access = access;
 exports.addClass = addClass;
 exports.addContent = addContent;
 exports.addStyle = addStyle;

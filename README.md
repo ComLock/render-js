@@ -395,9 +395,11 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
-##### 1.21.1-B2
+##### 1.22.0
 
-* Abbreviations for alignContent, alignItems, gridColumnGap, gridRowGap, gridTemplateColumns, gridTemplateRows, justifyContent, justifyItems
+* Class FEATURE: access()
+* FEATURE: Abbreviations for alignContent, alignItems, gridColumnGap, gridRowGap, gridTemplateColumns, gridTemplateRows, justifyContent, justifyItems
+* BUG: Add /lib to npm package.
 
 ##### 1.21.0
 

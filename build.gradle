@@ -67,7 +67,7 @@ assemble.mustRunAfter webpack
 
 task test(type:Exec, overwrite: true) {
     executable 'npm'
-    args 'run', 'mocha', 'test/*.es*', 'test/*/*.es*'
+    args 'run', 'mocha', 'test/*.test*', 'test/*/*.test*', 'test/*/*/*.test*'
 }
 test.dependsOn webpack
 test.mustRunAfter webpack
