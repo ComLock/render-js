@@ -395,8 +395,9 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
-##### 1.23.0-SNAPSHOT
+##### 1.23.0-B1
 
+* src/class/reset/comlock.es Personal flavour css defaults
 * src/class/reset.es Elements with reset css
 
 ##### 1.22.0
