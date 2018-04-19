@@ -3,10 +3,7 @@
 /* eslint-disable no-multi-spaces */
 /* eslint-disable semi-spacing */
 /* eslint-disable space-in-parens */
-import merge from 'deepmerge';
 //import {print as inspect} from 'q-i';
-
-import {RESET_OBJECT} from '../css/reset.es';
 
 import {cloneObj} from '../util/cloneObj.es';
 import {isArray} from '../util/isArray.es';
@@ -41,15 +38,13 @@ export function Element({
     [PROP_TAG]: tagName
   };
 
-  obj[PROP_STYLE] = RESET_OBJECT[tagName] ? RESET_OBJECT[tagName] : {};
-
   if (spec) {
     // Avoid modifying function parameter spec, which is an object and as such
     // passed by reference.
     const attributes = cloneObj(spec);
 
     if (spec._s) {
-      obj[PROP_STYLE] = merge(obj[PROP_STYLE], spec._s);
+      obj[PROP_STYLE] = spec._s;
       delete attributes._s;
     }
 
@@ -59,6 +54,7 @@ export function Element({
     }
     if (!isEmptyObject(attributes)) { obj[PROP_ATTR] = attributes; }
   } // if spec
+
   if (content) { obj[PROP_CONTENT] = content; } // if content
   /*
   if (headBegin ) { obj[PROP_HEAD_BEGIN] = headBegin; }
@@ -71,9 +67,10 @@ export function Element({
 }
 
 
-function isContent(value) {
+export function isContent(value) {
   return isString(value) || isArray(value) || (value && value[PROP_TAG]);
 }
+
 
 export function element(t, ...args) {
   if (isContent(args[0])) {

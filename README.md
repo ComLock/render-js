@@ -395,6 +395,10 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+##### 1.23.0-SNAPSHOT
+
+* src/class/reset.es Elements with reset css
+
 ##### 1.22.0
 
 * Class FEATURE: access()

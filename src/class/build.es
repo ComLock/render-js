@@ -1,8 +1,9 @@
 /* eslint-disable no-param-reassign */
-
+//import merge from 'deepmerge';
+//import {RESET_OBJECT} from '../css/reset.es';
 
 import {
-  PROP_ATTR, PROP_CONTENT, PROP_CSS, PROP_MEDIA, PROP_STYLE
+  PROP_ATTR, PROP_CONTENT, PROP_CSS, PROP_MEDIA, PROP_STYLE//, PROP_TAG
 } from './element.es';
 import {isArray} from '../util/isArray.es';
 import {isSet} from '../util/isSet.es';
@@ -16,6 +17,7 @@ import {
 export function buildStyle(item) {
   if (item[PROP_STYLE]) {
     // TODO implement !abbreviateCssProperties
+    //const style = RESET_OBJECT[item[PROP_TAG]] ? merge(RESET_OBJECT[item[PROP_TAG]], item[PROP_STYLE]) : item[PROP_STYLE];
     const s = classAppendAndCssFromStyle(item[PROP_STYLE]);
     item[PROP_CSS] = isArray(item[PROP_CSS]) ? item[PROP_CSS].concat(s.css) : s.css;
     if (!isSet(item[PROP_ATTR])) { item[PROP_ATTR] = {}; }
