@@ -396,6 +396,10 @@ In terms of extendability, returning an object with named properties should be t
 ## Changelog
 
 
+##### 1.23.1
+
+* BUG: VOID_ELEMENTS was not part of ELEMENTS
+
 ##### 1.23.0
 
 * BUG: img is an empty element https://developer.mozilla.org/en-US/docs/Glossary/Empty_element
