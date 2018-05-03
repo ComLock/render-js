@@ -395,10 +395,13 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
-##### 1.23.0-B1
 
-* src/class/reset/comlock.es Personal flavour css defaults
-* src/class/reset.es Elements with reset css
+##### 1.23.0
+
+* BUG: img is an empty element https://developer.mozilla.org/en-US/docs/Glossary/Empty_element
+* CLASS FEATURE: chainable build()
+* CLASS FEATURE: src/class/reset/comlock.es Personal flavour css defaults
+* CLASS FEATURE: src/class/reset.es Elements with reset css
 
 ##### 1.22.0
 

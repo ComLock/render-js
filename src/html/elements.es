@@ -20,9 +20,10 @@ const EXPERIMENTAL_ELEMENTS = [
 ];
 
 
+// https://developer.mozilla.org/en-US/docs/Glossary/Empty_element
 export const VOID_ELEMENTS = [ // Self-closing elements
-  'area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'input', 'keygen',
-  'link', 'menuitem', 'meta', 'param', 'source', 'track', 'wbr'
+  'area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input',
+  'keygen', 'link', 'menuitem', 'meta', 'param', 'source', 'track', 'wbr'
 ];
 
 export const ELEMENTS = [
@@ -33,7 +34,7 @@ export const ELEMENTS = [
   'em', 'embed',
   'fieldset', 'figcaption', 'figure', 'footer', 'form',
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html',
-  'i', 'iframe', 'img', 'input', 'ins',
+  'i', 'iframe', 'input', 'ins',
   'kbd',
   'label', 'legend', 'li', 'link',
   'main', 'map', 'mark', 'meta', 'meter',

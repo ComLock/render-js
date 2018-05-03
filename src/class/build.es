@@ -65,4 +65,5 @@ export function build(dom) {
     return item;
   }); // map
   dom = res.length === 1 ? res[0] : res;
+  return dom; // So it can be chained
 } // export function build
