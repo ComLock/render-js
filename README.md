@@ -403,6 +403,7 @@ In terms of extendability, returning an object with named properties should be t
 *  border-style
 *  box-sizing
 *  fill
+*  line-height
 *  overflow
 *  overflow-wrap
 *  overflow-x
