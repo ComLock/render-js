@@ -402,6 +402,7 @@ In terms of extendability, returning an object with named properties should be t
 * CSS value abbreviations for:
 *  border-style
 *  box-sizing
+*  clear
 *  fill
 *  line-height
 *  overflow

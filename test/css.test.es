@@ -126,6 +126,7 @@ describe('css', () => {
     deepStrictEqual(classAppendAndCssFromStyle({
       borderStyle: 'solid',
       boxSizing: 'border-box',
+      clear: 'both',
       fill: 'black',
       lineHeight: 'normal',
       overflow: 'hidden',
@@ -143,6 +144,7 @@ describe('css', () => {
       classAppend: [
         'bs-s',
         'bsi-b',
+        'cl-b',
         'fi-b',
         'lh-n',
         'ov-h',
@@ -160,6 +162,7 @@ describe('css', () => {
       css: [
         '.bs-s{border-style:solid}',
         '.bsi-b{box-sizing:border-box}',
+        '.cl-b{clear:both}',
         '.fi-b{fill:black}',
         '.lh-n{line-height:normal}',
         '.ov-h{overflow:hidden}',

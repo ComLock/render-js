@@ -5,6 +5,7 @@ import {CSS_ALIGN_CONTENT_VALUES_ABBR} from './property/alignContent.es';
 import {CSS_ALIGN_ITEMS_VALUES_ABBR} from './property/alignItems.es';
 import {CSS_BORDER_STYLE_VALUES_ABBR} from './property/borderStyle.es';
 import {CSS_BOX_SIZING_VALUES_ABBR} from './property/boxSizing.es';
+import {CSS_CLEAR_VALUES_ABBR} from './property/clear.es';
 import {CSS_COLOR_VALUES_ABBR} from './property/color.es';
 import {CSS_DISPLAY_VALUES_ABBR} from './property/display.es';
 import {CSS_FLOAT_VALUES_ABBR} from './property/float.es';
@@ -198,6 +199,7 @@ export const CSS_PROP_VALUES_ABBR = {
   'border-top-color':      CSS_COLOR_VALUES_ABBR,
   'border-top-style':      CSS_BORDER_STYLE_VALUES_ABBR,
   'box-sizing':            CSS_BOX_SIZING_VALUES_ABBR,
+  clear:                   CSS_CLEAR_VALUES_ABBR,
   color:                   CSS_COLOR_VALUES_ABBR,
   display:                 CSS_DISPLAY_VALUES_ABBR,
   fill:                    CSS_COLOR_VALUES_ABBR,
