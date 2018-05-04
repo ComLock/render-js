@@ -7,6 +7,7 @@ import {CSS_BORDER_STYLE_VALUES_ABBR} from './property/borderStyle.es';
 import {CSS_BOX_SIZING_VALUES_ABBR} from './property/boxSizing.es';
 import {CSS_CLEAR_VALUES_ABBR} from './property/clear.es';
 import {CSS_COLOR_VALUES_ABBR} from './property/color.es';
+import {CSS_CURSOR_VALUES_ABBR} from './property/cursor.es';
 import {CSS_DISPLAY_VALUES_ABBR} from './property/display.es';
 import {CSS_FLOAT_VALUES_ABBR} from './property/float.es';
 import {CSS_FONT_FAMILY_VALUES_ABBR} from './property/fontFamily.es';
@@ -60,6 +61,7 @@ export const CSS_PROP_ABBR = { // Abbreviation
   bw:     'border-width',
   c:      'color',
   cl:     'clear',
+  cu:     'cursor',
   d:      'display',
   di:     'direction',
   f:      'float',
@@ -102,6 +104,7 @@ export const CSS_PROP_ABBR = { // Abbreviation
   lsi:    'list-style-image',
   lss:    'list-style-style',
   lst:    'list-style-type',
+  m:      'margin',
   // ma:     ['margin-bottom', 'margin-left', 'margin-right', 'margin-top'],
   mb:     'margin-bottom',
   ml:     'margin-left',
@@ -134,6 +137,7 @@ export const CSS_PROP_ABBR = { // Abbreviation
   ovw:     'overflow-wrap',
   p:      'position',
   po:     'paint-order',
+  pa:      'padding',
   // pa:     ['padding-bottom', 'padding-left', 'padding-right', 'padding-top'],
   pb:     'padding-bottom',
   pl:     'padding-left',
@@ -214,6 +218,7 @@ export const CSS_PROP_VALUES_ABBR = {
   'box-sizing':                 CSS_BOX_SIZING_VALUES_ABBR,
   clear:                        CSS_CLEAR_VALUES_ABBR,
   color:                        CSS_COLOR_VALUES_ABBR,
+  cursor:                       CSS_CURSOR_VALUES_ABBR,
   display:                      CSS_DISPLAY_VALUES_ABBR,
   fill:                         CSS_COLOR_VALUES_ABBR,
   float:                        CSS_FLOAT_VALUES_ABBR,

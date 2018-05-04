@@ -395,6 +395,9 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+##### 1.25.0
+
+* FEATURE: CSS abbreviations for: cursor, margin, padding
 
 ##### 1.24.0
 
