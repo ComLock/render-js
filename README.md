@@ -404,6 +404,7 @@ In terms of extendability, returning an object with named properties should be t
 *  box-sizing
 *  clear
 *  fill
+*  font-weight
 *  line-height
 *  overflow
 *  overflow-wrap
