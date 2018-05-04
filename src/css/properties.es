@@ -11,6 +11,8 @@ import {CSS_FLOAT_VALUES_ABBR} from './property/float.es';
 import {CSS_FONT_FAMILY_VALUES_ABBR} from './property/fontFamily.es';
 import {CSS_JUSTIFY_CONTENT_VALUES_ABBR} from './property/justifyContent.es';
 import {CSS_JUSTIFY_ITEMS_VALUES_ABBR} from './property/justifyItems.es';
+import {CSS_OVERFLOW_VALUES_ABBR} from './property/overflow.es';
+import {CSS_OVERFLOW_WRAP_VALUES_ABBR} from './property/overflowWrap.es';
 import {CSS_POSITION_VALUES_ABBR} from './property/position.es';
 import {CSS_TEXT_DECORATION_VALUES_ABBR} from './property/textDecoration.es';
 import {CSS_TEXT_DECORATION_LINE_VALUES_ABBR} from './property/textDecorationLine.es';
@@ -34,6 +36,7 @@ export const CSS_PROP_ABBR = { // Abbreviation
   blc:    'border-left-color',
   bls:    'border-left-style',
   blw:    'border-left-width',
+  bs:     'border-style',
   br:     'border-radius',
   brc:    'border-right-color',
   brs:    'border-right-style',
@@ -199,7 +202,11 @@ export const CSS_PROP_VALUES_ABBR = {
   'font-family':           CSS_FONT_FAMILY_VALUES_ABBR,
   'justify-content':       CSS_JUSTIFY_CONTENT_VALUES_ABBR,
   'justify-items':         CSS_JUSTIFY_ITEMS_VALUES_ABBR,
-  'position':              CSS_POSITION_VALUES_ABBR,
+  overflow:                CSS_OVERFLOW_VALUES_ABBR,
+  'overflow-wrap':         CSS_OVERFLOW_WRAP_VALUES_ABBR,
+  'overflow-x':            CSS_OVERFLOW_VALUES_ABBR,
+  'overflow-y':            CSS_OVERFLOW_VALUES_ABBR,
+  position:                CSS_POSITION_VALUES_ABBR,
   'text-decoration':       CSS_TEXT_DECORATION_VALUES_ABBR,
   'text-decoration-color': CSS_COLOR_VALUES_ABBR,
   'text-decoration-line':  CSS_TEXT_DECORATION_LINE_VALUES_ABBR,

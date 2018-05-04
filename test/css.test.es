@@ -124,8 +124,13 @@ describe('css', () => {
 
   it('abbreviations', () => {
     deepStrictEqual(classAppendAndCssFromStyle({
+      borderStyle: 'solid',
       boxSizing: 'border-box',
       fill: 'black',
+      overflow: 'hidden',
+      overflowWrap: 'break-word',
+      overflowX: 'auto',
+      overflowY: 'scroll',
       position: 'absolute',
       textDecoration: 'none',
       textDecorationColor: 'black',
@@ -133,8 +138,13 @@ describe('css', () => {
       textDecorationStyle: 'solid'
     }), {
       classAppend: [
+        'bs-s',
         'bsi-b',
         'fi-b',
+        'ov-h',
+        'ovw-b',
+        'ovx-a',
+        'ovy-s',
         'p-a',
         'td-n',
         'tdc-b',
@@ -142,8 +152,13 @@ describe('css', () => {
         'tds-s'
       ],
       css: [
+        '.bs-s{border-style:solid}',
         '.bsi-b{box-sizing:border-box}',
         '.fi-b{fill:black}',
+        '.ov-h{overflow:hidden}',
+        '.ovw-b{overflow-wrap:break-word}',
+        '.ovx-a{overflow-x:auto}',
+        '.ovy-s{overflow-y:scroll}',
         '.p-a{position:absolute}',
         '.td-n{text-decoration:none}',
         '.tdc-b{text-decoration-color:black}',

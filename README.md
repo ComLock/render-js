@@ -400,8 +400,13 @@ In terms of extendability, returning an object with named properties should be t
 
 * BUG: Wrong key used to lookup CSS value abbreviations (prop -> dashProp)
 * CSS value abbreviations for:
+*  border-style
 *  box-sizing
 *  fill
+*  overflow
+*  overflow-wrap
+*  overflow-x
+*  overflow-y
 *  position
 *  text-decoration
 *  text-decoration-color
