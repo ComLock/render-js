@@ -14,6 +14,8 @@ import {CSS_FONT_WEIGHT_VALUES_ABBR} from './property/fontWeight.es';
 import {CSS_JUSTIFY_CONTENT_VALUES_ABBR} from './property/justifyContent.es';
 import {CSS_JUSTIFY_ITEMS_VALUES_ABBR} from './property/justifyItems.es';
 import {CSS_LINE_HEIGHT_VALUES_ABBR} from './property/lineHeight.es';
+import {CSS_OUTLINE_VALUES_ABBR} from './property/outline.es';
+import {CSS_OUTLINE_WIDTH_VALUES_ABBR} from './property/outlineWidth.es';
 import {CSS_OVERFLOW_VALUES_ABBR} from './property/overflow.es';
 import {CSS_OVERFLOW_WRAP_VALUES_ABBR} from './property/overflowWrap.es';
 import {CSS_POSITION_VALUES_ABBR} from './property/position.es';
@@ -117,6 +119,7 @@ export const CSS_PROP_ABBR = { // Abbreviation
   op:     'opacity',
   or:     'order',
   orp:    'orphans',
+  ou:     'outline',
   'ou-c': 'outline-color',
   'ou-o': 'outline-offset',
   'ou-s': 'outline-style',
@@ -210,6 +213,10 @@ export const CSS_PROP_VALUES_ABBR = {
   'justify-content':       CSS_JUSTIFY_CONTENT_VALUES_ABBR,
   'justify-items':         CSS_JUSTIFY_ITEMS_VALUES_ABBR,
   'line-height':           CSS_LINE_HEIGHT_VALUES_ABBR,
+  outline:                 CSS_OUTLINE_VALUES_ABBR,
+  'outline-color':         CSS_COLOR_VALUES_ABBR,
+  'outline-style':         CSS_BORDER_STYLE_VALUES_ABBR,
+  'outline-width':         CSS_OUTLINE_WIDTH_VALUES_ABBR,
   overflow:                CSS_OVERFLOW_VALUES_ABBR,
   'overflow-wrap':         CSS_OVERFLOW_WRAP_VALUES_ABBR,
   'overflow-x':            CSS_OVERFLOW_VALUES_ABBR,

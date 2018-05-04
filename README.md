@@ -406,6 +406,10 @@ In terms of extendability, returning an object with named properties should be t
 *  fill
 *  font-weight
 *  line-height
+*  outline
+*  outline-color
+*  outline-style
+*  outline-width
 *  overflow
 *  overflow-wrap
 *  overflow-x
