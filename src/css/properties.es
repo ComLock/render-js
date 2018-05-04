@@ -19,6 +19,7 @@ import {CSS_TEXT_DECORATION_VALUES_ABBR} from './property/textDecoration.es';
 import {CSS_TEXT_DECORATION_LINE_VALUES_ABBR} from './property/textDecorationLine.es';
 import {CSS_TEXT_DECORATION_STYLE_VALUES_ABBR} from './property/textDecorationStyle.es';
 import {CSS_VERTICAL_ALIGN_VALUES_ABBR} from './property/verticalAlign.es';
+import {CSS_WHITE_SPACE_VALUES_ABBR} from './property/whiteSpace.es';
 
 
 import {dict} from '../util/dict.es';
@@ -214,7 +215,8 @@ export const CSS_PROP_VALUES_ABBR = {
   'text-decoration-color': CSS_COLOR_VALUES_ABBR,
   'text-decoration-line':  CSS_TEXT_DECORATION_LINE_VALUES_ABBR,
   'text-decoration-style': CSS_TEXT_DECORATION_STYLE_VALUES_ABBR,
-  'vertical-align':        CSS_VERTICAL_ALIGN_VALUES_ABBR
+  'vertical-align':        CSS_VERTICAL_ALIGN_VALUES_ABBR,
+  'white-space':           CSS_WHITE_SPACE_VALUES_ABBR
 };
 
 export const CSS_PROP_VALUES_TO_ABBR = dict(Object.keys(CSS_PROP_VALUES_ABBR).map(prop => [

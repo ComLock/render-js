@@ -414,6 +414,7 @@ In terms of extendability, returning an object with named properties should be t
 *  text-decoration-line
 *  text-decoration-style
 *  vertical-align
+*  white-space
 
 ##### 1.23.1
 
