@@ -124,6 +124,7 @@ describe('css', () => {
 
   it('abbreviations', () => {
     deepStrictEqual(classAppendAndCssFromStyle({
+      backgroundColor: 'transparent',
       borderStyle: 'solid',
       boxSizing: 'border-box',
       clear: 'both',
@@ -152,6 +153,7 @@ describe('css', () => {
       whiteSpace: 'nowrap'
     }), {
       classAppend: [
+        'bgc-t',
         'bs-s',
         'bsi-b',
         'cl-b',
@@ -180,6 +182,7 @@ describe('css', () => {
         'ws-nw'
       ],
       css: [
+        '.bgc-t{background-color:transparent}',
         '.bs-s{border-style:solid}',
         '.bsi-b{box-sizing:border-box}',
         '.cl-b{clear:both}',
