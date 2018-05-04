@@ -36,8 +36,8 @@ function handleProp({
   let lastValue = value;
   value = addDefaultUnit(value, prop); // eslint-disable-line no-param-reassign
   if (Array.isArray(value)) { lastValue = value[value.length - 1]; }
-  const valueAbbr = (CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][lastValue]) || toClassName(lastValue);
-  /* if (WARN && !(CSS_PROP_VALUES_TO_ABBR[prop] && CSS_PROP_VALUES_TO_ABBR[prop][value])) {
+  const valueAbbr = (CSS_PROP_VALUES_TO_ABBR[dashProp] && CSS_PROP_VALUES_TO_ABBR[dashProp][lastValue]) || toClassName(lastValue);
+  /* if (WARN && !(CSS_PROP_VALUES_TO_ABBR[dashProp] && CSS_PROP_VALUES_TO_ABBR[dashProp][value])) {
     console.warn(`WARN: Couldn't find abbreviation for property:${prop} value:${value} falling back to toClassName on value:${valueAbbr}`);
   } */
   const className = `${prefix}${propAbbr}-${valueAbbr}${postfix}`;// console.log(`className:${toStr(className)}`);
