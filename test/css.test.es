@@ -143,6 +143,11 @@ describe('css', () => {
       textDecorationColor: 'black',
       textDecorationLine: 'underline',
       textDecorationStyle: 'solid',
+      transition: 'all',
+      transitionDelay: '.2s',
+      transitionDuration: '1s',
+      transitionProperty: 'all',
+      transitionTimingFunction: 'ease-in-out',
       verticalAlign: 'middle',
       whiteSpace: 'nowrap'
     }), {
@@ -166,6 +171,11 @@ describe('css', () => {
         'tdc-b',
         'tdl-u',
         'tds-s',
+        'tra-a',
+        'tde-2s',
+        'tdu-1s',
+        'tp-all',
+        'ttf-eio',
         'va-m',
         'ws-nw'
       ],
@@ -189,6 +199,11 @@ describe('css', () => {
         '.tdc-b{text-decoration-color:black}',
         '.tdl-u{text-decoration-line:underline}',
         '.tds-s{text-decoration-style:solid}',
+        '.tra-a{transition:all}',
+        '.tde-2s{transition-delay:.2s}',
+        '.tdu-1s{transition-duration:1s}',
+        '.tp-all{transition-property:all}',
+        '.ttf-eio{transition-timing-function:ease-in-out}',
         '.va-m{vertical-align:middle}',
         '.ws-nw{white-space:nowrap}'
       ]

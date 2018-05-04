@@ -419,6 +419,11 @@ In terms of extendability, returning an object with named properties should be t
 *  text-decoration-color
 *  text-decoration-line
 *  text-decoration-style
+*  transition
+*  transition-delay
+*  transition-duration
+*  transition-property
+*  transition-timing-function
 *  vertical-align
 *  white-space
 
