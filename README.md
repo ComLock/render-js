@@ -396,6 +396,18 @@ In terms of extendability, returning an object with named properties should be t
 ## Changelog
 
 
+##### 1.23.2
+
+* BUG: Wrong key used to lookup CSS value abbreviations (prop -> dashProp)
+* CSS value abbreviations for:
+*  box-sizing
+*  fill
+*  position
+*  text-decoration
+*  text-decoration-color
+*  text-decoration-line
+*  text-decoration-style
+
 ##### 1.23.1
 
 * BUG: VOID_ELEMENTS was not part of ELEMENTS

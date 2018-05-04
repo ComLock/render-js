@@ -120,5 +120,36 @@ describe('css', () => {
         ]
       });
     });
-  });
+  }); // float
+
+  it('abbreviations', () => {
+    deepStrictEqual(classAppendAndCssFromStyle({
+      boxSizing: 'border-box',
+      fill: 'black',
+      position: 'absolute',
+      textDecoration: 'none',
+      textDecorationColor: 'black',
+      textDecorationLine: 'underline',
+      textDecorationStyle: 'solid'
+    }), {
+      classAppend: [
+        'bsi-b',
+        'fi-b',
+        'p-a',
+        'td-n',
+        'tdc-b',
+        'tdl-u',
+        'tds-s'
+      ],
+      css: [
+        '.bsi-b{box-sizing:border-box}',
+        '.fi-b{fill:black}',
+        '.p-a{position:absolute}',
+        '.td-n{text-decoration:none}',
+        '.tdc-b{text-decoration-color:black}',
+        '.tdl-u{text-decoration-line:underline}',
+        '.tds-s{text-decoration-style:solid}'
+      ]
+    });
+  }); // abbreviations
 }); // css

@@ -4,12 +4,19 @@
 import {CSS_ALIGN_CONTENT_VALUES_ABBR} from './property/alignContent.es';
 import {CSS_ALIGN_ITEMS_VALUES_ABBR} from './property/alignItems.es';
 import {CSS_BORDER_STYLE_VALUES_ABBR} from './property/borderStyle.es';
+import {CSS_BOX_SIZING_VALUES_ABBR} from './property/boxSizing.es';
 import {CSS_COLOR_VALUES_ABBR} from './property/color.es';
 import {CSS_DISPLAY_VALUES_ABBR} from './property/display.es';
 import {CSS_FLOAT_VALUES_ABBR} from './property/float.es';
 import {CSS_FONT_FAMILY_VALUES_ABBR} from './property/fontFamily.es';
 import {CSS_JUSTIFY_CONTENT_VALUES_ABBR} from './property/justifyContent.es';
 import {CSS_JUSTIFY_ITEMS_VALUES_ABBR} from './property/justifyItems.es';
+import {CSS_POSITION_VALUES_ABBR} from './property/position.es';
+import {CSS_TEXT_DECORATION_VALUES_ABBR} from './property/textDecoration.es';
+import {CSS_TEXT_DECORATION_LINE_VALUES_ABBR} from './property/textDecorationLine.es';
+import {CSS_TEXT_DECORATION_STYLE_VALUES_ABBR} from './property/textDecorationStyle.es';
+
+
 import {dict} from '../util/dict.es';
 
 
@@ -133,6 +140,9 @@ export const CSS_PROP_ABBR = { // Abbreviation
   tal:    'text-align-last',
   tan:    'text-anchor',
   td:     'text-decoration',
+  tdc:     'text-decoration-color',
+  tdl:     'text-decoration-line',
+  tds:     'text-decoration-style',
   ti:     'text-indent',
   to:     'text-overflow',
   tr:     'text-rendering',
@@ -168,25 +178,32 @@ export const CSS_PROP_TO_ABBR = dict(Object.keys(CSS_PROP_ABBR).map(a =>
 
 
 export const CSS_PROP_VALUES_ABBR = {
-  'align-content':       CSS_ALIGN_CONTENT_VALUES_ABBR,
-  'align-items':         CSS_ALIGN_ITEMS_VALUES_ABBR,
-  'background-color':    CSS_COLOR_VALUES_ABBR,
-  'border-bottom-color': CSS_COLOR_VALUES_ABBR,
-  'border-bottom-style': CSS_BORDER_STYLE_VALUES_ABBR,
-  'border-color':        CSS_COLOR_VALUES_ABBR,
-  'border-left-color':   CSS_COLOR_VALUES_ABBR,
-  'border-left-style':   CSS_BORDER_STYLE_VALUES_ABBR,
-  'border-right-color':  CSS_COLOR_VALUES_ABBR,
-  'border-right-style':  CSS_BORDER_STYLE_VALUES_ABBR,
-  'border-style':        CSS_BORDER_STYLE_VALUES_ABBR,
-  'border-top-color':    CSS_COLOR_VALUES_ABBR,
-  'border-top-style':    CSS_BORDER_STYLE_VALUES_ABBR,
-  color:                 CSS_COLOR_VALUES_ABBR,
-  display:               CSS_DISPLAY_VALUES_ABBR,
-  float:                 CSS_FLOAT_VALUES_ABBR,
-  'font-family':         CSS_FONT_FAMILY_VALUES_ABBR,
-  'justify-content':     CSS_JUSTIFY_CONTENT_VALUES_ABBR,
-  'justify-items':       CSS_JUSTIFY_ITEMS_VALUES_ABBR
+  'align-content':         CSS_ALIGN_CONTENT_VALUES_ABBR,
+  'align-items':           CSS_ALIGN_ITEMS_VALUES_ABBR,
+  'background-color':      CSS_COLOR_VALUES_ABBR,
+  'border-bottom-color':   CSS_COLOR_VALUES_ABBR,
+  'border-bottom-style':   CSS_BORDER_STYLE_VALUES_ABBR,
+  'border-color':          CSS_COLOR_VALUES_ABBR,
+  'border-left-color':     CSS_COLOR_VALUES_ABBR,
+  'border-left-style':     CSS_BORDER_STYLE_VALUES_ABBR,
+  'border-right-color':    CSS_COLOR_VALUES_ABBR,
+  'border-right-style':    CSS_BORDER_STYLE_VALUES_ABBR,
+  'border-style':          CSS_BORDER_STYLE_VALUES_ABBR,
+  'border-top-color':      CSS_COLOR_VALUES_ABBR,
+  'border-top-style':      CSS_BORDER_STYLE_VALUES_ABBR,
+  'box-sizing':            CSS_BOX_SIZING_VALUES_ABBR,
+  color:                   CSS_COLOR_VALUES_ABBR,
+  display:                 CSS_DISPLAY_VALUES_ABBR,
+  fill:                    CSS_COLOR_VALUES_ABBR,
+  float:                   CSS_FLOAT_VALUES_ABBR,
+  'font-family':           CSS_FONT_FAMILY_VALUES_ABBR,
+  'justify-content':       CSS_JUSTIFY_CONTENT_VALUES_ABBR,
+  'justify-items':         CSS_JUSTIFY_ITEMS_VALUES_ABBR,
+  'position':              CSS_POSITION_VALUES_ABBR,
+  'text-decoration':       CSS_TEXT_DECORATION_VALUES_ABBR,
+  'text-decoration-color': CSS_COLOR_VALUES_ABBR,
+  'text-decoration-line':  CSS_TEXT_DECORATION_LINE_VALUES_ABBR,
+  'text-decoration-style': CSS_TEXT_DECORATION_STYLE_VALUES_ABBR
 };
 
 export const CSS_PROP_VALUES_TO_ABBR = dict(Object.keys(CSS_PROP_VALUES_ABBR).map(prop => [
