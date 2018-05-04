@@ -395,6 +395,19 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+##### 1.27.0
+
+* FEATURE: CSS abbreviations for:
+*  animation
+*  animation-delay
+*  animation-direction
+*  animation-duration
+*  animation-fill-mode
+*  animation-iteration-count
+*  animation-name
+*  animation-play-state
+*  animation-timing-function
+
 ##### 1.26.0
 
 * FEATURE: CSS abbreviations for:

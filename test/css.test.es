@@ -124,6 +124,15 @@ describe('css', () => {
 
   it('abbreviations', () => {
     deepStrictEqual(classAppendAndCssFromStyle({
+      animation: 'whatever',
+      animationDelay: '0s',
+      animationDirection: 'normal',
+      animationDuration: '1s',
+      animationFillMode: 'none',
+      animationIterationCount: '1',
+      animationName: 'whatever',
+      animationPlayState: 'running',
+      animationTimingFunction: 'start',
       backgroundColor: 'transparent',
       borderStyle: 'solid',
       boxSizing: 'border-box',
@@ -161,6 +170,15 @@ describe('css', () => {
       whiteSpace: 'nowrap'
     }), {
       classAppend: [
+        'a-whatever',
+        'ad-0s',
+        'ar-n',
+        'au-1s',
+        'afm-n',
+        'aic-1',
+        'an-whatever',
+        'aps-r',
+        'atf-s',
         'bgc-t',
         'bs-s',
         'bsi-b',
@@ -198,6 +216,15 @@ describe('css', () => {
         'ws-nw'
       ],
       css: [
+        '.a-whatever{animation:whatever}',
+        '.ad-0s{animation-delay:0s}',
+        '.ar-n{animation-direction:normal}',
+        '.au-1s{animation-duration:1s}',
+        '.afm-n{animation-fill-mode:none}',
+        '.aic-1{animation-iteration-count:1}',
+        '.an-whatever{animation-name:whatever}',
+        '.aps-r{animation-play-state:running}',
+        '.atf-s{animation-timing-function:start}',
         '.bgc-t{background-color:transparent}',
         '.bs-s{border-style:solid}',
         '.bsi-b{box-sizing:border-box}',

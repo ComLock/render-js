@@ -1,6 +1,10 @@
 /* eslint-disable key-spacing */
 
-
+import {
+  CSS_ANIMATION_DIRECTION_VALUES_ABBR,
+  CSS_ANIMATION_FILL_MODE_VALUES_ABBR,
+  CSS_ANIMATION_PLAY_STATE_VALUES_ABBR
+} from './property/animation.es';
 import {CSS_ALIGN_CONTENT_VALUES_ABBR} from './property/alignContent.es';
 import {CSS_ALIGN_ITEMS_VALUES_ABBR} from './property/alignItems.es';
 import {CSS_BORDER_STYLE_VALUES_ABBR} from './property/borderStyle.es';
@@ -45,6 +49,15 @@ import {dict} from '../util/dict.es';
 export const CSS_PROP_ABBR = { // Abbreviation
   ac:     'align-content',
   ai:     'align-items',
+  a:      'animation',
+  ad:     'animation-delay',
+  ar:     'animation-direction',
+  au:     'animation-duration',
+  afm:    'animation-fill-mode',
+  aic:    'animation-iteration-count',
+  an:     'animation-name',
+  aps:    'animation-play-state',
+  atf:    'animation-timing-function',
   b:      'bottom',
   ba:     'border', // all
   bc:     'border-color',
@@ -66,6 +79,7 @@ export const CSS_PROP_ABBR = { // Abbreviation
   bts:    'border-top-style',
   btw:    'border-top-width',
   bw:     'border-width',
+  bo:     'box-shadow',
   c:      'color',
   cl:     'clear',
   cu:     'cursor',
@@ -210,6 +224,10 @@ export const CSS_PROP_TO_ABBR = dict(Object.keys(CSS_PROP_ABBR).map(a =>
 
 
 export const CSS_PROP_VALUES_ABBR = {
+  'animation-direction':        CSS_ANIMATION_DIRECTION_VALUES_ABBR,
+  'animation-fill-mode':        CSS_ANIMATION_FILL_MODE_VALUES_ABBR,
+  'animation-play-state':       CSS_ANIMATION_PLAY_STATE_VALUES_ABBR,
+  'animation-timing-function':  CSS_TRANSITION_TIMING_FUNCTION_VALUES_ABBR,
   'align-content':              CSS_ALIGN_CONTENT_VALUES_ABBR,
   'align-items':                CSS_ALIGN_ITEMS_VALUES_ABBR,
   'background-color':           CSS_COLOR_VALUES_ABBR,
@@ -235,7 +253,7 @@ export const CSS_PROP_VALUES_ABBR = {
   'justify-content':            CSS_JUSTIFY_CONTENT_VALUES_ABBR,
   'justify-items':              CSS_JUSTIFY_ITEMS_VALUES_ABBR,
   'line-height':                CSS_LINE_HEIGHT_VALUES_ABBR,
-  'list-style':                 CSS_LIST_STYLE_TYPE_VALUES_ABBR,
+  'list-style':                 CSS_LIST_STYLE_VALUES_ABBR,
   'list-style-image':           CSS_LIST_STYLE_IMAGE_VALUES_ABBR,
   'list-style-position':        CSS_LIST_STYLE_POSITION_VALUES_ABBR,
   'list-style-type':            CSS_LIST_STYLE_TYPE_VALUES_ABBR,
