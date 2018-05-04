@@ -396,10 +396,10 @@ In terms of extendability, returning an object with named properties should be t
 ## Changelog
 
 
-##### 1.23.2
+##### 1.24.0
 
 * BUG: Wrong key used to lookup CSS value abbreviations (prop -> dashProp)
-* CSS value abbreviations for:
+* FEATURE: CSS value abbreviations for:
 *  border-style
 *  box-sizing
 *  clear

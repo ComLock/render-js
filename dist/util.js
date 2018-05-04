@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 68);
+/******/ 	return __webpack_require__(__webpack_require__.s = 83);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -105,7 +105,7 @@ Object.defineProperty(exports,'__esModule',{value:true});exports.isSet=isSet;fun
 
 /***/ }),
 
-/***/ 33:
+/***/ 48:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -113,35 +113,11 @@ Object.defineProperty(exports,'__esModule',{value:true});exports.isArrayOrFuncOr
 
 /***/ }),
 
-/***/ 34:
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports,"__esModule",{value:true});exports.isEmptyObject=isEmptyObject;function isEmptyObject(value){return Object.keys(value).length===0&&value.constructor===Object}
-
-/***/ }),
-
-/***/ 37:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports,'__esModule',{value:true});exports.isArrayOrString=isArrayOrString;var _isString=__webpack_require__(0);function isArrayOrString(value){return Array.isArray(value)||(0,_isString.isString)(value)}
-
-/***/ }),
-
-/***/ 39:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports,"__esModule",{value:true});exports.sortAndRemoveDups=sortAndRemoveDups;function sortAndRemoveDups(arr){var sorted=arr.sort();var uniq=[];var prev=null;for(var i=0;i<sorted.length;i+=1){if(sorted[i]!==prev){uniq.push(sorted[i])}prev=sorted[i]}return uniq}
-
-/***/ }),
-
-/***/ 41:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports,"__esModule",{value:true});exports.isObject=isObject;function isObject(value){return value===Object(value)}
 
 /***/ }),
 
@@ -153,43 +129,27 @@ Object.defineProperty(exports,"__esModule",{value:true});var _slicedToArray=func
 
 /***/ }),
 
-/***/ 68:
+/***/ 52:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,'__esModule',{value:true});var _camelize=__webpack_require__(69);var _dasherize=__webpack_require__(1);var _dict=__webpack_require__(5);var _isArray=__webpack_require__(2);var _isArrayOrFuncOrString=__webpack_require__(33);var _isArrayOrString=__webpack_require__(37);var _isBool=__webpack_require__(70);var _isEmptyObject=__webpack_require__(34);var _isFunction=__webpack_require__(9);var _isInt=__webpack_require__(71);var _isNumeric=__webpack_require__(72);var _isObject=__webpack_require__(41);var _isSet=__webpack_require__(3);var _isString=__webpack_require__(0);var _sortAndRemoveDups=__webpack_require__(39);var _sortedUniqStr=__webpack_require__(11);var _toStr=__webpack_require__(8);exports.camelize=_camelize.camelize;exports.dasherize=_dasherize.dasherize;exports.dict=_dict.dict;exports.isArray=_isArray.isArray;exports.isArrayOrFuncOrString=_isArrayOrFuncOrString.isArrayOrFuncOrString;exports.isArrayOrString=_isArrayOrString.isArrayOrString;exports.isBool=_isBool.isBool;exports.isEmptyObject=_isEmptyObject.isEmptyObject;exports.isFunction=_isFunction.isFunction;exports.isInt=_isInt.isInt;exports.isNumeric=_isNumeric.isNumeric;exports.isObject=_isObject.isObject;exports.isSet=_isSet.isSet;exports.isString=_isString.isString;exports.sortAndRemoveDups=_sortAndRemoveDups.sortAndRemoveDups;exports.sortedUniqStr=_sortedUniqStr.sortedUniqStr;exports.toStr=_toStr.toStr;exports.default=exports;
+Object.defineProperty(exports,'__esModule',{value:true});exports.isArrayOrString=isArrayOrString;var _isString=__webpack_require__(0);function isArrayOrString(value){return Array.isArray(value)||(0,_isString.isString)(value)}
 
 /***/ }),
 
-/***/ 69:
+/***/ 54:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,'__esModule',{value:true});exports.camelize=camelize;function camelize(str){return str.replace(/(?:^\w|[A-Z]|\b\w)/g,function(letter,index){return index===0?letter.toLowerCase():letter.toUpperCase()}).replace(/(\s|-)+/g,'')}
+Object.defineProperty(exports,"__esModule",{value:true});exports.sortAndRemoveDups=sortAndRemoveDups;function sortAndRemoveDups(arr){var sorted=arr.sort();var uniq=[];var prev=null;for(var i=0;i<sorted.length;i+=1){if(sorted[i]!==prev){uniq.push(sorted[i])}prev=sorted[i]}return uniq}
 
 /***/ }),
 
-/***/ 70:
+/***/ 56:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports,"__esModule",{value:true});var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj};exports.isBool=isBool;function isBool(value){return(typeof value==="undefined"?"undefined":_typeof(value))===_typeof(true)}
-
-/***/ }),
-
-/***/ 71:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports,'__esModule',{value:true});exports.isInt=isInt;function isInt(value){return typeof value==='number'&&isFinite(value)&&Math.floor(value)===value}
-
-/***/ }),
-
-/***/ 72:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports,"__esModule",{value:true});exports.isNumeric=isNumeric;function isNumeric(value){return!isNaN(parseFloat(value))&&isFinite(value)}
+Object.defineProperty(exports,"__esModule",{value:true});exports.isObject=isObject;function isObject(value){return value===Object(value)}
 
 /***/ }),
 
@@ -198,6 +158,46 @@ Object.defineProperty(exports,"__esModule",{value:true});exports.isNumeric=isNum
 
 "use strict";
 Object.defineProperty(exports,"__esModule",{value:true});exports.toStr=toStr;function toStr(value){return JSON.stringify(value,null,4)}
+
+/***/ }),
+
+/***/ 83:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports,'__esModule',{value:true});var _camelize=__webpack_require__(84);var _dasherize=__webpack_require__(1);var _dict=__webpack_require__(5);var _isArray=__webpack_require__(2);var _isArrayOrFuncOrString=__webpack_require__(48);var _isArrayOrString=__webpack_require__(52);var _isBool=__webpack_require__(85);var _isEmptyObject=__webpack_require__(49);var _isFunction=__webpack_require__(9);var _isInt=__webpack_require__(86);var _isNumeric=__webpack_require__(87);var _isObject=__webpack_require__(56);var _isSet=__webpack_require__(3);var _isString=__webpack_require__(0);var _sortAndRemoveDups=__webpack_require__(54);var _sortedUniqStr=__webpack_require__(11);var _toStr=__webpack_require__(8);exports.camelize=_camelize.camelize;exports.dasherize=_dasherize.dasherize;exports.dict=_dict.dict;exports.isArray=_isArray.isArray;exports.isArrayOrFuncOrString=_isArrayOrFuncOrString.isArrayOrFuncOrString;exports.isArrayOrString=_isArrayOrString.isArrayOrString;exports.isBool=_isBool.isBool;exports.isEmptyObject=_isEmptyObject.isEmptyObject;exports.isFunction=_isFunction.isFunction;exports.isInt=_isInt.isInt;exports.isNumeric=_isNumeric.isNumeric;exports.isObject=_isObject.isObject;exports.isSet=_isSet.isSet;exports.isString=_isString.isString;exports.sortAndRemoveDups=_sortAndRemoveDups.sortAndRemoveDups;exports.sortedUniqStr=_sortedUniqStr.sortedUniqStr;exports.toStr=_toStr.toStr;exports.default=exports;
+
+/***/ }),
+
+/***/ 84:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports,'__esModule',{value:true});exports.camelize=camelize;function camelize(str){return str.replace(/(?:^\w|[A-Z]|\b\w)/g,function(letter,index){return index===0?letter.toLowerCase():letter.toUpperCase()}).replace(/(\s|-)+/g,'')}
+
+/***/ }),
+
+/***/ 85:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports,"__esModule",{value:true});var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj};exports.isBool=isBool;function isBool(value){return(typeof value==="undefined"?"undefined":_typeof(value))===_typeof(true)}
+
+/***/ }),
+
+/***/ 86:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports,'__esModule',{value:true});exports.isInt=isInt;function isInt(value){return typeof value==='number'&&isFinite(value)&&Math.floor(value)===value}
+
+/***/ }),
+
+/***/ 87:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports,"__esModule",{value:true});exports.isNumeric=isNumeric;function isNumeric(value){return!isNaN(parseFloat(value))&&isFinite(value)}
 
 /***/ }),
 
