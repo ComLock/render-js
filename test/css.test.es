@@ -136,7 +136,8 @@ describe('css', () => {
       textDecoration: 'none',
       textDecorationColor: 'black',
       textDecorationLine: 'underline',
-      textDecorationStyle: 'solid'
+      textDecorationStyle: 'solid',
+      verticalAlign: 'middle'
     }), {
       classAppend: [
         'bs-s',
@@ -151,7 +152,8 @@ describe('css', () => {
         'td-n',
         'tdc-b',
         'tdl-u',
-        'tds-s'
+        'tds-s',
+        'va-m'
       ],
       css: [
         '.bs-s{border-style:solid}',
@@ -166,7 +168,8 @@ describe('css', () => {
         '.td-n{text-decoration:none}',
         '.tdc-b{text-decoration-color:black}',
         '.tdl-u{text-decoration-line:underline}',
-        '.tds-s{text-decoration-style:solid}'
+        '.tds-s{text-decoration-style:solid}',
+        '.va-m{vertical-align:middle}'
       ]
     });
   }); // abbreviations

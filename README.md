@@ -413,6 +413,7 @@ In terms of extendability, returning an object with named properties should be t
 *  text-decoration-color
 *  text-decoration-line
 *  text-decoration-style
+*  vertical-align
 
 ##### 1.23.1
 
