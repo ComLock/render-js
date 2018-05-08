@@ -4,8 +4,12 @@
 /* eslint max-len: ["error", { "code": 150, "comments": 200 }] */
 /* eslint quotes: ["error", "single", { "allowTemplateLiterals": true }] */
 
+import {dashPropToAbbrClassName} from './src/css/dashPropToAbbrClassName.es';
+import {valueDashPropToAbbrClassName} from './src/css/valueDashPropToAbbrClassName.es';
+import {addDefaultUnit} from './src/css/addDefaultUnit.es';
 import {classAppendAndCssFromMedia} from './src/css/classAppendAndCssFromMedia.es';
 import {classAppendAndCssFromStyle} from './src/css/classAppendAndCssFromStyle.es';
+import {toClassName} from './src/css/toClassName.es';
 import {uniqCss} from './src/css/uniqCss.es';
 
 import {HTML_AND_SVG_ELEMENTS} from './src/html/elements.es';
@@ -199,22 +203,31 @@ class Node {
 
 
   build({
+    abbreviateCssPropertyNames = true,
+    abbreviateCssPropertyValues = true,
+    addDefaultUnits = true,
     autoprefixer = true
   } = {}) {
     const tag = this[PROPERTY_TAG]; // DEBUG && console.log(`tag:${toStr(tag)}`);
     const spec = this[PROPERTY_SPEC] || {}; // DEBUG && console.log(`spec:${toStr(spec)}`);
+    const options = {
+      dashPropToAbbrClassNameFn: abbreviateCssPropertyNames ? dashPropToAbbrClassName : toClassName,
+      valueDashPropToAbbrClassNameFn: abbreviateCssPropertyValues ? valueDashPropToAbbrClassName : toClassName,
+      addDefaultUnitFn: addDefaultUnits ? addDefaultUnit : value => value,
+      autoprefixer
+    };
     if (spec.style) {
-      const s = classAppendAndCssFromStyle(spec.style, { autoprefixer });
+      const s = classAppendAndCssFromStyle(spec.style, options);
       spec.class = [].concat(spec.class, s.classAppend).filter(n => n); // Remove null elements;
       this[PROPERTY_CSS] = this[PROPERTY_CSS].concat(s.css);
       spec.style = null;
     }
     if (spec._media) {
-      const o = classAppendAndCssFromMedia(spec._media, { autoprefixer });
+      const o = classAppendAndCssFromMedia(spec._media, options);
       spec.class = [].concat(spec.class, o.classAppend).filter(n => n); // Remove null elements;
       this[PROPERTY_CSS] = this[PROPERTY_CSS].concat(o.css);
     }
-    const attributes = att2Str({ ...spec, _media: null }); //DEBUG && console.log(`attributes:${toStr(attributes)}`);
+    const attributes = att2Str({ ...spec, _media: null }, options); //DEBUG && console.log(`attributes:${toStr(attributes)}`);
     if (isVoid(tag)) { this[PROPERTY_HTML] = `<${tag}${attributes}/>`; return this; }
     const children = this[PROPERTY_CHILDREN]; //DEBUG && console.log(`children:${toStr(children)}`);
     if (!children) { this[PROPERTY_HTML] = `<${tag}${attributes}></${tag}>`; return this; }

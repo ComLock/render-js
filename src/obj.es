@@ -1,8 +1,12 @@
 /* eslint-enable no-console */
 
 
+import {dashPropToAbbrClassName} from './css/dashPropToAbbrClassName.es';
+import {valueDashPropToAbbrClassName} from './css/valueDashPropToAbbrClassName.es';
+import {addDefaultUnit} from './css/addDefaultUnit.es';
 import {classAppendAndCssFromMedia} from './css/classAppendAndCssFromMedia.es';
 import {classAppendAndCssFromStyle} from './css/classAppendAndCssFromStyle.es';
+import {toClassName} from './css/toClassName.es';
 import {uniqCss} from './css/uniqCss.es';
 
 import {HTML_AND_SVG_ELEMENTS} from './html/elements.es';
@@ -56,9 +60,18 @@ HTML_AND_SVG_ELEMENTS.forEach(t => {
 
 
 /* eslint-disable no-param-reassign */
-function modifyStyleAndMediaToClassAndCss(view) {
+function modifyStyleAndMediaToClassAndCss(view, {
+  dashPropToAbbrClassNames = true,
+  abbreviateCssPropertyValues = true,
+  addDefaultUnits = true
+} = {}) {
   if (isString(view)) { return view; }
   const arr = isArray(view) ? view : [view];
+  const options = {
+    dashPropToAbbrClassNameFn: dashPropToAbbrClassNames ? dashPropToAbbrClassName : toClassName,
+    valueDashPropToAbbrClassNameFn: abbreviateCssPropertyValues ? valueDashPropToAbbrClassName : toClassName,
+    addDefaultUnitFn: addDefaultUnits ? addDefaultUnit : value => value
+  };
   const ret = arr.map(item => { //console.log(`item(${toStr(item)})`);
     if (isString(item)) { return item; }
     const tag = Object.keys(item)[0]; //console.log(`tag(${toStr(tag)})`);
@@ -66,7 +79,7 @@ function modifyStyleAndMediaToClassAndCss(view) {
     if (isObject(value) && !isEmptyObject(value)) {
       // S is processed before M. This means Mobile first.
       if (value.s) { //console.log(`value.s(${toStr(value.s)})`);
-        const s = classAppendAndCssFromStyle(value.s); //console.log(`s(${toStr(s)})`);
+        const s = classAppendAndCssFromStyle(value.s, options); //console.log(`s(${toStr(s)})`);
         item[tag].css = isArray(item[tag].css) ? item[tag].css.concat(s.css) : s.css;
         if (!isSet(item[tag].a)) { item[tag].a = {}; }
         item[tag].a.class = item[tag].a.class ?
@@ -74,7 +87,7 @@ function modifyStyleAndMediaToClassAndCss(view) {
         delete item[tag].s;
       }
       if (value.m) { //console.log(`value.m(${toStr(value.m)})`);
-        const m = classAppendAndCssFromMedia(value.m);
+        const m = classAppendAndCssFromMedia(value.m, options);
         item[tag].css = isArray(item[tag].css) ? item[tag].css.concat(m.css) : m.css;
         if (!isSet(item[tag].a)) { item[tag].a = {}; }
         item[tag].a.class = item[tag].a.class ?
@@ -82,7 +95,7 @@ function modifyStyleAndMediaToClassAndCss(view) {
         delete item[tag].m;
       }
       if (value.c) {
-        modifyStyleAndMediaToClassAndCss(value.c);
+        modifyStyleAndMediaToClassAndCss(value.c, options);
       }
     }
     return item;
@@ -93,11 +106,20 @@ function modifyStyleAndMediaToClassAndCss(view) {
 exports.modifyStyleAndMediaToClassAndCss = modifyStyleAndMediaToClassAndCss;
 
 
-function render(view) {
+function render(view, {
+  dashPropToAbbrClassNames = true,
+  abbreviateCssPropertyValues = true,
+  addDefaultUnits = true
+} = {}) {
   //console.log(`render(${toStr(view)})`);
   if (isString(view)) { return { css: [], html: view }; }
   const res = { css: [], html: '' };
   const arr = isArray(view) ? view : [view]; //console.log(`arr:${toStr(arr)}`);
+  const options = {
+    dashPropToAbbrClassNameFn: dashPropToAbbrClassNames ? dashPropToAbbrClassName : () => null,
+    valueDashPropToAbbrClassNameFn: abbreviateCssPropertyValues ? valueDashPropToAbbrClassName : () => null,
+    addDefaultUnitFn: addDefaultUnits ? addDefaultUnit : value => value
+  };
   for (let i = 0; i < arr.length; i += 1) {
     const item = arr[i];
     if (isString(item)) {
@@ -120,14 +142,14 @@ function render(view) {
           //console.log(`tag:${tag} value:${toStr(value)}`);
           if (!boolVoid && value.c) {
             //console.log(`tag:${tag} recursing`);
-            const c = render(value.c); // recurse
+            const c = render(value.c, options); // recurse
             res.css = res.css.concat(c.css);
             contentStr = c.html;
           }
           const attrs = value.a || {};
           if (value.css) { res.css = res.css.concat(value.css); }
           if (value.s) { // S is processed before M. This means Mobile first.
-            const s = classAppendAndCssFromStyle(value.s);
+            const s = classAppendAndCssFromStyle(value.s, options);
             //console.log(`tag:${tag} s:${toStr(s)}`);
             res.css = res.css.concat(s.css);
             attrs.class = attrs.class ?
@@ -135,7 +157,7 @@ function render(view) {
             //console.log(`tag:${tag} attrs.class:${toStr(attrs.class)}`);
           }
           if (value.m) {
-            const m = classAppendAndCssFromMedia(value.m);
+            const m = classAppendAndCssFromMedia(value.m, options);
             //console.log(`tag:${tag} m:${toStr(m)}`);
             res.css = res.css.concat(m.css);
             attrs.class = attrs.class ?
@@ -143,7 +165,7 @@ function render(view) {
             //console.log(`tag:${tag} attrs.class:${toStr(attrs.class)}`);
           }
           if (res.css) { res.css = uniqCss(res.css); }
-          if (attrs) { attrStr = att2Str(attrs); }
+          if (attrs) { attrStr = att2Str(attrs, {addDefaultUnitFn: options.addDefaultUnitFn}); }
         }
       } else if (isString(value)) {
         contentStr = value;

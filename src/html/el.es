@@ -19,7 +19,7 @@ export function el(tag, attributes = null, content = null) {
   }
 
   // DEBUG && console.log(`attributes:${toStr(attributes)}`);
-  attributes = att2Str(attributes);
+  attributes = att2Str(attributes); // TODO , {addDefaultUnitFn}
 
   if (!isArray(content)) { content = [content]; } // forceArray to simplify code
   content = content.map(item => {

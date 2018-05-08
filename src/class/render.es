@@ -7,24 +7,37 @@ import {
   PROP_CSS,
   PROP_TAG
 } from './element.es';
+
 import {buildStyleAndMedia} from './build.es';
+
+import {dashPropToAbbrClassName} from '../css/dashPropToAbbrClassName.es';
+import {valueDashPropToAbbrClassName} from '../css/valueDashPropToAbbrClassName.es';
+import {addDefaultUnit} from '../css/addDefaultUnit.es';
+import {toClassName} from '../css/toClassName.es';
 import {uniqCss} from '../css/uniqCss.es';
+
 import {att2Str} from '../html/att2Str.es';
 import {isVoid} from '../html/isVoid.es';
+
 import {isArray} from '../util/isArray.es';
 import {isString} from '../util/isString.es';
 //import {toStr} from '../util/toStr.es';
 
 
-/*, {
-  dasherizeHtmlAttributes = true,
-  abbreviateCssProperties = false
-} = {}*/
-
-export function render(dom) {
+export function render(dom, {
+  abbreviateCssPropertyNames = true,
+  abbreviateCssPropertyValues = true,
+  addDefaultUnits = true/*,
+  autoprefixer = false*/
+} = {}) {
   if (isString(dom)) { return { css: [], html: dom }; }
   const res = { css: [], html: '' };
   const arr = isArray(dom) ? dom : [dom]; //console.log(`arr:${toStr(arr)}`);
+  const options = {
+    dashPropToAbbrClassNameFn: abbreviateCssPropertyNames ? dashPropToAbbrClassName : toClassName,
+    valueDashPropToAbbrClassNameFn: abbreviateCssPropertyValues ? valueDashPropToAbbrClassName : toClassName,
+    addDefaultUnitFn: addDefaultUnits ? addDefaultUnit : value => value
+  };
   for (let i = 0; i < arr.length; i += 1) {
     const item = arr[i];
     if (isString(item)) {
@@ -41,11 +54,11 @@ export function render(dom) {
         contentStr = c.html;
       }
 
-      buildStyleAndMedia(item); // console.log(`item:${toStr(item)}`);
+      buildStyleAndMedia(item, options); // console.log(`item:${toStr(item)}`);
       if (item[PROP_CSS]) { res.css = res.css.concat(item[PROP_CSS]); }
       if (res.css) { res.css = uniqCss(res.css); }
 
-      const attrStr = item[PROP_ATTR] ? att2Str(item[PROP_ATTR]) : '';
+      const attrStr = item[PROP_ATTR] ? att2Str(item[PROP_ATTR], {addDefaultUnitFn: options.addDefaultUnitFn}) : '';
       if (boolVoid) {
         res.html += `<${item[PROP_TAG]}${attrStr}/>`;
       } else {

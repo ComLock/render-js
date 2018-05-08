@@ -222,7 +222,7 @@ describe('ncss', () => {
     const classF = 'percent-100-w-mi-480';
     const classG = 'un-known-va-lue-w-mi-480';
     const classH = 'underscore-underscore-w-mi-480';
-    const classI = 'unicode-letters-y-y-i-n-n-i-n-w-mi-480';
+    const classI = 'unicode-letters-y-y-i-i-n-n-i-n-w-mi-480'; // NOTE Unicode folding :(
     deepStrictEqual(
       div({
         style: {

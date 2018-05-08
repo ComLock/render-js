@@ -2,7 +2,7 @@
 
 
 import { deepStrictEqual } from 'assert';
-import { classAppendAndCssFromStyle } from '../src/css.es';
+import { classAppendAndCssFromStyle } from '../src/css/classAppendAndCssFromStyle.es';
 
 
 describe('css', () => {

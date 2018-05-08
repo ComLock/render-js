@@ -1,14 +1,18 @@
 /* eslint-disable import/prefer-default-export */
 
 
+import {addDefaultUnit} from '../css/addDefaultUnit.es';
 import {objToStyleAttr} from '../css/objToStyleAttr.es';
+
 import {dasherize} from '../util/dasherize.es';
 import {isSet} from '../util/isSet.es';
 import {isString} from '../util/isString.es';
 import {sortedUniqStr} from '../util/sortedUniqStr.es';
 
 
-export function att2Str(attributes) {
+export function att2Str(attributes, {
+  addDefaultUnitFn = addDefaultUnit
+} = {}) {
   if (!attributes) { return ''; }
   // console.log(`attributes:${toStr(attributes)}`);
   const attrs = Object.keys(attributes).sort().map(a => {
@@ -27,7 +31,7 @@ export function att2Str(attributes) {
         return `${property}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file
       }
       if (a === 'style') {
-        return `style="${objToStyleAttr(attributes[a])}"`;
+        return `style="${objToStyleAttr(attributes[a], {addDefaultUnitFn})}"`;
       }
       // console.log(`Not string or array. attributes[${toStr(a)}]:${toStr(attributes[a])}`);
       return `${property}='${JSON.stringify(attributes[a])}'`; // See NOTE-1 and the end of the file

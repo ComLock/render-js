@@ -395,6 +395,14 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+##### 1.28.0
+
+* FEATURE options (doesn't seem to improve speed)
+*  abbreviateCssPropertyNames = true
+*  abbreviateCssPropertyValues = true
+*  addDefaultUnits = true
+* Profiled toClassName()
+
 ##### 1.27.0
 
 * FEATURE: CSS abbreviations for:

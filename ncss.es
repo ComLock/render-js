@@ -13,8 +13,12 @@ import {isArrayOrFuncOrString} from './src/util/isArrayOrFuncOrString.es';
 import {isFunction} from './src/util/isFunction.es';
 import {isString} from './src/util/isString.es';
 
+import {dashPropToAbbrClassName} from './src/css/dashPropToAbbrClassName.es';
+import {valueDashPropToAbbrClassName} from './src/css/valueDashPropToAbbrClassName.es';
+import {addDefaultUnit} from './src/css/addDefaultUnit.es';
 import {classAppendAndCssFromMedia} from './src/css/classAppendAndCssFromMedia.es';
 import {classAppendAndCssFromStyle} from './src/css/classAppendAndCssFromStyle.es';
+import {toClassName} from './src/css/toClassName.es';
 import {uniqCss} from './src/css/uniqCss.es';
 
 // export { html, head } from './index';
@@ -40,6 +44,9 @@ exports.el = (
   spec = null,
   content = null,
   {
+    abbreviateCssPropertyValues = true,
+    abbreviateCssPropertyNames = true,
+    addDefaultUnits = true,
     autoprefixer = true
   } = {}
 ) => {
@@ -53,14 +60,20 @@ exports.el = (
 
   let css = [];
   if (spec) { // generate css from spec.style and spec._media append to spec.class
+    const options = {
+      dashPropToAbbrClassNameFn: abbreviateCssPropertyNames ? dashPropToAbbrClassName : toClassName,
+      valueDashPropToAbbrClassNameFn: abbreviateCssPropertyValues ? valueDashPropToAbbrClassName : toClassName,
+      addDefaultUnitFn: addDefaultUnits ? addDefaultUnit : value => value,
+      autoprefixer
+    };
     if (spec.style) {
-      const s = classAppendAndCssFromStyle(spec.style, { autoprefixer });
+      const s = classAppendAndCssFromStyle(spec.style, options);
       spec.class = [].concat(spec.class, s.classAppend).filter(n => n); // Remove null elements;
       css = uniqCss(css.concat(s.css));
       spec.style = null; // Generate away the style attribute, so we can avoid !important
     }
     if (spec._media) {
-      const o = classAppendAndCssFromMedia(spec._media, { autoprefixer });
+      const o = classAppendAndCssFromMedia(spec._media, options);
       spec.class = [].concat(spec.class, o.classAppend).filter(n => n); // Remove null elements;
       css = uniqCss(css.concat(o.css));
       // TRACE && console.log(`css:${toStr(css)}`);

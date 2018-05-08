@@ -2,6 +2,9 @@
 /* eslint-disable max-len */
 
 
+import {dashPropToAbbrClassName} from './dashPropToAbbrClassName.es';
+import {valueDashPropToAbbrClassName} from './valueDashPropToAbbrClassName.es';
+import {addDefaultUnit} from './addDefaultUnit.es';
 import {classAppendAndCssFromStyle} from './classAppendAndCssFromStyle.es';
 import {CSS_MEDIA_WORD_TO_ABBR} from './media.es';
 
@@ -9,12 +12,11 @@ import {dasherize} from '../util/dasherize.es';
 import {toStr} from '../util/toStr.es'; // used in throw
 
 
-export function classAppendAndCssFromMedia(
-  media,
-  {
-    autoprefixer = true
-  } = {}
-) {
+export function classAppendAndCssFromMedia(media, {
+  dashPropToAbbrClassNameFn = dashPropToAbbrClassName,
+  valueDashPropToAbbrClassNameFn = valueDashPropToAbbrClassName,
+  addDefaultUnitFn = addDefaultUnit
+} = {}) {
   // TRACE && console.log(`media:${toStr(media)}`);
   const classAppend = [];
   const css = [];
@@ -39,7 +41,12 @@ export function classAppendAndCssFromMedia(
         return ''; */
       }).join(' ') // map mediaWord
     ); // map mediaQueryAbbr
-    const s = classAppendAndCssFromStyle(media[mediaRuleKey], { autoprefixer, postfix });
+    const s = classAppendAndCssFromStyle(media[mediaRuleKey], {
+      dashPropToAbbrClassNameFn,
+      valueDashPropToAbbrClassNameFn,
+      addDefaultUnitFn,
+      postfix
+    });
     classAppend.push(...s.classAppend);
     s.css.forEach(scss => css.push(`@media ${mediaQueryList.join(', ')}{${scss}}`));
   }); // forEach mediaRuleKey

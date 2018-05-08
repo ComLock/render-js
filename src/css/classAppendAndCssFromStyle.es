@@ -1,22 +1,21 @@
 /* eslint-disable max-len */
-
-import {
-  CSS_PROP_TO_ABBR,
-  CSS_PROP_VALUES_TO_ABBR
-} from './properties.es';
 import {
   CSS_PSEUDO_SELECTORS_TO_ABBR,
   CSS_SELECTORS_TO_ABBR
 } from './selectors.es';
 
+import {dashPropToAbbrClassName} from './dashPropToAbbrClassName.es';
+import {valueDashPropToAbbrClassName} from './valueDashPropToAbbrClassName.es';
 import {addDefaultUnit} from './addDefaultUnit.es';
-import {toClassName} from './toClassName.es';
 
 import {dasherize} from '../util/dasherize.es';
 import {isSet} from '../util/isSet.es';
 
 
 function handleProp({
+  valueDashPropToAbbrClassNameFn,
+  dashPropToAbbrClassNameFn,
+  addDefaultUnitFn,
   prop,
   value,
   classAppend = [],
@@ -24,19 +23,19 @@ function handleProp({
   prefix = '',
   postfix = '',
   pseudoPostfix = ''
-}) {
+} = {}) {
+  const dashProp = dasherize(prop);
   /*console.log(`handleProp(${toStr({
     prop, value, classAppend, css, prefix, postfix, pseudoPostfix
   })})`);*/
-  const dashProp = dasherize(prop); // TRACE && console.log(`dashProp:${toStr(dashProp)}`);
-  const propAbbr = CSS_PROP_TO_ABBR[dashProp] || toClassName(prop);
+  const propAbbr = dashPropToAbbrClassNameFn(dashProp);
   /* if (WARN && !CSS_PROP_TO_ABBR[dashProp]) {
     console.warn(`WARN: Couldn't find abbreviation for property:${prop} falling back to toClassName on property:${propAbbr}`);
   } */
   let lastValue = value;
-  value = addDefaultUnit(value, prop); // eslint-disable-line no-param-reassign
+  value = addDefaultUnitFn(value, prop); // eslint-disable-line no-param-reassign
   if (Array.isArray(value)) { lastValue = value[value.length - 1]; }
-  const valueAbbr = (CSS_PROP_VALUES_TO_ABBR[dashProp] && CSS_PROP_VALUES_TO_ABBR[dashProp][lastValue]) || toClassName(lastValue);
+  const valueAbbr = valueDashPropToAbbrClassNameFn(lastValue, dashProp);
   /* if (WARN && !(CSS_PROP_VALUES_TO_ABBR[dashProp] && CSS_PROP_VALUES_TO_ABBR[dashProp][value])) {
     console.warn(`WARN: Couldn't find abbreviation for property:${prop} value:${value} falling back to toClassName on value:${valueAbbr}`);
   } */
@@ -56,12 +55,15 @@ function handleProp({
 
 
 function handleNested({
+  dashPropToAbbrClassNameFn,
+  valueDashPropToAbbrClassNameFn,
+  addDefaultUnitFn,
   selector,
   style,
   // parentSelectorAbbr = ''
   postfix = '',
   prefix = ''
-}) {
+} = {}) {
   /*console.log(`handleNested(${toStr({
     selector, style, postfix, prefix
   })})`);*/
@@ -105,7 +107,14 @@ function handleNested({
 
   // eslint-disable-next-line no-use-before-define
   return classAppendAndCssFromStyle(style, { // "recurse"
-    classAppend, css, prefix: `${prefix}${className}-`, postfix, pseudoPostfix: selector
+    dashPropToAbbrClassNameFn,
+    valueDashPropToAbbrClassNameFn,
+    addDefaultUnitFn,
+    classAppend,
+    css,
+    prefix: `${prefix}${className}-`,
+    postfix,
+    pseudoPostfix: selector
   }); // Seems like both classAppend and css gets passed by reference and modified in recursion.
 } // function handleNested
 
@@ -113,6 +122,9 @@ function handleNested({
 export function classAppendAndCssFromStyle(
   style,
   {
+    dashPropToAbbrClassNameFn = dashPropToAbbrClassName,
+    valueDashPropToAbbrClassNameFn = valueDashPropToAbbrClassName,
+    addDefaultUnitFn = addDefaultUnit,
     // autoprefixer = true,
     classAppend = [],
     css = [],
@@ -132,13 +144,26 @@ export function classAppendAndCssFromStyle(
     if (isSet(value)) {
       if (prop.startsWith('&')) {
         const n = handleNested({
-          selector: prop, style: style[prop], postfix, prefix
+          dashPropToAbbrClassNameFn,
+          valueDashPropToAbbrClassNameFn,
+          addDefaultUnitFn,
+          selector: prop,
+          style: style[prop],
+          postfix,
+          prefix
         });
         classAppend.push(...n.classAppend);
         css.push(...n.css);
       } else { // not nested
         const p = handleProp({
-          prop, value, prefix, postfix, pseudoPostfix
+          dashPropToAbbrClassNameFn,
+          valueDashPropToAbbrClassNameFn,
+          addDefaultUnitFn,
+          postfix,
+          prefix,
+          prop,
+          pseudoPostfix,
+          value
         });
         classAppend.push(...p.classAppend);
         css.push(...p.css);

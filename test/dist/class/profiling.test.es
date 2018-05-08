@@ -4,7 +4,7 @@ import {
   ok
 } from 'assert';
 import convertHrtime from 'convert-hrtime';
-import {html, build, clone, render} from '../../../src/class.es';
+import {html, build, clone, render} from '../../../dist/class';
 //import { toStr } from '../../../src/util/toStr.es';
 
 
@@ -86,7 +86,7 @@ function profile(message, fn, times = 1000) {
 }
 
 
-describe('src', () => {
+describe('dist', () => {
   describe('class', () => {
     it('profiling', () => {
       let res;
@@ -167,4 +167,4 @@ describe('src', () => {
       ok(res2);*/
     }); // profiling
   }); // class
-}); // src
+}); // dist
