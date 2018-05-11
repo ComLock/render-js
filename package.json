@@ -2,6 +2,7 @@
   "author": "Christian Westgaard <cwe@enonic.com>",
   "dependencies": {
     "deepmerge": "^2.1.0",
+    "json-stringify-safe": "^5.0.1",
     "jss-default-unit": "^8.0.2"
   },
   "devDependencies": {
@@ -56,5 +57,5 @@
     "test": "npm run mocha -- test/*.test* test/*/*.test* test/*/*/*.test*",
     "webpack": "./node_modules/.bin/webpack --config webpack.config.babel.js"
   },
-  "version": "1.28.0"
+  "version": "1.29.0"
 }

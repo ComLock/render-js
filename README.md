@@ -395,6 +395,10 @@ In terms of extendability, returning an object with named properties should be t
 
 ## Changelog
 
+##### 1.29.0
+
+* FEATURE encodeHtmlEntity() and decodeHtmlEntity()
+
 ##### 1.28.0
 
 * FEATURE options (doesn't seem to improve speed)
