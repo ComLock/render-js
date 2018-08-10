@@ -95,26 +95,15 @@ p({
 
 #### HTML attribute object
 
-An html attribute looks like this (EBNF):
-```ebnf
-<html-attribute> :== <name> <equalSign> <quoteMark> <value> <quoteMark>
-<name> :== <case insensitive string sometimes with dashes>
-<quoteMark> :== ' | "
-```
-
-Which lead to the following syntax in js:
-
-```js
-{ name: value, ... }
-```
-
 Too avoid having to quote js property names, any dashes must be removed.
 This can be achieved since html attribute names are case insensitive, while js property names are case sensitive. So we use camelcase in JS and later dasherize into html attribute names.
 
+So this attribute object in JavaScript:
 ```js
 {dataProp: 'value'}
 ```
 
+Get rendered into this in html:
 ```html
 data-prop="value"
 ```
@@ -123,23 +112,9 @@ I have found an exception: The SVG attribute named viewBox. It is case-sensitive
 
 #### Style attribute object
 
-An html style attribute consists of is a semicolon seperated key value pair list. (EBNF):
+CSS property names contains dashes, which JS property names also can, but needs to be quoted. This can be avoided since CSS property names are case insensitive, while JS property names are case sensitive. So we use camelcase in JS and later dasherize into CSS property name.
 
-```ebnf
-<style-attribute> ::= <declaration> {<semicolon> <declaration>}
-<declaration> ::= <property> <colon> <value>
-<property> :== <case insensitive string sometimes with dashes>
-<value> :== <string>
-```
-
-Which lead to the following syntax in js:
-
-```js
-{ property: value, ... }
-```
-
-CSS property names contains dashes, which JS property names also can, but needs to be quotes. This can be avoided since CSS property names are case insensitive, while JS property names are case sensitive. So we use camelcase in JS and later dasherize into CSS property name.
-
+So this style attribute object in JavaScript:
 ```js
 {
   color: 'white',
@@ -147,6 +122,7 @@ CSS property names contains dashes, which JS property names also can, but needs 
 }
 ```
 
+Gets rendered into this in html:
 ```html
 style="color:white;background-color:black"
 ```
