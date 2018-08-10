@@ -28,23 +28,23 @@ describe('src', () => {
       });
 
       const serverSideObj = html({dataRenderJson: obj});
-      console.log(toStr({serverSideObj}));
+      //console.log(toStr({serverSideObj}));
 
       const serverSideRes = render(serverSideObj);
-      console.log(toStr({serverSideRes}));
+      //console.log(toStr({serverSideRes}));
 
       // Client-side
       const htmlEntity = serverSideRes.html.split(SQ)[1];
-      console.log(toStr({htmlEntity}));
+      //console.log(toStr({htmlEntity}));
 
       const json = decodeHtmlEntity(htmlEntity);
-      console.log(toStr({json}));
+      //console.log(toStr({json}));
 
       const clientSideObj = JSON.parse(json);
-      console.log(toStr({clientSideObj}));
+      //console.log(toStr({clientSideObj}));
 
       const clientSideRes = render(clientSideObj);
-      console.log(toStr({clientSideRes}));
+      //console.log(toStr({clientSideRes}));
 
       deepStrictEqual(clientSideRes, {
         css: ['.c-b{color:black}'],

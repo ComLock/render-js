@@ -14,7 +14,7 @@ function profile(fn, message, times = 10000) {
   const average = (
     convertHrtime(end).nanoseconds - convertHrtime(start).nanoseconds
   ) / times;
-  console.log(`${message}: ${toStr(average)}`);
+  //console.log(`${message}: ${toStr(average)}`);
   //console.log(`value: ${toStr(fn())}`);
   return {
     average,
