@@ -14,6 +14,8 @@ const entry = {
 
 const devtool = 'source-map'; // sourceMaps might be useful in browser
 
+const mode = 'production';
+
 const stats = {
   colors: true,
   hash: false,
@@ -28,6 +30,7 @@ const stats = {
 const DIST_CONFIG = {
   entry,
   devtool,
+  mode,
   module: {
     rules: [{
       test: /\.(es6?|js)$/,
@@ -61,6 +64,7 @@ const DIST_CONFIG = {
 const LIB_CONFIG = {
   entry,
   devtool,
+  mode,
   module: {
     rules: [{
       test: /\.(es6?|js)$/,
@@ -113,6 +117,7 @@ const ENONIC_CONFIG = {
     ncss: path.resolve(__dirname, 'ncss.es')
   },
   devtool: false, // Don't waste time generating sourceMaps for Enonic server-side
+  mode,
   module: {
     rules: [{
       test: /\.(es6?|js)$/,
